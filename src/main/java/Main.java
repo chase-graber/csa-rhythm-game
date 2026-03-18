@@ -5,6 +5,7 @@ import static com.raylib.Raylib.*;
 public class Main {
     public static void main(String args[]) {
         InitWindow(1080, 720, "Demo");
+        InitAudioDevice();
         SetTargetFPS(60);
 
         while (!WindowShouldClose()) {
@@ -16,6 +17,7 @@ public class Main {
             EndDrawing();
         }
 
+        CloseAudioDevice();
         CloseWindow();
     }
 }
