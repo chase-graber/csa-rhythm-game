@@ -1,29 +1,21 @@
+import static com.raylib.Colors.BLACK;
 import static com.raylib.Colors.RAYWHITE;
-import static com.raylib.Colors.VIOLET;
 import static com.raylib.Raylib.*;
 
 public class Main {
     public static void main(String args[]) {
-        String appHomeDir = System.getenv("APP_HOME");
-        System.out.println(appHomeDir);
-        InitWindow(800, 450, "Demo");
+        InitWindow(1080, 720, "Demo");
         SetTargetFPS(60);
-        Camera3D camera = new Camera3D()._position(new Vector3().x(18).y(16).z(18))
-                .target(new Vector3())
-                .up(new Vector3().x(0).y(1).z(0))
-                .fovy(45).projection(CAMERA_PERSPECTIVE);
 
         while (!WindowShouldClose()) {
-            UpdateCamera(camera, CAMERA_ORBITAL);
             BeginDrawing();
+
             ClearBackground(RAYWHITE);
-            BeginMode3D(camera);
-            DrawGrid(20, 1.0f);
-            EndMode3D();
-            DrawText("Hello world", 190, 200, 20, VIOLET);
-            DrawFPS(20, 20);
+            DrawText("Wyd? boss move boss move.", 100, 100, 20, BLACK);
+
             EndDrawing();
         }
+
         CloseWindow();
     }
 }
