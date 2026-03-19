@@ -1,19 +1,13 @@
-import static com.raylib.Raylib.LoadImage;
-import static com.raylib.Raylib.LoadSound;
-import static com.raylib.Raylib.LoadTextureFromImage;
-import static com.raylib.Raylib.UnloadImage;
+import static com.raylib.Raylib.*;
 
 import java.util.HashMap;
 import java.util.Map;
-
-import com.raylib.Raylib.Image;
-import com.raylib.Raylib.Sound;
-import com.raylib.Raylib.Texture;
 
 public class AssetLoader {
 
     public static Map<String, Texture> textures = new HashMap<>();
     public static Map<String, Sound> sounds = new HashMap<>();
+    public static Map<String, Music> music = new HashMap<>();
 
     private AssetLoader() { } // No making objects of this class
     
@@ -30,5 +24,11 @@ public class AssetLoader {
         if (!sounds.containsKey(filepath)) 
             sounds.put(filepath, LoadSound(filepath));
         return sounds.get(filepath);
+    }
+
+    public static Music getMusic(String filepath) {
+        if (!music.containsKey(filepath))
+            music.put(filepath, LoadMusicStream(filepath));
+        return music.get(filepath);
     }
 }
