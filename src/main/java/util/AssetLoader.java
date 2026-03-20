@@ -1,3 +1,4 @@
+package util;
 import static com.raylib.Raylib.*;
 
 import java.util.HashMap;

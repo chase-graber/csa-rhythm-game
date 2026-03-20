@@ -1,5 +1,7 @@
 package object;
 
+import util.Settings;
+
 import static com.raylib.Colors.BLACK;
 import static com.raylib.Colors.GRAY;
 import static com.raylib.Raylib.*;
@@ -12,16 +14,16 @@ public class NoteKey extends GameObject {
     public NoteKey(int key) {
         switch(key) {
             case KEY_UP:
-                this.position = new Vector2().x(150).y(150);
+                this.position = new Vector2().x(150).y(Settings.PADDING);
                 break;
             case KEY_LEFT:
-                this.position = new Vector2().x(150).y(290);
+                this.position = new Vector2().x(150).y(Settings.PADDING + Settings.SPACING);
                 break;
             case KEY_RIGHT:
-                this.position = new Vector2().x(150).y(420);
+                this.position = new Vector2().x(150).y(Settings.PADDING + 2 * Settings.SPACING);
                 break;
             case KEY_DOWN:
-                this.position = new Vector2().x(150).y(570);
+                this.position = new Vector2().x(150).y(Settings.PADDING + 3 * Settings.SPACING);
                 break;
             default:
                 this.position = new Vector2().x(0).y(0);

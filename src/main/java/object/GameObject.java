@@ -8,4 +8,6 @@ public abstract class GameObject {
 
     public abstract void update(float dt);
     public abstract void render();
+
+    public Vector2 getPosition() { return position; }
 }
