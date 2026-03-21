@@ -18,10 +18,10 @@ public class Main {
         SetTargetFPS(60);
 
         NoteKey[] keys = {
-            new NoteKey(KEY_UP),
-            new NoteKey(KEY_LEFT),
-            new NoteKey(KEY_RIGHT),
-            new NoteKey(KEY_DOWN)
+                new NoteKey(KEY_UP),
+                new NoteKey(KEY_LEFT),
+                new NoteKey(KEY_DOWN),
+                new NoteKey(KEY_RIGHT)
         };
 
         ArrayList<Note> notes = new ArrayList<>();
@@ -29,7 +29,11 @@ public class Main {
         while (!WindowShouldClose()) {
             dt = GetFrameTime();
 
-            if (IsKeyPressed(KEY_SPACE)) notes.add(new Note(GetRandomValue(0, 3)));
+            int track = GetRandomValue(0, 3);
+            if (IsKeyPressed(KEY_SPACE)) {
+                notes.add(new Note(track, keys[track]));
+                if (notes.size() == 1) notes.get(0).furthest = true;
+            }
 
             for (NoteKey nk : keys) {
                 nk.update(dt);
@@ -38,6 +42,7 @@ public class Main {
             for (int i = notes.size() - 1; i >= 0; i--) {
                 if (notes.get(i).done) {
                     notes.remove(i);
+                    if (notes.size() > 0) notes.get(i).furthest = true;
                     continue;
                 }
                 notes.get(i).update(dt);

@@ -9,6 +9,9 @@ public class NoteKey extends GameObject {
 
     private int key;
     private boolean active;
+    private int radius = 40;
+
+    private Rectangle hitbox;
 
     public NoteKey(int key) {
         switch(key) {
@@ -18,27 +21,32 @@ public class NoteKey extends GameObject {
             case KEY_LEFT:
                 this.position = new Vector2().x(150).y(Settings.PADDING + Settings.SPACING);
                 break;
-            case KEY_RIGHT:
+            case KEY_DOWN:
                 this.position = new Vector2().x(150).y(Settings.PADDING + 2 * Settings.SPACING);
                 break;
-            case KEY_DOWN:
+            case KEY_RIGHT:
                 this.position = new Vector2().x(150).y(Settings.PADDING + 3 * Settings.SPACING);
                 break;
             default:
                 this.position = new Vector2().x(0).y(0);
                 break;
         }
+        this.hitbox = new Rectangle()
+                .x(this.position.x() - radius)
+                .y(this.position.y() - radius)
+                .width(radius * 2)
+                .height(radius * 2);
         this.key = key;
     }
 
     @Override
     public void update(float dt) {
-        active = IsKeyDown(key);
+        active = IsKeyPressed(key);
     }
 
     @Override
     public void render() {
-        DrawCircleV(position, active ? 45 : 40, active ? GRAY : BLACK);
+        DrawCircleV(position, active ? radius + 5 : radius, active ? GRAY : BLACK);
 
         // Temp for before we add textures
         switch(key) {
@@ -48,14 +56,25 @@ public class NoteKey extends GameObject {
             case KEY_LEFT:
                 DrawText("L", (int)position.x(), (int)position.y(), 20, WHITE);
                 break;
-            case KEY_RIGHT:
-                DrawText("R", (int)position.x(), (int)position.y(), 20, WHITE);
-                break;
             case KEY_DOWN:
                 DrawText("D", (int)position.x(), (int)position.y(), 20, WHITE);
+                break;
+            case KEY_RIGHT:
+                DrawText("R", (int)position.x(), (int)position.y(), 20, WHITE);
                 break;
             default:
                 break;
         }
+
+        // Debug drawing
+        if (Settings.DEBUG) DrawRectangleLinesEx(hitbox, 2, RED);
+    }
+
+    public Rectangle getHitbox() {
+        return hitbox;
+    }
+
+    public boolean isActive() {
+        return active;
     }
 }
