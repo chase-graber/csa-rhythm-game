@@ -43,4 +43,8 @@ public class Note extends GameObject {
 
         if (Settings.DEBUG) DrawRectangleLinesEx(hitbox, 2, RED);
     }
+
+    public int getRadius() {
+        return radius;
+    }
 }

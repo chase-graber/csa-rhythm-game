@@ -16,16 +16,16 @@ public class NoteKey extends GameObject {
     public NoteKey(int key) {
         switch(key) {
             case KEY_UP:
-                this.position = new Vector2().x(150).y(Settings.PADDING);
+                this.position = new Vector2().x(Settings.PADDING).y(Settings.PADDING);
                 break;
             case KEY_LEFT:
-                this.position = new Vector2().x(150).y(Settings.PADDING + Settings.SPACING);
+                this.position = new Vector2().x(Settings.PADDING).y(Settings.PADDING + Settings.SPACING);
                 break;
             case KEY_DOWN:
-                this.position = new Vector2().x(150).y(Settings.PADDING + 2 * Settings.SPACING);
+                this.position = new Vector2().x(Settings.PADDING).y(Settings.PADDING + 2 * Settings.SPACING);
                 break;
             case KEY_RIGHT:
-                this.position = new Vector2().x(150).y(Settings.PADDING + 3 * Settings.SPACING);
+                this.position = new Vector2().x(Settings.PADDING).y(Settings.PADDING + 3 * Settings.SPACING);
                 break;
             default:
                 this.position = new Vector2().x(0).y(0);
