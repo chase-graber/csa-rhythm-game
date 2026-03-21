@@ -5,12 +5,11 @@ import java.util.ArrayList;
 
 import object.NoteKey;
 import object.Note;
+import util.Settings;
 
 public class Main {
     
     public static void main(String[] args) {
-        float dt = 0.0f;
-
         SetTraceLogLevel(LOG_WARNING | LOG_ERROR | LOG_FATAL);
 
         InitWindow(1080, 720, "Beats Baby");
@@ -27,7 +26,7 @@ public class Main {
         ArrayList<Note> notes = new ArrayList<>();
 
         while (!WindowShouldClose()) {
-            dt = GetFrameTime();
+            float dt = GetFrameTime();
 
             int track = GetRandomValue(0, 3);
             if (IsKeyPressed(KEY_SPACE)) {
@@ -40,12 +39,16 @@ public class Main {
             }
             
             for (int i = notes.size() - 1; i >= 0; i--) {
-                if (notes.get(i).done) {
+                Note n = notes.get(i);
+                if (n.done) {
                     notes.remove(i);
-                    if (notes.size() > 0) notes.get(i).furthest = true;
+                    if (i < notes.size()) notes.get(i).furthest = true;
                     continue;
+                } else if (n.getPosition().x() + n.getRadius() < Settings.PADDING - n.getRadius()) {
+                      n.furthest = false;
+                      if (i < notes.size() - 1) notes.get(i+1).furthest = true;
                 }
-                notes.get(i).update(dt);
+                n.update(dt);
             }
 
             BeginDrawing();
