@@ -2,8 +2,7 @@ package object;
 
 import util.Settings;
 
-import static com.raylib.Colors.BLACK;
-import static com.raylib.Colors.GRAY;
+import static com.raylib.Colors.*;
 import static com.raylib.Raylib.*;
 
 public class NoteKey extends GameObject {
@@ -40,5 +39,23 @@ public class NoteKey extends GameObject {
     @Override
     public void render() {
         DrawCircleV(position, active ? 45 : 40, active ? GRAY : BLACK);
+
+        // Temp for before we add textures
+        switch(key) {
+            case KEY_UP:
+                DrawText("U", (int)position.x(), (int)position.y(), 20, WHITE);
+                break;
+            case KEY_LEFT:
+                DrawText("L", (int)position.x(), (int)position.y(), 20, WHITE);
+                break;
+            case KEY_RIGHT:
+                DrawText("R", (int)position.x(), (int)position.y(), 20, WHITE);
+                break;
+            case KEY_DOWN:
+                DrawText("D", (int)position.x(), (int)position.y(), 20, WHITE);
+                break;
+            default:
+                break;
+        }
     }
 }
