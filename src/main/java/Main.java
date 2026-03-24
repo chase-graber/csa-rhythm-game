@@ -29,8 +29,10 @@ public class Main {
 
             EndDrawing();
         }
+        
 
         CloseAudioDevice();
         CloseWindow();
+    
     }
 }
