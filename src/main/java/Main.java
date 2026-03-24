@@ -13,7 +13,7 @@ public class Main {
         InitAudioDevice();
         SetTargetFPS(60);
 
-        Scene currentScene = new LevelScene("path/to/music.mp3");
+        Scene currentScene = new LevelScene("path/to/music.mp3", "assets/textures/demo_bg.png");
 
         while (!WindowShouldClose()) {
             currentScene.update(GetFrameTime());

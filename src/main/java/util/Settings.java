@@ -4,7 +4,7 @@ import static com.raylib.Raylib.GetScreenHeight;
 public class Settings {
 
     // Utility
-    public static boolean DEBUG = true;
+    public static boolean DEBUG = false;
 
     // Key spacing
     public static final int PADDING = 150;

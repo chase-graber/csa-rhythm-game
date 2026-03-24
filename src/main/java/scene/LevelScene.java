@@ -1,7 +1,7 @@
 package scene;
 
 import static com.raylib.Raylib.*;
-import static com.raylib.Colors.BLACK;
+import static com.raylib.Colors.*;
 
 import java.util.ArrayList;
 
@@ -16,6 +16,7 @@ public class LevelScene implements Scene {
 
     private double startTime;
     private Music song;
+    private Texture background;
 
     private NoteKey[] keys = {
         new NoteKey(KEY_UP),
@@ -30,9 +31,10 @@ public class LevelScene implements Scene {
         new ArrayList<>()
     };
 
-    public LevelScene(String songpath) {
+    public LevelScene(String songpath, String backgroundPath) {
         this.startTime = GetTime();
         this.song = AssetLoader.getMusic(songpath);
+        this.background = AssetLoader.getTexture(backgroundPath);
     }
 
     public void addNoteToTrack(int track) {
@@ -68,8 +70,11 @@ public class LevelScene implements Scene {
 
     @Override
     public void render() {
+        // Draw background
+        DrawTextureV(background, Vector2Zero(), WHITE);
+
         for (int track = 0; track < tracks.length; track++) {
-            DrawRectangle(0, (int)keys[track].getPosition().y() - keys[track].getRadius(), GetScreenWidth(), 2 * keys[track].getRadius(), Fade(BLACK, 0.25f));
+            DrawRectangle(0, (int)keys[track].getPosition().y() - keys[track].getRadius() + 10, GetScreenWidth(), 2 * keys[track].getRadius() - 20, Fade(BLACK, 0.25f));
             for (Note n : tracks[track]) {
                 n.render();
             }

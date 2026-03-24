@@ -1,10 +1,14 @@
 package object;
 
+import util.AssetLoader;
 import util.Settings;
 
-import static com.raylib.Colors.BLUE;
 import static com.raylib.Colors.RED;
+import static com.raylib.Colors.WHITE;
 import static com.raylib.Raylib.*;
+
+import com.raylib.Raylib.Rectangle;
+import com.raylib.Raylib.Vector2;
 
 import scene.LevelScene;
 
@@ -20,8 +24,15 @@ public class Note extends GameObject {
     public boolean done = false;
     public boolean furthest = false;
 
-    // TODO: Create level class and stop passing in trackKey
     public Note(int track, LevelScene parentScene) {
+        switch(track) {
+            case 0 -> this.texture = AssetLoader.getTexture("assets/textures/up_arrow.png");
+            case 1 -> this.texture = AssetLoader.getTexture("assets/textures/left_arrow.png");
+            case 2 -> this.texture = AssetLoader.getTexture("assets/textures/down_arrow.png");
+            case 3 -> this.texture = AssetLoader.getTexture("assets/textures/right_arrow.png");
+            default -> this.texture = AssetLoader.getTexture("assets/textures/up_arrow.png");
+        }
+
         this.track = track;
         this.trackKey = parentScene.getTrackKey(track);
         this.position = new Vector2().x(GetScreenWidth() + radius).y(Settings.PADDING + this.track * Settings.SPACING);
@@ -41,7 +52,12 @@ public class Note extends GameObject {
 
     @Override
     public void render() {
-        DrawCircleV(position, radius, BLUE);
+        DrawTexturePro(texture,
+            new Rectangle().x(0).y(0).width(texture.width()).height(texture.height()),
+            new Rectangle().x(position.x() - radius - 5).y(position.y() - radius - 5).width(2 * radius + 10).height(2 * radius + 10),
+            Vector2Zero(),
+            0,
+            WHITE);
 
         if (Settings.DEBUG) DrawRectangleLinesEx(hitbox, 2, RED);
     }
