@@ -77,4 +77,8 @@ public class NoteKey extends GameObject {
     public boolean isActive() {
         return active;
     }
+
+    public int getRadius() {
+        return radius;
+    }
 }
