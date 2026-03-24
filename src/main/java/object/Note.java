@@ -3,7 +3,7 @@ package object;
 import util.AssetLoader;
 import util.Settings;
 
-import static com.raylib.Colors.RED;
+import static com.raylib.Colors.RED; 
 import static com.raylib.Colors.WHITE;
 import static com.raylib.Raylib.*;
 

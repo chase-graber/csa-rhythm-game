@@ -18,12 +18,7 @@ public class LevelScene implements Scene {
     private Music song;
     private Texture background;
 
-    private NoteKey[] keys = {
-        new NoteKey(KEY_UP),
-        new NoteKey(KEY_LEFT),
-        new NoteKey(KEY_DOWN),
-        new NoteKey(KEY_RIGHT)
-    };
+    private NoteKey[] keys;
     private ArrayList<Note>[] tracks = new ArrayList[]{
         new ArrayList<>(),
         new ArrayList<>(),
@@ -31,10 +26,27 @@ public class LevelScene implements Scene {
         new ArrayList<>()
     };
 
-    public LevelScene(String songpath, String backgroundPath) {
+    public LevelScene(String songpath, String backgroundPath, Settings.KeyLayouts layout) {
         this.startTime = GetTime();
         this.song = AssetLoader.getMusic(songpath);
         this.background = AssetLoader.getTexture(backgroundPath);
+
+        switch(layout) {
+            case ARROW:
+                keys = new NoteKey[]{
+                    new NoteKey(KEY_UP),
+                    new NoteKey(KEY_LEFT),
+                    new NoteKey(KEY_DOWN),
+                    new NoteKey(KEY_RIGHT)
+                };
+            case DFJK:
+                keys = new NoteKey[]{
+                    new NoteKey(KEY_J),
+                    new NoteKey(KEY_K),
+                    new NoteKey(KEY_D),
+                    new NoteKey(KEY_F)
+                };
+        }
     }
 
     public void addNoteToTrack(int track) {

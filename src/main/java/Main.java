@@ -3,6 +3,7 @@ import static com.raylib.Raylib.*;
 
 import scene.LevelScene;
 import scene.Scene;
+import util.Settings;
 
 public class Main {
     
@@ -13,7 +14,7 @@ public class Main {
         InitAudioDevice();
         SetTargetFPS(60);
 
-        Scene currentScene = new LevelScene("path/to/music.mp3", "assets/textures/demo_bg.png");
+        Scene currentScene = new LevelScene("path/to/music.mp3", "assets/textures/demo_bg.png", Settings.KeyLayouts.DFJK);
 
         while (!WindowShouldClose()) {
             currentScene.update(GetFrameTime());

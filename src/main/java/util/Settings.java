@@ -6,6 +6,12 @@ public class Settings {
     // Utility
     public static boolean DEBUG = false;
 
+    // Key layouts
+    public enum KeyLayouts {
+        ARROW,
+        DFJK
+    }
+
     // Key spacing
     public static final int PADDING = 150;
     public static final float SPACING = (float)(GetScreenHeight() - 2 * PADDING) / 3;
