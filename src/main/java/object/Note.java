@@ -6,6 +6,8 @@ import static com.raylib.Colors.BLUE;
 import static com.raylib.Colors.RED;
 import static com.raylib.Raylib.*;
 
+import scene.LevelScene;
+
 public class Note extends GameObject {
 
     private int track;
@@ -19,9 +21,9 @@ public class Note extends GameObject {
     public boolean furthest = false;
 
     // TODO: Create level class and stop passing in trackKey
-    public Note(int track, NoteKey trackKey) {
+    public Note(int track, LevelScene parentScene) {
         this.track = track;
-        this.trackKey = trackKey;
+        this.trackKey = parentScene.getTrackKey(track);
         this.position = new Vector2().x(GetScreenWidth() + radius).y(Settings.PADDING + this.track * Settings.SPACING);
         this.hitbox = new Rectangle()
                 .x(this.position.x() - radius)
