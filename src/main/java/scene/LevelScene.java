@@ -14,7 +14,6 @@ import util.Settings;
 
 public class LevelScene implements Scene {
 
-    private double startTime;
     private Music song;
     private Texture background;
 
@@ -27,7 +26,6 @@ public class LevelScene implements Scene {
     };
 
     public LevelScene(String songpath, String backgroundPath, Settings.KeyLayouts layout) {
-        this.startTime = GetTime();
         this.song = AssetLoader.getMusic(songpath);
         this.background = AssetLoader.getTexture(backgroundPath);
 
@@ -49,15 +47,12 @@ public class LevelScene implements Scene {
         }
     }
 
-    public void addNoteToTrack(int track) {
-        tracks[track].add(new Note(track, this));
-        if (tracks[track].size() == 1) tracks[track].get(0).furthest = true;
+    public void setLevelTracks(ArrayList<Note>[] tracks) {
+        this.tracks = tracks;
     }
 
     @Override
     public void update(float dt) {
-        if (IsKeyPressed(KEY_SPACE)) addNoteToTrack(GetRandomValue(0, 3));
-
         // Update keys (detect presses)
         for (NoteKey nk : keys) {
             nk.update(dt);

@@ -52,12 +52,13 @@ public class NoteKey extends GameObject {
 
     @Override
     public void render() {
-        DrawTexturePro(texture,
-            new Rectangle().x(0).y(0).width(texture.width()).height(texture.height()),
-            new Rectangle().x(position.x() - radius - 5).y(position.y() - radius - 5).width(2 * radius + 10).height(2 * radius + 10),
-            Vector2Zero(),
-            0,
-            active ? GRAY : WHITE);
+        if (position.x() < GetScreenWidth())
+            DrawTexturePro(texture,
+                new Rectangle().x(0).y(0).width(texture.width()).height(texture.height()),
+                new Rectangle().x(position.x() - radius - 5).y(position.y() - radius - 5).width(2 * radius + 10).height(2 * radius + 10),
+                Vector2Zero(),
+                0,
+                active ? GRAY : WHITE);
 
         // Debug drawing
         if (Settings.DEBUG) DrawRectangleLinesEx(hitbox, 2, RED);
