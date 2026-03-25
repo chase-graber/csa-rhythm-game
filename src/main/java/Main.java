@@ -3,6 +3,7 @@ import static com.raylib.Raylib.*;
 
 import scene.LevelScene;
 import scene.Scene;
+import util.AssetLoader;
 import util.Settings;
 
 public class Main {
@@ -15,6 +16,8 @@ public class Main {
         SetTargetFPS(60);
 
         Scene currentScene = new LevelScene("path/to/music.mp3", "assets/textures/demo_bg.png", Settings.KeyLayouts.DFJK);
+        if (currentScene instanceof LevelScene)
+            ((LevelScene)currentScene).setLevelTracks(AssetLoader.loadLevelTracks("assets/levels/mammamia.txt", (LevelScene)currentScene));
 
         while (!WindowShouldClose()) {
             currentScene.update(GetFrameTime());
