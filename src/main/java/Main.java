@@ -15,9 +15,7 @@ public class Main {
         InitAudioDevice();
         SetTargetFPS(60);
 
-        Scene currentScene = new LevelScene("path/to/music.mp3", "assets/textures/demo_bg.png", Settings.KeyLayouts.DFJK);
-        if (currentScene instanceof LevelScene)
-            ((LevelScene)currentScene).setLevelTracks(AssetLoader.loadLevelTracks("assets/levels/mammamia.txt", (LevelScene)currentScene));
+        Scene currentScene = AssetLoader.loadLevelScene("assets/levels/mammamia.txt", Settings.KeyLayouts.ARROW);
 
         while (!WindowShouldClose()) {
             currentScene.update(GetFrameTime());
