@@ -16,23 +16,19 @@ public class NoteKey extends GameObject {
 
     public NoteKey(int key) {
         switch(key) {
-            case KEY_J:
-            case KEY_UP:
+            case KEY_D, KEY_UP:
                 this.position = new Vector2().x(Settings.PADDING).y(Settings.PADDING);
                 this.texture = AssetLoader.getTexture("assets/textures/up_arrow_main.png");
                 break;
-            case KEY_K:
-            case KEY_LEFT:
+            case KEY_F, KEY_LEFT:
                 this.position = new Vector2().x(Settings.PADDING).y(Settings.PADDING + Settings.SPACING);
                 this.texture = AssetLoader.getTexture("assets/textures/left_arrow_main.png");
                 break;
-            case KEY_D:
-            case KEY_DOWN:
+            case KEY_J, KEY_DOWN:
                 this.position = new Vector2().x(Settings.PADDING).y(Settings.PADDING + 2 * Settings.SPACING);
                 this.texture = AssetLoader.getTexture("assets/textures/down_arrow_main.png");
                 break;
-            case KEY_F:
-            case KEY_RIGHT:
+            case KEY_K, KEY_RIGHT:
                 this.position = new Vector2().x(Settings.PADDING).y(Settings.PADDING + 3 * Settings.SPACING);
                 this.texture = AssetLoader.getTexture("assets/textures/right_arrow_main.png");
                 break;

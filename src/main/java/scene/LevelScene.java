@@ -32,19 +32,19 @@ public class LevelScene implements Scene {
         this.background = AssetLoader.getTexture(backgroundPath);
 
         switch(layout) {
-            case ARROW:
+            case ARROW ->
                 keys = new NoteKey[]{
                     new NoteKey(KEY_UP),
                     new NoteKey(KEY_LEFT),
                     new NoteKey(KEY_DOWN),
                     new NoteKey(KEY_RIGHT)
                 };
-            case DFJK:
+            case DFJK ->
                 keys = new NoteKey[]{
-                    new NoteKey(KEY_J),
-                    new NoteKey(KEY_K),
                     new NoteKey(KEY_D),
-                    new NoteKey(KEY_F)
+                    new NoteKey(KEY_F),
+                    new NoteKey(KEY_J),
+                    new NoteKey(KEY_K)
                 };
         }
     }
