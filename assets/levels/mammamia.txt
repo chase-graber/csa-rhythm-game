@@ -1,3 +1,5 @@
+mammamia.mp3
+demo_bg.png
 L 1.004
 R 1.199
 L 1.417

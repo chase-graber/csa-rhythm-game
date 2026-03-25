@@ -45,7 +45,7 @@ public class AssetLoader {
         return music.get(filepath);
     }
 
-    public static ArrayList<Note>[] loadLevelTracks(String filepath, LevelScene parentScene) {
+    public static LevelScene loadLevelScene(String filepath, Settings.KeyLayouts keyLayout) {
         ArrayList<Note>[] tracks = new ArrayList[]{
             new ArrayList<>(),
             new ArrayList<>(),
@@ -56,6 +56,9 @@ public class AssetLoader {
         try {
             File level = new File(filepath);
             Scanner input = new Scanner(level);
+            String songpath = "assets/sounds/" + input.nextLine(); // First line always song path
+            String bgpath = "assets/textures/" + input.nextLine(); // Second line always bg path
+            LevelScene scene = new LevelScene(songpath, bgpath, keyLayout);
 
             while (input.hasNext()) {
                 String[] data = input.nextLine().split(" ");
@@ -64,34 +67,37 @@ public class AssetLoader {
 
                 switch(trackID) {
                     case "U":
-                        tracks[0].add(new Note(0, noteTime, parentScene));
+                        tracks[0].add(new Note(0, noteTime, scene));
                         if (tracks[0].size() == 1) tracks[0].get(0).furthest = true;
                         break;
                     case "L":
-                        tracks[1].add(new Note(1, noteTime, parentScene));
+                        tracks[1].add(new Note(1, noteTime, scene));
                         if (tracks[1].size() == 1) tracks[1].get(0).furthest = true;
                         break;
                     case "D":
-                        tracks[2].add(new Note(2, noteTime, parentScene));
+                        tracks[2].add(new Note(2, noteTime, scene));
                         if (tracks[2].size() == 1) tracks[2].get(0).furthest = true;
                         break;
                     case "R":
-                        tracks[3].add(new Note(3, noteTime, parentScene));
+                        tracks[3].add(new Note(3, noteTime, scene));
                         if (tracks[3].size() == 1) tracks[3].get(0).furthest = true;
                         break;
                     default:
-                        tracks[0].add(new Note(0, noteTime, parentScene));
+                        tracks[0].add(new Note(0, noteTime, scene));
                         if (tracks[0].size() == 1) tracks[0].get(0).furthest = true;
                         break;
                 }
             }
 
             input.close();
+
+            scene.setLevelTracks(tracks);
+            return scene;
         } catch (IOException e) {
             e.printStackTrace();
             System.exit(1);
         }
 
-        return tracks;
+        return null;
     }
 }
