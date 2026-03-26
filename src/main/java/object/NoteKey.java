@@ -17,28 +17,23 @@ public class NoteKey extends GameObject {
     private Rectangle hitbox;
 
     public NoteKey(int key) {
-        switch(key) {
-            case KEY_D, KEY_UP:
-                this.position = new Vector2().x(Settings.PADDING).y(Settings.PADDING);
-                this.texture = AssetLoader.getTexture("assets/textures/up_arrow_main.png");
-                break;
-            case KEY_F, KEY_LEFT:
-                this.position = new Vector2().x(Settings.PADDING).y(Settings.PADDING + Settings.SPACING);
-                this.texture = AssetLoader.getTexture("assets/textures/left_arrow_main.png");
-                break;
-            case KEY_J, KEY_DOWN:
-                this.position = new Vector2().x(Settings.PADDING).y(Settings.PADDING + 2 * Settings.SPACING);
-                this.texture = AssetLoader.getTexture("assets/textures/down_arrow_main.png");
-                break;
-            case KEY_K, KEY_RIGHT:
-                this.position = new Vector2().x(Settings.PADDING).y(Settings.PADDING + 3 * Settings.SPACING);
-                this.texture = AssetLoader.getTexture("assets/textures/right_arrow_main.png");
-                break;
-            default:
-                this.position = new Vector2().x(0).y(0);
-                this.texture = AssetLoader.getTexture("assets/textures/up_arrow_main.png");
-                break;
+        if (key == Settings.currentKeyLayout.getTrackKey(0)) {
+            this.position = new Vector2().x(Settings.PADDING).y(Settings.PADDING);
+            this.texture = AssetLoader.getTexture("assets/textures/up_arrow_main.png");
+        } else if (key == Settings.currentKeyLayout.getTrackKey(1)) {
+            this.position = new Vector2().x(Settings.PADDING).y(Settings.PADDING + Settings.SPACING);
+            this.texture = AssetLoader.getTexture("assets/textures/left_arrow_main.png");
+        } else if (key == Settings.currentKeyLayout.getTrackKey(2)) {
+            this.position = new Vector2().x(Settings.PADDING).y(Settings.PADDING + 2 * Settings.SPACING);
+            this.texture = AssetLoader.getTexture("assets/textures/down_arrow_main.png");
+        } else if (key == Settings.currentKeyLayout.getTrackKey(3)) {
+            this.position = new Vector2().x(Settings.PADDING).y(Settings.PADDING + 3 * Settings.SPACING);
+            this.texture = AssetLoader.getTexture("assets/textures/right_arrow_main.png");
+        } else {
+            this.position = new Vector2().x(0).y(0);
+            this.texture = AssetLoader.getTexture("assets/textures/up_arrow_main.png");
         }
+        
         this.hitbox = new Rectangle()
                 .x(this.position.x() - radius)
                 .y(this.position.y() - radius)

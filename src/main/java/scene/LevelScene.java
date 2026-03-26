@@ -5,8 +5,6 @@ import static com.raylib.Colors.*;
 
 import java.util.ArrayList;
 
-import com.raylib.Raylib.Music;
-
 import object.Note;
 import object.NoteKey;
 import util.Settings;
@@ -17,31 +15,22 @@ public class LevelScene implements Scene {
     private Texture background;
     private float startTime; // Might need this might not
     private float elapsedTime = 0.0f;
+    private boolean hasPlayedSong = false;
 
     private NoteKey[] keys;
     private ArrayList<Note>[] tracks;
 
     public LevelScene(Music song, Texture background, Settings.KeyLayouts layout) {
         this.song = song;
+        this.song.looping(false);
         this.background = background;
         this.startTime = (float)GetTime();
-
-        switch(layout) {
-            case ARROW ->
-                keys = new NoteKey[]{
-                    new NoteKey(KEY_UP),
-                    new NoteKey(KEY_LEFT),
-                    new NoteKey(KEY_DOWN),
-                    new NoteKey(KEY_RIGHT)
-                };
-            case DFJK ->
-                keys = new NoteKey[]{
-                    new NoteKey(KEY_D),
-                    new NoteKey(KEY_F),
-                    new NoteKey(KEY_J),
-                    new NoteKey(KEY_K)
-                };
-        }
+        keys = new NoteKey[]{
+            new NoteKey(Settings.currentKeyLayout.getTrackKey(0)),
+            new NoteKey(Settings.currentKeyLayout.getTrackKey(1)),
+            new NoteKey(Settings.currentKeyLayout.getTrackKey(2)),
+            new NoteKey(Settings.currentKeyLayout.getTrackKey(3))
+        };
     }
 
     public void setLevelTracks(ArrayList<Note>[] tracks) {
@@ -51,8 +40,10 @@ public class LevelScene implements Scene {
     @Override
     public void update(float dt) {
         elapsedTime += dt;
-        if (elapsedTime >= 3.0f && !IsMusicStreamPlaying(song)) PlayMusicStream(song);
-        else UpdateMusicStream(song);
+        if (elapsedTime >= 3.0f && !IsMusicStreamPlaying(song) && !hasPlayedSong) {
+            PlayMusicStream(song);
+            hasPlayedSong = true;
+        } else UpdateMusicStream(song);
 
         // Update keys (detect presses)
         for (NoteKey nk : keys) {
