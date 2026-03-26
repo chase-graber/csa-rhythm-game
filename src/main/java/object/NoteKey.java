@@ -11,6 +11,8 @@ public class NoteKey extends GameObject {
     private int key;
     private boolean active;
     private int radius = 40;
+    private float size = 40;
+    private Color tint = WHITE;
 
     private Rectangle hitbox;
 
@@ -47,7 +49,14 @@ public class NoteKey extends GameObject {
 
     @Override
     public void update(float dt) {
+        size = Lerp(size, radius, 0.25f);
+        tint = ColorLerp(tint, WHITE, 0.25f);
+
         active = IsKeyPressed(key);
+        if (active) {
+            size = 45;
+            tint = GRAY;
+        }
     }
 
     @Override
@@ -55,10 +64,10 @@ public class NoteKey extends GameObject {
         if (position.x() < GetScreenWidth())
             DrawTexturePro(texture,
                 new Rectangle().x(0).y(0).width(texture.width()).height(texture.height()),
-                new Rectangle().x(position.x() - radius - 5).y(position.y() - radius - 5).width(2 * radius + 10).height(2 * radius + 10),
+                new Rectangle().x(position.x() - size).y(position.y() - size).width(2 * size).height(2 * size),
                 Vector2Zero(),
                 0,
-                active ? GRAY : WHITE);
+                tint);
 
         // Debug drawing
         if (Settings.DEBUG) DrawRectangleLinesEx(hitbox, 2, RED);
