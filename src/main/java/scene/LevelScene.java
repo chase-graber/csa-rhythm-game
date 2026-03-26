@@ -9,25 +9,22 @@ import com.raylib.Raylib.Music;
 
 import object.Note;
 import object.NoteKey;
-import util.AssetLoader;
 import util.Settings;
 
 public class LevelScene implements Scene {
 
     private Music song;
     private Texture background;
+    private float startTime; // Might need this might not
+    private float elapsedTime = 0.0f;
 
     private NoteKey[] keys;
-    private ArrayList<Note>[] tracks = new ArrayList[]{
-        new ArrayList<>(),
-        new ArrayList<>(),
-        new ArrayList<>(),
-        new ArrayList<>()
-    };
+    private ArrayList<Note>[] tracks;
 
-    public LevelScene(String songpath, String backgroundPath, Settings.KeyLayouts layout) {
-        this.song = AssetLoader.getMusic(songpath);
-        this.background = AssetLoader.getTexture(backgroundPath);
+    public LevelScene(Music song, Texture background, Settings.KeyLayouts layout) {
+        this.song = song;
+        this.background = background;
+        this.startTime = (float)GetTime();
 
         switch(layout) {
             case ARROW ->
@@ -53,6 +50,10 @@ public class LevelScene implements Scene {
 
     @Override
     public void update(float dt) {
+        elapsedTime += dt;
+        if (elapsedTime >= 3.0f && !IsMusicStreamPlaying(song)) PlayMusicStream(song);
+        else UpdateMusicStream(song);
+
         // Update keys (detect presses)
         for (NoteKey nk : keys) {
             nk.update(dt);
