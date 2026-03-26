@@ -56,9 +56,12 @@ public class AssetLoader {
         try {
             File level = new File(filepath);
             Scanner input = new Scanner(level);
-            String songpath = "assets/sounds/" + input.nextLine(); // First line always song path
-            String bgpath = "assets/textures/" + input.nextLine(); // Second line always bg path
-            LevelScene scene = new LevelScene(songpath, bgpath, keyLayout);
+
+            Music song = getMusic("assets/sounds/" + input.nextLine()); // First line always song path
+            Texture background = getTexture("assets/textures/" + input.nextLine()); // Second line always bg path
+            float songSpeed = Float.parseFloat(input.nextLine()); // Third line always song speed (default/1x is 500)
+            input.nextLine(); // Cross gap between config and data
+            LevelScene scene = new LevelScene(song, background, keyLayout);
 
             while (input.hasNext()) {
                 String[] data = input.nextLine().split(" ");
@@ -67,23 +70,23 @@ public class AssetLoader {
 
                 switch(trackID) {
                     case "U":
-                        tracks[0].add(new Note(0, noteTime, scene));
+                        tracks[0].add(new Note(0, noteTime, scene, songSpeed));
                         if (tracks[0].size() == 1) tracks[0].get(0).furthest = true;
                         break;
                     case "L":
-                        tracks[1].add(new Note(1, noteTime, scene));
+                        tracks[1].add(new Note(1, noteTime, scene, songSpeed));
                         if (tracks[1].size() == 1) tracks[1].get(0).furthest = true;
                         break;
                     case "D":
-                        tracks[2].add(new Note(2, noteTime, scene));
+                        tracks[2].add(new Note(2, noteTime, scene, songSpeed));
                         if (tracks[2].size() == 1) tracks[2].get(0).furthest = true;
                         break;
                     case "R":
-                        tracks[3].add(new Note(3, noteTime, scene));
+                        tracks[3].add(new Note(3, noteTime, scene, songSpeed));
                         if (tracks[3].size() == 1) tracks[3].get(0).furthest = true;
                         break;
                     default:
-                        tracks[0].add(new Note(0, noteTime, scene));
+                        tracks[0].add(new Note(0, noteTime, scene, songSpeed));
                         if (tracks[0].size() == 1) tracks[0].get(0).furthest = true;
                         break;
                 }

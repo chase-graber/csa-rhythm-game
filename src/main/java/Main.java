@@ -1,7 +1,6 @@
 import static com.raylib.Colors.RAYWHITE;
 import static com.raylib.Raylib.*;
 
-import scene.LevelScene;
 import scene.Scene;
 import util.AssetLoader;
 import util.Settings;
