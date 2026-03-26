@@ -45,7 +45,7 @@ public class AssetLoader {
         return music.get(filepath);
     }
 
-    public static LevelScene loadLevelScene(String filepath, Settings.KeyLayouts keyLayout) {
+    public static LevelScene loadLevelScene(String filepath) {
         ArrayList<Note>[] tracks = new ArrayList[]{
             new ArrayList<>(),
             new ArrayList<>(),
@@ -61,7 +61,7 @@ public class AssetLoader {
             Texture background = getTexture("assets/textures/" + input.nextLine()); // Second line always bg path
             float songSpeed = Float.parseFloat(input.nextLine()); // Third line always song speed (default/1x is 500)
             input.nextLine(); // Cross gap between config and data
-            LevelScene scene = new LevelScene(song, background, keyLayout);
+            LevelScene scene = new LevelScene(song, background, Settings.currentKeyLayout);
 
             while (input.hasNext()) {
                 String[] data = input.nextLine().split(" ");

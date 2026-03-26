@@ -3,7 +3,6 @@ import static com.raylib.Raylib.*;
 
 import scene.Scene;
 import util.AssetLoader;
-import util.Settings;
 
 public class Main {
     
@@ -14,7 +13,7 @@ public class Main {
         InitAudioDevice();
         SetTargetFPS(60);
 
-        Scene currentScene = AssetLoader.loadLevelScene("assets/levels/mammamia.txt", Settings.KeyLayouts.ARROW);
+        Scene currentScene = AssetLoader.loadLevelScene("assets/levels/spooktune.txt");
 
         while (!WindowShouldClose()) {
             currentScene.update(GetFrameTime());

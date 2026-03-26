@@ -1,5 +1,5 @@
 package util;
-import static com.raylib.Raylib.GetScreenHeight;
+import static com.raylib.Raylib.*;
 
 public class Settings {
 
@@ -8,9 +8,21 @@ public class Settings {
 
     // Key layouts
     public enum KeyLayouts {
-        ARROW,
-        DFJK
+        ARROW(new int[]{KEY_UP, KEY_LEFT, KEY_DOWN, KEY_RIGHT}),
+        DFJK(new int[]{KEY_D, KEY_F, KEY_J, KEY_K}),
+        WASD(new int[]{KEY_W, KEY_A, KEY_S, KEY_D});
+
+        private final int[] keys;
+
+        private KeyLayouts(int[] keys) {
+            this.keys = keys;
+        }
+
+        public int getTrackKey(int track) {
+            return keys[track];
+        }
     }
+    public static KeyLayouts currentKeyLayout = KeyLayouts.ARROW;
 
     // Key spacing
     public static final int PADDING = 150;
