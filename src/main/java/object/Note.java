@@ -18,6 +18,7 @@ public class Note extends GameObject {
     private final int radius = 40;
     private float speed;
 
+    LevelScene parentScene;
     private NoteKey trackKey;
     private Rectangle hitbox;
 
@@ -35,6 +36,7 @@ public class Note extends GameObject {
 
         this.track = track;
         this.speed = speed;
+        this.parentScene = parentScene;
         this.trackKey = parentScene.getTrackKey(track);
         this.position = new Vector2().x(Settings.PADDING + (3 + hitTime) * speed).y(Settings.PADDING + this.track * Settings.SPACING);
         this.hitbox = new Rectangle()
@@ -58,7 +60,7 @@ public class Note extends GameObject {
             new Rectangle().x(position.x() - radius - 5).y(position.y() - radius - 5).width(2 * radius + 10).height(2 * radius + 10),
             Vector2Zero(),
             0,
-            WHITE);
+            Settings.DEBUG && furthest ? Fade(RED, 0.75f) : WHITE);
 
         if (Settings.DEBUG) DrawRectangleLinesEx(hitbox, 2, RED);
     }

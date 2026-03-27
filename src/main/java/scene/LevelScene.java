@@ -52,7 +52,14 @@ public class LevelScene implements Scene {
                 Note n = track.get(i);
                 if (n.done) {
                     track.remove(i);
-                    if (i < track.size()) track.get(i).furthest = true;
+
+                    if (!track.isEmpty()) {
+                        int index = 0;
+                        while (track.get(index).getPosition().x() + track.get(index).getRadius() < Settings.PADDING - track.get(index).getRadius()) {
+                            index++;
+                        }
+                        track.get(index).furthest = true;
+                    }
                     continue;
                 } else if (n.getPosition().x() + n.getRadius() < Settings.PADDING - n.getRadius()) {
                       n.furthest = false;

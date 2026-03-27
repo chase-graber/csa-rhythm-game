@@ -33,7 +33,7 @@ public class NoteKey extends GameObject {
             this.position = new Vector2().x(0).y(0);
             this.texture = AssetLoader.getTexture("assets/textures/up_arrow_main.png");
         }
-        
+
         this.hitbox = new Rectangle()
                 .x(this.position.x() - radius)
                 .y(this.position.y() - radius)

@@ -14,7 +14,7 @@ public class Settings {
 
         private final int[] keys;
 
-        private KeyLayouts(int[] keys) {
+        KeyLayouts(int[] keys) {
             this.keys = keys;
         }
 
