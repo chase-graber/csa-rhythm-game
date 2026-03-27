@@ -16,15 +16,16 @@ public class Note extends GameObject {
 
     private int track;
     private final int radius = 40;
-    private float speed = 500;
-    private NoteKey trackKey;
+    private float speed;
+    private float hitTime;
 
+    private NoteKey trackKey;
     private Rectangle hitbox;
 
     public boolean done = false;
     public boolean furthest = false;
 
-    public Note(int track, LevelScene parentScene) {
+    public Note(int track, float hitTime, LevelScene parentScene, float speed) {
         switch(track) {
             case 0 -> this.texture = AssetLoader.getTexture("assets/textures/up_arrow.png");
             case 1 -> this.texture = AssetLoader.getTexture("assets/textures/left_arrow.png");
@@ -34,8 +35,10 @@ public class Note extends GameObject {
         }
 
         this.track = track;
+        this.speed = speed;
+        this.hitTime = hitTime;
         this.trackKey = parentScene.getTrackKey(track);
-        this.position = new Vector2().x(GetScreenWidth() + radius).y(Settings.PADDING + this.track * Settings.SPACING);
+        this.position = new Vector2().x(GetScreenWidth() + (hitTime + 3 - (1.94f * 500 / speed)) * speed).y(Settings.PADDING + this.track * Settings.SPACING);
         this.hitbox = new Rectangle()
                 .x(this.position.x() - radius)
                 .y(this.position.y() - radius)

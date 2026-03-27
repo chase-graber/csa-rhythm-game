@@ -1,8 +1,8 @@
 import static com.raylib.Colors.RAYWHITE;
 import static com.raylib.Raylib.*;
 
-import scene.LevelScene;
 import scene.Scene;
+import util.AssetLoader;
 import util.Settings;
 
 public class Main {
@@ -14,9 +14,12 @@ public class Main {
         InitAudioDevice();
         SetTargetFPS(60);
 
-        Scene currentScene = new LevelScene("path/to/music.mp3", "assets/textures/demo_bg.png", Settings.KeyLayouts.DFJK);
+        Scene currentScene = AssetLoader.loadLevelScene("assets/levels/spooktune.txt");
 
         while (!WindowShouldClose()) {
+            // Debug toggle
+            if (IsKeyPressed(KEY_F2)) Settings.DEBUG = !Settings.DEBUG;
+
             currentScene.update(GetFrameTime());
 
             BeginDrawing();

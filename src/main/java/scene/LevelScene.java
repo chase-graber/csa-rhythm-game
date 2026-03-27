@@ -5,58 +5,41 @@ import static com.raylib.Colors.*;
 
 import java.util.ArrayList;
 
-import com.raylib.Raylib.Music;
-
 import object.Note;
 import object.NoteKey;
-import util.AssetLoader;
 import util.Settings;
 
 public class LevelScene implements Scene {
 
-    private double startTime;
     private Music song;
     private Texture background;
+    private float startTime; // Might need this might not
+    private float elapsedTime = 0.0f;
+    private boolean hasPlayedSong = false;
 
     private NoteKey[] keys;
-    private ArrayList<Note>[] tracks = new ArrayList[]{
-        new ArrayList<>(),
-        new ArrayList<>(),
-        new ArrayList<>(),
-        new ArrayList<>()
-    };
+    private ArrayList<Note>[] tracks;
 
-    public LevelScene(String songpath, String backgroundPath, Settings.KeyLayouts layout) {
-        this.startTime = GetTime();
-        this.song = AssetLoader.getMusic(songpath);
-        this.background = AssetLoader.getTexture(backgroundPath);
-
-        switch(layout) {
-            case ARROW ->
-                keys = new NoteKey[]{
-                    new NoteKey(KEY_UP),
-                    new NoteKey(KEY_LEFT),
-                    new NoteKey(KEY_DOWN),
-                    new NoteKey(KEY_RIGHT)
-                };
-            case DFJK ->
-                keys = new NoteKey[]{
-                    new NoteKey(KEY_D),
-                    new NoteKey(KEY_F),
-                    new NoteKey(KEY_J),
-                    new NoteKey(KEY_K)
-                };
-        }
+    public LevelScene(Music song, Texture background) {
+        this.song = song;
+        this.song.looping(false);
+        this.background = background;
+        this.startTime = (float)GetTime();
+        updateKeyLayout();
     }
 
-    public void addNoteToTrack(int track) {
-        tracks[track].add(new Note(track, this));
-        if (tracks[track].size() == 1) tracks[track].get(0).furthest = true;
+    // Addon to constructor, called in AssetLoader since notes need a parent scene (which can't exist if this is part of the constructor)
+    public void setLevelTracks(ArrayList<Note>[] tracks) {
+        this.tracks = tracks;
     }
 
     @Override
     public void update(float dt) {
-        if (IsKeyPressed(KEY_SPACE)) addNoteToTrack(GetRandomValue(0, 3));
+        elapsedTime += dt;
+        if (elapsedTime >= 3.0f && !IsMusicStreamPlaying(song) && !hasPlayedSong) {
+            PlayMusicStream(song);
+            hasPlayedSong = true;
+        } else UpdateMusicStream(song);
 
         // Update keys (detect presses)
         for (NoteKey nk : keys) {
@@ -98,5 +81,15 @@ public class LevelScene implements Scene {
 
     public NoteKey getTrackKey(int track) {
         return keys[track];
+    }
+
+    // Use for settings menu
+    public void updateKeyLayout() {
+        keys = new NoteKey[]{
+            new NoteKey(Settings.currentKeyLayout.getTrackKey(0)),
+            new NoteKey(Settings.currentKeyLayout.getTrackKey(1)),
+            new NoteKey(Settings.currentKeyLayout.getTrackKey(2)),
+            new NoteKey(Settings.currentKeyLayout.getTrackKey(3))
+        };
     }
 }
