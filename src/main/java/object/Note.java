@@ -62,10 +62,31 @@ public class Note extends GameObject {
     @Override
     public void update(float dt) {
         position.x(position.x() - speed * dt);
+
         hitbox.x(position.x() - radius).y(position.y() - radius);
         secondHitbox.x(position.x() - radius * 0.75f).y(position.y() - radius * 0.75f);
         thirdHitbox.x(position.x() - radius * 0.5f).y(position.y() - radius * 0.5f);
-        if (position.x() < -radius || (trackKey.isActive() && CheckCollisionRecs(trackKey.getHitbox(), hitbox) && furthest)) done = true;
+
+        if (position.x() < -radius) {
+            done = true;
+            parentScene.numMiss++;
+        } 
+        else if (trackKey.isActive() && CheckCollisionRecs(trackKey.getHitbox(), hitbox) && furthest){
+            int numHitboxesHit = 1;
+            if (CheckCollisionRecs(trackKey.getHitbox(), secondHitbox)) {
+                numHitboxesHit++;
+                if (CheckCollisionRecs(trackKey.getHitbox(), thirdHitbox)) numHitboxesHit++;
+            }
+
+            switch(numHitboxesHit) {
+                case 1 -> parentScene.numPoor++;
+                case 2 -> parentScene.numGood++;
+                case 3 -> parentScene.numPerfect++;
+            }
+
+            done = true;
+            System.out.printf("Num perfect: %d, Num good: %d, Num poor: %d\n", parentScene.numPerfect, parentScene.numGood, parentScene.numPoor);
+        }
     }
 
     @Override

@@ -21,6 +21,9 @@ public class LevelScene implements Scene {
     private NoteKey[] keys;
     private ArrayList<Note>[] tracks;
 
+    // Scoring types
+    public int numPerfect, numGood, numPoor, numMiss;
+
     // UI elements
     private UIProgressBar progressBar;
 
