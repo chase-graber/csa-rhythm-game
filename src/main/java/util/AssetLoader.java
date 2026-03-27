@@ -66,8 +66,17 @@ public class AssetLoader {
 
             while (input.hasNext()) {
                 String[] data = input.nextLine().split(" ");
-                String trackID = data[0];
-                float noteTime = Float.parseFloat(data[1]);
+                String trackID;
+                float noteTime;
+
+                // For testing song timings without mapping
+                if (data.length == 1) {
+                    trackID = "U";
+                    noteTime = Float.parseFloat(data[0]);
+                } else {
+                    trackID = data[0];
+                    noteTime = Float.parseFloat(data[1]);
+                }
 
                 switch(trackID) {
                     case "U":

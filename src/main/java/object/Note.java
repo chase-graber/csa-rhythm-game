@@ -17,7 +17,6 @@ public class Note extends GameObject {
     private int track;
     private final int radius = 40;
     private float speed;
-    private float hitTime;
 
     private NoteKey trackKey;
     private Rectangle hitbox;
@@ -36,9 +35,8 @@ public class Note extends GameObject {
 
         this.track = track;
         this.speed = speed;
-        this.hitTime = hitTime;
         this.trackKey = parentScene.getTrackKey(track);
-        this.position = new Vector2().x(GetScreenWidth() + (hitTime + 3 - (1.94f * 500 / speed)) * speed).y(Settings.PADDING + this.track * Settings.SPACING);
+        this.position = new Vector2().x(Settings.PADDING + (3 + hitTime) * speed).y(Settings.PADDING + this.track * Settings.SPACING);
         this.hitbox = new Rectangle()
                 .x(this.position.x() - radius)
                 .y(this.position.y() - radius)
@@ -48,7 +46,7 @@ public class Note extends GameObject {
  
     @Override
     public void update(float dt) {
-        position = Vector2Subtract(position, new Vector2().x(speed * dt));
+        position.x(position.x() - speed * dt);
         hitbox.x(position.x() - radius).y(position.y() - radius);
         if (position.x() < -radius || (trackKey.isActive() && CheckCollisionRecs(trackKey.getHitbox(), hitbox) && furthest)) done = true;
     }

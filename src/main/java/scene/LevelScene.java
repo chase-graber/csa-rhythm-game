@@ -36,7 +36,7 @@ public class LevelScene implements Scene {
     @Override
     public void update(float dt) {
         elapsedTime += dt;
-        if (elapsedTime >= 3.0f && !IsMusicStreamPlaying(song) && !hasPlayedSong) {
+        if (elapsedTime >= 2.9f && !IsMusicStreamPlaying(song) && !hasPlayedSong) {
             PlayMusicStream(song);
             hasPlayedSong = true;
         } else UpdateMusicStream(song);
