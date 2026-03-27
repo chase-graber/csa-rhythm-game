@@ -25,12 +25,7 @@ public class LevelScene implements Scene {
         this.song.looping(false);
         this.background = background;
         this.startTime = (float)GetTime();
-        keys = new NoteKey[]{
-            new NoteKey(Settings.currentKeyLayout.getTrackKey(0)),
-            new NoteKey(Settings.currentKeyLayout.getTrackKey(1)),
-            new NoteKey(Settings.currentKeyLayout.getTrackKey(2)),
-            new NoteKey(Settings.currentKeyLayout.getTrackKey(3))
-        };
+        updateKeyLayout();
     }
 
     // Addon to constructor, called in AssetLoader since notes need a parent scene (which can't exist if this is part of the constructor)
