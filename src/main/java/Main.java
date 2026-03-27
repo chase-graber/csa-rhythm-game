@@ -3,6 +3,7 @@ import static com.raylib.Raylib.*;
 
 import scene.Scene;
 import util.AssetLoader;
+import util.Settings;
 
 public class Main {
     
@@ -16,6 +17,9 @@ public class Main {
         Scene currentScene = AssetLoader.loadLevelScene("assets/levels/spooktune.txt");
 
         while (!WindowShouldClose()) {
+            // Debug toggle
+            if (IsKeyPressed(KEY_F2)) Settings.DEBUG = !Settings.DEBUG;
+
             currentScene.update(GetFrameTime());
 
             BeginDrawing();
