@@ -20,7 +20,7 @@ public class LevelScene implements Scene {
     private NoteKey[] keys;
     private ArrayList<Note>[] tracks;
 
-    public LevelScene(Music song, Texture background, Settings.KeyLayouts layout) {
+    public LevelScene(Music song, Texture background) {
         this.song = song;
         this.song.looping(false);
         this.background = background;
@@ -33,6 +33,7 @@ public class LevelScene implements Scene {
         };
     }
 
+    // Addon to constructor, called in AssetLoader since notes need a parent scene (which can't exist if this is part of the constructor)
     public void setLevelTracks(ArrayList<Note>[] tracks) {
         this.tracks = tracks;
     }
@@ -85,5 +86,15 @@ public class LevelScene implements Scene {
 
     public NoteKey getTrackKey(int track) {
         return keys[track];
+    }
+
+    // Use for settings menu
+    public void updateKeyLayout() {
+        keys = new NoteKey[]{
+            new NoteKey(Settings.currentKeyLayout.getTrackKey(0)),
+            new NoteKey(Settings.currentKeyLayout.getTrackKey(1)),
+            new NoteKey(Settings.currentKeyLayout.getTrackKey(2)),
+            new NoteKey(Settings.currentKeyLayout.getTrackKey(3))
+        };
     }
 }

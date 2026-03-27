@@ -2,7 +2,7 @@ spooktune.mp3
 cat_bg.png
 500
 
-U 0.734 
+U 0.734
 R 1.022 
 L 1.199 
 R 1.502 
