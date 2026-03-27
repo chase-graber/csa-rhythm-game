@@ -21,6 +21,8 @@ public class Note extends GameObject {
     LevelScene parentScene;
     private NoteKey trackKey;
     private Rectangle hitbox;
+    private Rectangle secondHitbox;
+    private Rectangle thirdHitbox;
 
     public boolean done = false;
     public boolean furthest = false;
@@ -44,12 +46,25 @@ public class Note extends GameObject {
                 .y(this.position.y() - radius)
                 .width(radius * 2)
                 .height(radius * 2);
+        this.secondHitbox = new Rectangle()
+                .x(this.position.x() - radius * 0.75f)
+                .y(this.position.y() - radius * 0.75f)
+                .width(radius * 1.5f)
+                .height(radius * 1.5f);
+        this.thirdHitbox = new Rectangle()
+                .x(this.position.x() - radius * 0.5f)
+                .y(this.position.y() - radius * 0.5f)
+                .width(radius)
+                .height(radius);
     }
+
  
     @Override
     public void update(float dt) {
         position.x(position.x() - speed * dt);
         hitbox.x(position.x() - radius).y(position.y() - radius);
+        secondHitbox.x(position.x() - radius * 0.75f).y(position.y() - radius * 0.75f);
+        thirdHitbox.x(position.x() - radius * 0.5f).y(position.y() - radius * 0.5f);
         if (position.x() < -radius || (trackKey.isActive() && CheckCollisionRecs(trackKey.getHitbox(), hitbox) && furthest)) done = true;
     }
 
@@ -62,7 +77,11 @@ public class Note extends GameObject {
             0,
             Settings.DEBUG && furthest ? Fade(RED, 0.75f) : WHITE);
 
-        if (Settings.DEBUG) DrawRectangleLinesEx(hitbox, 2, RED);
+        if (Settings.DEBUG) {
+            DrawRectangleLinesEx(hitbox, 2, RED);
+            DrawRectangleLinesEx(secondHitbox, 2, RED);
+            DrawRectangleLinesEx(thirdHitbox, 2, RED);
+        }
     }
 
     public int getRadius() {
