@@ -1,5 +1,5 @@
 spooktune.mp3
-cat_bg.png
+spooktune_bg.png
 500
 
 U 0.734

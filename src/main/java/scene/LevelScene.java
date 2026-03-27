@@ -7,6 +7,7 @@ import java.util.ArrayList;
 
 import object.Note;
 import object.NoteKey;
+import ui.UIProgressBar;
 import util.Settings;
 
 public class LevelScene implements Scene {
@@ -20,11 +21,15 @@ public class LevelScene implements Scene {
     private NoteKey[] keys;
     private ArrayList<Note>[] tracks;
 
+    // UI elements
+    private UIProgressBar progressBar;
+
     public LevelScene(Music song, Texture background) {
         this.song = song;
         this.song.looping(false);
         this.background = background;
         this.startTime = (float)GetTime();
+        this.progressBar = new UIProgressBar(song);
         updateKeyLayout();
     }
 
@@ -35,6 +40,9 @@ public class LevelScene implements Scene {
 
     @Override
     public void update(float dt) {
+        // Update UI
+        progressBar.update();
+
         elapsedTime += dt;
         if (elapsedTime >= 2.9f && !IsMusicStreamPlaying(song) && !hasPlayedSong) {
             PlayMusicStream(song);
@@ -84,6 +92,9 @@ public class LevelScene implements Scene {
         for (NoteKey nk : keys) {
             nk.render();
         }
+
+        // Draw UI
+        progressBar.render();
     }
 
     public NoteKey getTrackKey(int track) {

@@ -27,6 +27,10 @@ public class Settings {
     // Key spacing
     public static final int PADDING = 150;
     public static final float SPACING = (float)(GetScreenHeight() - 2 * PADDING) / 3;
+
+    // Level UI
+    public static final Vector2 PROGRESS_BAR_DIMENSIONS = new Vector2().x(410).y(45);
+    public static final Vector2 PROGRESS_BAR_POSITION = new Vector2().x((GetScreenWidth() - PROGRESS_BAR_DIMENSIONS.x()) / 2).y(25);
     
     private Settings() { } // No making objects of this class
 }
