@@ -97,6 +97,7 @@ public class LevelScene implements Scene {
         }
 
         // Draw UI
+        DrawRectangleGradientV(0, 0, GetScreenWidth(), 60, BLACK, BLANK);
         progressBar.render();
     }
 

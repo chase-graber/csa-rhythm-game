@@ -20,6 +20,7 @@ public class Note extends GameObject {
 
     LevelScene parentScene;
     private NoteKey trackKey;
+
     private Rectangle hitbox;
     private Rectangle secondHitbox;
     private Rectangle thirdHitbox;
@@ -47,15 +48,15 @@ public class Note extends GameObject {
                 .width(radius * 2)
                 .height(radius * 2);
         this.secondHitbox = new Rectangle()
-                .x(this.position.x() - radius * 0.75f)
-                .y(this.position.y() - radius * 0.75f)
-                .width(radius * 1.5f)
-                .height(radius * 1.5f);
-        this.thirdHitbox = new Rectangle()
                 .x(this.position.x() - radius * 0.5f)
                 .y(this.position.y() - radius * 0.5f)
                 .width(radius)
                 .height(radius);
+        this.thirdHitbox = new Rectangle()
+                .x(this.position.x() - radius * 0.25f)
+                .y(this.position.y() - radius * 0.25f)
+                .width(radius / 2.0f)
+                .height(radius / 2.0f);
     }
 
  
@@ -64,14 +65,13 @@ public class Note extends GameObject {
         position.x(position.x() - speed * dt);
 
         hitbox.x(position.x() - radius).y(position.y() - radius);
-        secondHitbox.x(position.x() - radius * 0.75f).y(position.y() - radius * 0.75f);
-        thirdHitbox.x(position.x() - radius * 0.5f).y(position.y() - radius * 0.5f);
+        secondHitbox.x(position.x() - radius * 0.5f).y(position.y() - radius * 0.5f);
+        thirdHitbox.x(position.x() - radius * 0.25f).y(position.y() - radius * 0.25f);
 
         if (position.x() < -radius) {
             done = true;
             parentScene.numMiss++;
-        } 
-        else if (trackKey.isActive() && CheckCollisionRecs(trackKey.getHitbox(), hitbox) && furthest){
+        } else if (trackKey.isActive() && CheckCollisionRecs(trackKey.getHitbox(), hitbox) && furthest) {
             int numHitboxesHit = 1;
             if (CheckCollisionRecs(trackKey.getHitbox(), secondHitbox)) {
                 numHitboxesHit++;
@@ -85,7 +85,7 @@ public class Note extends GameObject {
             }
 
             done = true;
-            System.out.printf("Num perfect: %d, Num good: %d, Num poor: %d\n", parentScene.numPerfect, parentScene.numGood, parentScene.numPoor);
+            System.out.printf("Num perfect: %d, Num good: %d, Num poor: %d, Num miss: %d\n", parentScene.numPerfect, parentScene.numGood, parentScene.numPoor, parentScene.numMiss);
         }
     }
 
