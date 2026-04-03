@@ -7,7 +7,9 @@ import java.util.ArrayList;
 
 import object.Note;
 import object.NoteKey;
+import ui.AbstractUIComponent;
 import ui.UIProgressBar;
+import ui.UITextPopup;
 import util.Settings;
 
 public class LevelScene implements Scene {
@@ -25,14 +27,17 @@ public class LevelScene implements Scene {
     public int numPerfect, numGood, numPoor, numMiss;
 
     // UI elements
-    private UIProgressBar progressBar;
+    private ArrayList<AbstractUIComponent> uiComponents;
 
     public LevelScene(Music song, Texture background) {
         this.song = song;
         this.song.looping(false);
         this.background = background;
         this.startTime = (float)GetTime();
-        this.progressBar = new UIProgressBar(song);
+
+        this.uiComponents = new ArrayList<>();
+        addUIComponent(new UIProgressBar(song));
+
         updateKeyLayout();
     }
 
@@ -41,11 +46,23 @@ public class LevelScene implements Scene {
         this.tracks = tracks;
     }
 
+    public void addUIComponent(AbstractUIComponent auic) {
+        uiComponents.add(auic);
+    }
+
     @Override
     public void update(float dt) {
         // Update UI
-        progressBar.update();
+        for (int i = uiComponents.size() - 1; i >= 0; i--) {
+            AbstractUIComponent auic = uiComponents.get(i);
+            if (auic instanceof UITextPopup) {
+                if (((UITextPopup)auic).done) uiComponents.remove(i);
+            }
 
+            auic.update(dt);
+        }
+
+        // Update music stream
         elapsedTime += dt;
         if (elapsedTime >= 2.9f && !IsMusicStreamPlaying(song) && !hasPlayedSong) {
             PlayMusicStream(song);
@@ -98,7 +115,9 @@ public class LevelScene implements Scene {
 
         // Draw UI
         DrawRectangleGradientV(0, 0, GetScreenWidth(), 60, BLACK, BLANK);
-        progressBar.render();
+        for (AbstractUIComponent auic : uiComponents) {
+            auic.render();
+        }
     }
 
     public NoteKey getTrackKey(int track) {

@@ -11,6 +11,7 @@ import com.raylib.Raylib.Rectangle;
 import com.raylib.Raylib.Vector2;
 
 import scene.LevelScene;
+import ui.UITextPopup;
 
 public class Note extends GameObject {
 
@@ -70,6 +71,7 @@ public class Note extends GameObject {
 
         if (position.x() < -radius) {
             done = true;
+            parentScene.addUIComponent(new UITextPopup(track, 0));
             parentScene.numMiss++;
         } else if (trackKey.isActive() && CheckCollisionRecs(trackKey.getHitbox(), hitbox) && furthest) {
             int numHitboxesHit = 1;
@@ -85,7 +87,7 @@ public class Note extends GameObject {
             }
 
             done = true;
-            System.out.printf("Num perfect: %d, Num good: %d, Num poor: %d, Num miss: %d\n", parentScene.numPerfect, parentScene.numGood, parentScene.numPoor, parentScene.numMiss);
+            parentScene.addUIComponent(new UITextPopup(track, numHitboxesHit));
         }
     }
 
