@@ -56,7 +56,7 @@ public class AssetLoader {
             Scanner input = new Scanner(level);
 
             Music song = getMusic("assets/sounds/" + input.nextLine()); // First line always song path
-            Texture background = getTexture("assets/textures/" + input.nextLine()); // Second line always bg path
+            Texture background = getTexture("assets/textures/backgrounds/" + input.nextLine()); // Second line always bg path
             float songSpeed = Float.parseFloat(input.nextLine()); // Third line always song speed (default/1x is 500)
             input.nextLine(); // Cross gap between config and data
 

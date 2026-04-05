@@ -26,7 +26,7 @@ public class UIProgressBar extends AbstractUIComponent {
         this.songToProgress = songToProgress;
         this.totalSongTime = GetMusicTimeLength(songToProgress);
         this.currentSongTime = 0;
-        this.texture = AssetLoader.getTexture("assets/textures/border_with_bubble.png");
+        this.texture = AssetLoader.getTexture("assets/textures/ui/border_with_bubble.png");
     }
 
     @Override

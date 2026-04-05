@@ -15,7 +15,7 @@ public class UITextPopup extends AbstractUIComponent {
     private final float rotSpeed;
 
     public UITextPopup(int track, int score) {
-        this.texture = AssetLoader.getTexture("assets/textures/textPopup_" + score + ".png");
+        this.texture = AssetLoader.getTexture("assets/textures/ui/textPopup_" + score + ".png");
         this.position = new Vector2().x(Settings.PADDING - 110).y(Settings.PADDING + (Settings.SPACING * track) - 20.0f);
 
         this.rotSpeed = (float)Math.random() - 0.5f;

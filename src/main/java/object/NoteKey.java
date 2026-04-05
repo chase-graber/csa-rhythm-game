@@ -19,19 +19,19 @@ public class NoteKey extends AbstractGameObject {
     public NoteKey(int key) {
         if (key == Settings.currentKeyLayout.getTrackKey(0)) {
             this.position = new Vector2().x(Settings.PADDING).y(Settings.PADDING);
-            this.texture = AssetLoader.getTexture("assets/textures/up_arrow_main.png");
+            this.texture = AssetLoader.getTexture("assets/textures/keys/up_arrow_main.png");
         } else if (key == Settings.currentKeyLayout.getTrackKey(1)) {
             this.position = new Vector2().x(Settings.PADDING).y(Settings.PADDING + Settings.SPACING);
-            this.texture = AssetLoader.getTexture("assets/textures/left_arrow_main.png");
+            this.texture = AssetLoader.getTexture("assets/textures/keys/left_arrow_main.png");
         } else if (key == Settings.currentKeyLayout.getTrackKey(2)) {
             this.position = new Vector2().x(Settings.PADDING).y(Settings.PADDING + 2 * Settings.SPACING);
-            this.texture = AssetLoader.getTexture("assets/textures/down_arrow_main.png");
+            this.texture = AssetLoader.getTexture("assets/textures/keys/down_arrow_main.png");
         } else if (key == Settings.currentKeyLayout.getTrackKey(3)) {
             this.position = new Vector2().x(Settings.PADDING).y(Settings.PADDING + 3 * Settings.SPACING);
-            this.texture = AssetLoader.getTexture("assets/textures/right_arrow_main.png");
+            this.texture = AssetLoader.getTexture("assets/textures/keys/right_arrow_main.png");
         } else {
             this.position = new Vector2().x(0).y(0);
-            this.texture = AssetLoader.getTexture("assets/textures/up_arrow_main.png");
+            this.texture = AssetLoader.getTexture("assets/textures/keys/up_arrow_main.png");
         }
 
         this.hitbox = new Rectangle()

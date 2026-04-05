@@ -31,11 +31,11 @@ public class Note extends AbstractGameObject {
 
     public Note(int track, float hitTime, LevelScene parentScene, float speed) {
         switch(track) {
-            case 0 -> this.texture = AssetLoader.getTexture("assets/textures/up_arrow.png");
-            case 1 -> this.texture = AssetLoader.getTexture("assets/textures/left_arrow.png");
-            case 2 -> this.texture = AssetLoader.getTexture("assets/textures/down_arrow.png");
-            case 3 -> this.texture = AssetLoader.getTexture("assets/textures/right_arrow.png");
-            default -> this.texture = AssetLoader.getTexture("assets/textures/up_arrow.png");
+            case 0 -> this.texture = AssetLoader.getTexture("assets/textures/keys/up_arrow.png");
+            case 1 -> this.texture = AssetLoader.getTexture("assets/textures/keys/left_arrow.png");
+            case 2 -> this.texture = AssetLoader.getTexture("assets/textures/keys/down_arrow.png");
+            case 3 -> this.texture = AssetLoader.getTexture("assets/textures/keys/right_arrow.png");
+            default -> this.texture = AssetLoader.getTexture("assets/textures/keys/up_arrow.png");
         }
 
         this.track = track;
