@@ -3,6 +3,10 @@ import static com.raylib.Raylib.*;
 
 public class Settings {
 
+    // Screen settings
+    public static final int SCREEN_WIDTH = 1080;
+    public static final int SCREEN_HEIGHT = 720;
+
     // Utility
     public static boolean DEBUG = false;
 
@@ -22,15 +26,21 @@ public class Settings {
             return keys[track];
         }
     }
-    public static KeyLayouts currentKeyLayout = KeyLayouts.ARROW;
+    public static KeyLayouts currentKeyLayout = KeyLayouts.DFJK;
 
     // Key spacing
     public static final int PADDING = 150;
-    public static final float SPACING = (float)(GetScreenHeight() - 2 * PADDING) / 3;
+    public static final float SPACING = (float)(Settings.SCREEN_HEIGHT - 2 * PADDING) / 3;
 
     // Level UI
     public static final Vector2 PROGRESS_BAR_DIMENSIONS = new Vector2().x(410).y(45);
-    public static final Vector2 PROGRESS_BAR_POSITION = new Vector2().x((GetScreenWidth() - PROGRESS_BAR_DIMENSIONS.x()) / 2).y(25);
+    public static final Vector2 PROGRESS_BAR_POSITION = new Vector2().x((Settings.SCREEN_WIDTH - PROGRESS_BAR_DIMENSIONS.x()) / 2).y(25);
+
+    // Transition UI
+    public static final Vector2 UI_TRANSITION_BOX_DIMENSIONS = new Vector2().x(128).y(128);
+    public static final Vector2 UI_TRANSITION_DIMENSIONS_IN_BOXES = new Vector2()
+            .x((Settings.SCREEN_WIDTH / UI_TRANSITION_BOX_DIMENSIONS.x()) + 1)
+            .y((Settings.SCREEN_HEIGHT / UI_TRANSITION_BOX_DIMENSIONS.y()) + 1);
     
     private Settings() { } // No making objects of this class
 }

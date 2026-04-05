@@ -9,13 +9,10 @@ import object.Note;
 import object.NoteKey;
 import ui.AbstractUIComponent;
 import ui.UIProgressBar;
-import ui.UITextPopup;
 import util.Settings;
 
-public class LevelScene implements Scene {
+public class LevelScene extends AbstractScene {
 
-    private Music song;
-    private Texture background;
     private float startTime; // Might need this might not
     private float elapsedTime = 0.0f;
     private boolean hasPlayedSong = false;
@@ -30,13 +27,14 @@ public class LevelScene implements Scene {
     private ArrayList<AbstractUIComponent> uiComponents;
 
     public LevelScene(Music song, Texture background) {
-        this.song = song;
-        this.song.looping(false);
+        this.music = song;
+        this.music.looping(false);
         this.background = background;
         this.startTime = (float)GetTime();
 
         this.uiComponents = new ArrayList<>();
-        addUIComponent(new UIProgressBar(song));
+        addUIComponent(new UIProgressBar(song)); // UIProgressBar always at index 0
+//        addUIComponent(new UITransition(BLACK)); not dealing with this rn
 
         updateKeyLayout();
     }
@@ -55,19 +53,20 @@ public class LevelScene implements Scene {
         // Update UI
         for (int i = uiComponents.size() - 1; i >= 0; i--) {
             AbstractUIComponent auic = uiComponents.get(i);
-            if (auic instanceof UITextPopup) {
-                if (((UITextPopup)auic).done) uiComponents.remove(i);
-            }
+            if (auic.done) uiComponents.remove(i);
 
             auic.update(dt);
         }
 
         // Update music stream
         elapsedTime += dt;
-        if (elapsedTime >= 2.9f && !IsMusicStreamPlaying(song) && !hasPlayedSong) {
-            PlayMusicStream(song);
+        if (elapsedTime >= 2.9f && !IsMusicStreamPlaying(music) && !hasPlayedSong) {
+            PlayMusicStream(music);
             hasPlayedSong = true;
-        } else UpdateMusicStream(song);
+        // Again, not dealing with this rn
+//        } else if (((UIProgressBar)uiComponents.get(0)).getCurrentSongTime() == 0 && hasPlayedSong) {
+//            uiComponents.add(new UITransition(BLACK));
+        } else UpdateMusicStream(music);
 
         // Update keys (detect presses)
         for (NoteKey nk : keys) {
@@ -103,10 +102,11 @@ public class LevelScene implements Scene {
         // Draw background
         DrawTextureV(background, Vector2Zero(), WHITE);
 
+        // Draw game objects
         for (int track = 0; track < tracks.length; track++) {
-            DrawRectangle(0, (int)keys[track].getPosition().y() - keys[track].getRadius() + 10, GetScreenWidth(), 2 * keys[track].getRadius() - 20, Fade(BLACK, 0.25f));
+            DrawRectangle(0, (int)keys[track].getPosition().y() - keys[track].getRadius() + 10, Settings.SCREEN_WIDTH, 2 * keys[track].getRadius() - 20, Fade(BLACK, 0.25f));
             for (Note n : tracks[track]) {
-                n.render();
+                if (n.getPosition().x() - n.getRadius() < Settings.SCREEN_WIDTH) n.render();
             }
         }
         for (NoteKey nk : keys) {
@@ -114,7 +114,7 @@ public class LevelScene implements Scene {
         }
 
         // Draw UI
-        DrawRectangleGradientV(0, 0, GetScreenWidth(), 60, BLACK, BLANK);
+        DrawRectangleGradientV(0, 0, Settings.SCREEN_WIDTH, 60, Fade(BLACK, 0.5f), BLANK);
         for (AbstractUIComponent auic : uiComponents) {
             auic.render();
         }

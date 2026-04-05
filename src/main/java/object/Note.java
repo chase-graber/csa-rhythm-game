@@ -13,7 +13,7 @@ import com.raylib.Raylib.Vector2;
 import scene.LevelScene;
 import ui.UITextPopup;
 
-public class Note extends GameObject {
+public class Note extends AbstractGameObject {
 
     private int track;
     private final int radius = 40;

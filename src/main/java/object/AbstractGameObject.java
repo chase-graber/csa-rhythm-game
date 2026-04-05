@@ -2,7 +2,7 @@ package object;
 
 import static com.raylib.Raylib.*;
 
-public abstract class GameObject {
+public abstract class AbstractGameObject {
 
     protected Vector2 position;
     protected Texture texture;

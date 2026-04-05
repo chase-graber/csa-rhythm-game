@@ -21,8 +21,6 @@ public class AssetLoader {
     public static Map<String, Texture> textures = new HashMap<>();
     public static Map<String, Sound> sounds = new HashMap<>();
     public static Map<String, Music> music = new HashMap<>();
-
-    private AssetLoader() { } // No making objects of this class
     
     public static Texture getTexture(String filepath) {
         if (!textures.containsKey(filepath)) {
@@ -54,7 +52,7 @@ public class AssetLoader {
         };
 
         try {
-            File level = new File(filepath);
+            File level = new File("assets/levels/" + filepath);
             Scanner input = new Scanner(level);
 
             Music song = getMusic("assets/sounds/" + input.nextLine()); // First line always song path
@@ -66,6 +64,7 @@ public class AssetLoader {
 
             while (input.hasNext()) {
                 String[] data = input.nextLine().split(" ");
+                if (data[0].isEmpty()) continue;
                 String trackID;
                 float noteTime;
 
@@ -113,4 +112,6 @@ public class AssetLoader {
 
         return null;
     }
+
+    private AssetLoader() { } // No making objects of this class
 }

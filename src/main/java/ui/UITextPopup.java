@@ -14,8 +14,6 @@ public class UITextPopup extends AbstractUIComponent {
     private float rotation = 0.0f;
     private final float rotSpeed;
 
-    public boolean done = false;
-
     public UITextPopup(int track, int score) {
         this.texture = AssetLoader.getTexture("assets/textures/textPopup_" + score + ".png");
         this.position = new Vector2().x(Settings.PADDING - 110).y(Settings.PADDING + (Settings.SPACING * track) - 20.0f);

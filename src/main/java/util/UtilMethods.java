@@ -23,7 +23,7 @@ public class UtilMethods {
     }
 
     public static Vector2 getTextureMiddle(Texture tex) {
-        return new Vector2().x(tex.width() / 2).y(tex.height() / 2);
+        return new Vector2().x(tex.width() / 2.0f).y(tex.height() / 2.0f);
     }
     
     private UtilMethods() { } // No making objects of this class

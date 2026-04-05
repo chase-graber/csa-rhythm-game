@@ -14,6 +14,7 @@ public class UIProgressBar extends AbstractUIComponent {
     private final Rectangle bounds;
     private final float totalSongTime;
     private float currentSongTime;
+    private boolean hasStarted = false;
 
     public UIProgressBar(Music songToProgress) {
         this.bounds = new Rectangle()
@@ -31,12 +32,16 @@ public class UIProgressBar extends AbstractUIComponent {
     @Override
     public void update(float dt) {
         currentSongTime = GetMusicTimePlayed(songToProgress);
+        if (!hasStarted && currentSongTime > 0) hasStarted = true;
     }
 
     @Override
     public void render() {
         float percentDone = currentSongTime / totalSongTime;
-        DrawRectangleV(Settings.PROGRESS_BAR_POSITION, new Vector2().x(percentDone * Settings.PROGRESS_BAR_DIMENSIONS.x()).y(Settings.PROGRESS_BAR_DIMENSIONS.y()), GOLD);
+        DrawRectangleV(Settings.PROGRESS_BAR_POSITION,
+                new Vector2().x((hasStarted && currentSongTime == 0 ? 1.0f : percentDone) * Settings.PROGRESS_BAR_DIMENSIONS.x())
+                        .y(Settings.PROGRESS_BAR_DIMENSIONS.y()),
+                GOLD);
 
         DrawTexturePro(texture, UtilMethods.getTextureRect(texture), bounds, Vector2Zero(), 0, WHITE);
     }

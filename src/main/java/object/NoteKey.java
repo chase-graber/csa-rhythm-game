@@ -6,7 +6,7 @@ import util.Settings;
 import static com.raylib.Colors.*;
 import static com.raylib.Raylib.*;
 
-public class NoteKey extends GameObject {
+public class NoteKey extends AbstractGameObject {
 
     private int key;
     private boolean active;
@@ -56,7 +56,7 @@ public class NoteKey extends GameObject {
 
     @Override
     public void render() {
-        if (position.x() < GetScreenWidth())
+        if (position.x() < Settings.SCREEN_WIDTH)
             DrawTexturePro(texture,
                 new Rectangle().x(0).y(0).width(texture.width()).height(texture.height()),
                 new Rectangle().x(position.x() - size).y(position.y() - size).width(2 * size).height(2 * size),
