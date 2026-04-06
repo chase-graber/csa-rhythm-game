@@ -1,8 +1,9 @@
-package ui;
+package ui.level;
 
 import static com.raylib.Colors.WHITE;
 import static com.raylib.Raylib.*;
 
+import ui.AbstractUIComponent;
 import util.AssetLoader;
 import core.Settings;
 

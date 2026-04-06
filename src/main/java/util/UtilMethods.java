@@ -16,12 +16,6 @@ public class UtilMethods {
             .width(tex.width()).height(tex.height());
     }
 
-    public static Rectangle getTextureRect(Texture tex, Vector2 offset, float scale) {
-        return new Rectangle()
-            .x(offset.x() * scale).y(offset.y() * scale)
-            .width(tex.width() * scale).height(tex.height() * scale);
-    }
-
     public static Vector2 getTextureMiddle(Texture tex) {
         return new Vector2().x(tex.width() / 2.0f).y(tex.height() / 2.0f);
     }

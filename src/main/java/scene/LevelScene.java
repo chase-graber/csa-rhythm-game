@@ -9,7 +9,7 @@ import core.Game;
 import object.Note;
 import object.NoteKey;
 import ui.AbstractUIComponent;
-import ui.UIProgressBar;
+import ui.level.UIProgressBar;
 import core.Settings;
 
 public class LevelScene extends AbstractScene {
@@ -26,18 +26,13 @@ public class LevelScene extends AbstractScene {
     public int[] numScoreTypes = { 0, 0, 0, 0 };
     private int totalNotes;
 
-    // UI elements
-    private ArrayList<AbstractUIComponent> uiComponents;
-
     public LevelScene(Music song, Texture background) {
         this.music = song;
         this.music.looping(false);
         this.background = background;
         this.startTime = (float)GetTime();
 
-        this.uiComponents = new ArrayList<>();
         addUIComponent(new UIProgressBar(song)); // UIProgressBar always at index 0
-//        addUIComponent(new UITransition(BLACK)); not dealing with this rn
 
         updateKeyLayout();
     }
@@ -48,10 +43,6 @@ public class LevelScene extends AbstractScene {
         for (ArrayList<Note> track : tracks) {
             this.totalNotes += track.size();
         }
-    }
-
-    public void addUIComponent(AbstractUIComponent auic) {
-        uiComponents.add(auic);
     }
 
     @Override
@@ -70,9 +61,6 @@ public class LevelScene extends AbstractScene {
             PlayMusicStream(music);
             hasPlayedSong = true;
         } else if (((UIProgressBar)uiComponents.get(0)).getCurrentSongTime() == 0 && hasPlayedSong && !transitioning) {
-            // Again, not dealing with this rn
-            // uiComponents.add(new UITransition(BLACK));
-
             transitioning = true;
             Game.getInstance().transitionToNextScene(new CompletionScene(numScoreTypes, totalNotes));
         } else UpdateMusicStream(music);

@@ -11,7 +11,7 @@ import com.raylib.Raylib.Rectangle;
 import com.raylib.Raylib.Vector2;
 
 import scene.LevelScene;
-import ui.UITextPopup;
+import ui.level.UITextPopup;
 
 public class Note extends AbstractGameObject {
 
