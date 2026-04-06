@@ -5,23 +5,26 @@ import static com.raylib.Colors.*;
 
 import java.util.ArrayList;
 
+import core.Game;
 import object.Note;
 import object.NoteKey;
 import ui.AbstractUIComponent;
 import ui.UIProgressBar;
-import util.Settings;
+import core.Settings;
 
 public class LevelScene extends AbstractScene {
 
     private float startTime; // Might need this might not
     private float elapsedTime = 0.0f;
     private boolean hasPlayedSong = false;
+    private boolean transitioning = false;
 
     private NoteKey[] keys;
     private ArrayList<Note>[] tracks;
 
     // Scoring types
-    public int numPerfect, numGood, numPoor, numMiss;
+    public int[] numScoreTypes = { 0, 0, 0, 0 };
+    private int totalNotes;
 
     // UI elements
     private ArrayList<AbstractUIComponent> uiComponents;
@@ -42,6 +45,9 @@ public class LevelScene extends AbstractScene {
     // Addon to constructor, called in AssetLoader since notes need a parent scene (which can't exist if this is part of the constructor)
     public void setLevelTracks(ArrayList<Note>[] tracks) {
         this.tracks = tracks;
+        for (ArrayList<Note> track : tracks) {
+            this.totalNotes += track.size();
+        }
     }
 
     public void addUIComponent(AbstractUIComponent auic) {
@@ -63,9 +69,12 @@ public class LevelScene extends AbstractScene {
         if (elapsedTime >= 2.9f && !IsMusicStreamPlaying(music) && !hasPlayedSong) {
             PlayMusicStream(music);
             hasPlayedSong = true;
-        // Again, not dealing with this rn
-//        } else if (((UIProgressBar)uiComponents.get(0)).getCurrentSongTime() == 0 && hasPlayedSong) {
-//            uiComponents.add(new UITransition(BLACK));
+        } else if (((UIProgressBar)uiComponents.get(0)).getCurrentSongTime() == 0 && hasPlayedSong && !transitioning) {
+            // Again, not dealing with this rn
+            // uiComponents.add(new UITransition(BLACK));
+
+            transitioning = true;
+            Game.getInstance().transitionToNextScene(new CompletionScene(numScoreTypes, totalNotes));
         } else UpdateMusicStream(music);
 
         // Update keys (detect presses)

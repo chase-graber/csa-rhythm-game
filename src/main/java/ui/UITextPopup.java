@@ -4,7 +4,7 @@ import static com.raylib.Colors.WHITE;
 import static com.raylib.Raylib.*;
 
 import util.AssetLoader;
-import util.Settings;
+import core.Settings;
 
 public class UITextPopup extends AbstractUIComponent {
 

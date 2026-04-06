@@ -1,7 +1,7 @@
 package object;
 
 import util.AssetLoader;
-import util.Settings;
+import core.Settings;
 
 import static com.raylib.Colors.RED; 
 import static com.raylib.Colors.WHITE;
@@ -72,7 +72,7 @@ public class Note extends AbstractGameObject {
         if (position.x() < -radius) {
             done = true;
             parentScene.addUIComponent(new UITextPopup(track, 0));
-            parentScene.numMiss++;
+            parentScene.numScoreTypes[0]++;
         } else if (trackKey.isActive() && CheckCollisionRecs(trackKey.getHitbox(), hitbox) && furthest) {
             int numHitboxesHit = 1;
             if (CheckCollisionRecs(trackKey.getHitbox(), secondHitbox)) {
@@ -80,11 +80,7 @@ public class Note extends AbstractGameObject {
                 if (CheckCollisionRecs(trackKey.getHitbox(), thirdHitbox)) numHitboxesHit++;
             }
 
-            switch(numHitboxesHit) {
-                case 1 -> parentScene.numPoor++;
-                case 2 -> parentScene.numGood++;
-                case 3 -> parentScene.numPerfect++;
-            }
+            parentScene.numScoreTypes[numHitboxesHit]++;
 
             done = true;
             parentScene.addUIComponent(new UITextPopup(track, numHitboxesHit));

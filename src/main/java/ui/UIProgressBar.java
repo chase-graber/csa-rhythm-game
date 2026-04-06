@@ -4,7 +4,7 @@ import static com.raylib.Raylib.*;
 import static com.raylib.Colors.*;
 
 import util.AssetLoader;
-import util.Settings;
+import core.Settings;
 import util.UtilMethods;
 
 public class UIProgressBar extends AbstractUIComponent {
@@ -44,5 +44,9 @@ public class UIProgressBar extends AbstractUIComponent {
                 GOLD);
 
         DrawTexturePro(texture, UtilMethods.getTextureRect(texture), bounds, Vector2Zero(), 0, WHITE);
+    }
+
+    public float getCurrentSongTime() {
+        return currentSongTime;
     }
 }

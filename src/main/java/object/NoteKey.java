@@ -1,7 +1,7 @@
 package object;
 
 import util.AssetLoader;
-import util.Settings;
+import core.Settings;
 
 import static com.raylib.Colors.*;
 import static com.raylib.Raylib.*;
