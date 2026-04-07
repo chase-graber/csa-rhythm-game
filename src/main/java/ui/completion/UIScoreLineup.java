@@ -1,6 +1,7 @@
 package ui.completion;
 
 import static com.raylib.Colors.WHITE;
+import static com.raylib.Colors.BLACK;
 import static com.raylib.Raylib.*;
 
 import core.Settings;
@@ -8,9 +9,12 @@ import ui.AbstractUIComponent;
 import util.AssetLoader;
 import util.UtilMethods;
 
+import java.util.Arrays;
+
 public class UIScoreLineup extends AbstractUIComponent {
 
-    private final int[] totals;
+    private final int[] numHits;
+    private final int totalNotes;
     private final float[] percentages;
 
     // Middle textures
@@ -19,8 +23,11 @@ public class UIScoreLineup extends AbstractUIComponent {
     private float[] texRotations;
     private final float[] texRotationOffsets;
 
-    public UIScoreLineup(int[] totals, float[] percentages) {
-        this.totals = totals;
+    // Scores on right, percents on left (get textures later)
+
+    public UIScoreLineup(int[] numHits, float[] percentages) {
+        this.numHits = numHits;
+        this.totalNotes = Arrays.stream(numHits).sum();
         this.percentages = percentages;
         this.textures = new Texture[]{
                 AssetLoader.getTexture("assets/textures/ui/textPopup_0.png"),
@@ -46,7 +53,7 @@ public class UIScoreLineup extends AbstractUIComponent {
     @Override
     public void update(float dt) {
         for (int i = 0; i < texRotations.length; i++) {
-            texRotations[i] = (float)Math.sin(GetTime() + texRotationOffsets[i]) * 10;
+            texRotations[i] = (float)Math.sin(GetTime() + texRotationOffsets[i]) * 5;
         }
     }
 
@@ -60,6 +67,22 @@ public class UIScoreLineup extends AbstractUIComponent {
                     texRotations[i],
                     WHITE
             );
+        }
+
+        for (int i = 0; i < numHits.length; i++) {
+            String totalsText = numHits[i] + "/" + totalNotes;
+            Vector2 totalsSize = MeasureTextEx(GetFontDefault(), totalsText, 20, 0);
+            String percentageText = Math.round(percentages[i] * 100) + "%";
+            Vector2 percentageSize = MeasureTextEx(GetFontDefault(), percentageText, 20, 0);
+
+            DrawText(totalsText,
+                    (int)((texRects[i].x() - 2.5 * Settings.SPACING) - (totalsSize.x() / 2)),
+                    (int)(texRects[i].y() - (totalsSize.y() / 2)),
+                    50, BLACK);
+            DrawText(percentageText,
+                    (int)((texRects[i].x() + 2 * Settings.SPACING) - (percentageSize.x() / 2)),
+                    (int)(texRects[i].y() - (percentageSize.y() / 2)),
+                    50, BLACK);
         }
     }
 }

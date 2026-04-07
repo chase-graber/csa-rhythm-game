@@ -26,6 +26,7 @@ public class AssetLoader {
         if (!textures.containsKey(filepath)) {
             Image temp = LoadImage(filepath);
             textures.put(filepath, LoadTextureFromImage(temp));
+            SetTextureFilter(textures.get(filepath), TEXTURE_FILTER_BILINEAR);
             UnloadImage(temp);
         }
         return textures.get(filepath);
