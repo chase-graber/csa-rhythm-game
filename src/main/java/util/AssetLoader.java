@@ -44,6 +44,12 @@ public class AssetLoader {
         return music.get(filepath);
     }
 
+    public static void cleanup() {
+        for (Texture t : textures.values()) UnloadTexture(t);
+        for (Sound s : sounds.values()) UnloadSound(s);
+        for (Music m : music.values()) UnloadMusicStream(m);
+    }
+
     public static LevelScene loadLevelScene(String filepath) {
         ArrayList<Note>[] tracks = new ArrayList[]{
             new ArrayList<>(),

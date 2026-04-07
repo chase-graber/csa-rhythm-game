@@ -3,6 +3,7 @@ package scene;
 import static com.raylib.Colors.WHITE;
 import static com.raylib.Raylib.*;
 
+import core.Game;
 import ui.AbstractUIComponent;
 import ui.completion.UICommenceForthText;
 import ui.completion.UIScoreLineup;
@@ -31,6 +32,8 @@ public class CompletionScene extends AbstractScene {
         for (AbstractUIComponent auic : uiComponents) {
             auic.update(dt);
         }
+
+        if (IsKeyPressed(KEY_SPACE)) Game.getInstance().transitionToNextScene(AssetLoader.loadLevelScene("spooktune.txt"));
     }
 
     @Override

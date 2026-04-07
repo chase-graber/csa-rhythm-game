@@ -76,6 +76,7 @@ public final class Game {
     }
 
     private void cleanup() {
+        AssetLoader.cleanup();
         CloseAudioDevice();
         CloseWindow();
     }

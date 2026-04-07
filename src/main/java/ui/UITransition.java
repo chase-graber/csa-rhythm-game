@@ -9,15 +9,19 @@ public class UITransition extends AbstractUIComponent {
 
     private final boolean fadingIn;
     private float alpha;
+    private float volume;
 
     public UITransition(boolean fadingIn) {
         this.fadingIn = fadingIn;
         this.alpha = this.fadingIn ? 0.0f : 1.0f;
+        this.volume = this.fadingIn ? 1.0f : 0.0f;
     }
 
     @Override
     public void update(float dt) {
         alpha += fadingIn ? dt : -dt;
+        volume -= fadingIn ? dt : -dt;
+        SetMasterVolume(volume);
         if (alpha < 0.0f || alpha > 1.0f) done = true;
     }
 
