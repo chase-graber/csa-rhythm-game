@@ -4,27 +4,24 @@ import static com.raylib.Colors.WHITE;
 import static com.raylib.Raylib.*;
 
 import ui.AbstractUIComponent;
+import ui.completion.UICommenceForthText;
 import ui.completion.UIScoreLineup;
 import util.AssetLoader;
 
 public class CompletionScene extends AbstractScene {
-
-    private final int[] numHits;
-    private final float[] percents;
 
     public CompletionScene(int[] numHits, int totalNotes) {
         this.music = AssetLoader.getMusic("assets/sounds/completion.mp3");
         this.background = AssetLoader.getTexture("assets/textures/backgrounds/demo_bg.png");
         PlayMusicStream(this.music);
 
-        this.numHits = numHits;
-        this.percents = new float[]
-                { (float)numHits[0] / totalNotes,
+        float[] percents = { (float)numHits[0] / totalNotes,
                   (float)numHits[1] / totalNotes,
                   (float)numHits[2] / totalNotes,
                   (float)numHits[3] / totalNotes };
 
-        addUIComponent(new UIScoreLineup(this.numHits, this.percents));
+        addUIComponent(new UIScoreLineup(numHits, totalNotes, percents));
+        addUIComponent(new UICommenceForthText(0.5f, 30));
     }
 
     @Override

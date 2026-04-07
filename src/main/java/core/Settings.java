@@ -1,7 +1,7 @@
 package core;
 import static com.raylib.Raylib.*;
 
-public class Settings {
+public final class Settings {
 
     // Screen settings
     public static final int SCREEN_WIDTH = 1080;
@@ -35,6 +35,9 @@ public class Settings {
     // Level UI
     public static final Vector2 PROGRESS_BAR_DIMENSIONS = new Vector2().x(410).y(45);
     public static final Vector2 PROGRESS_BAR_POSITION = new Vector2().x((Settings.SCREEN_WIDTH - PROGRESS_BAR_DIMENSIONS.x()) / 2).y(25);
+
+    // Completion UI
+    public static final int COMPLETION_PADDING = 100;
 
     // Transition UI
     // Old version, might work on later

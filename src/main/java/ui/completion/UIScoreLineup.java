@@ -9,8 +9,6 @@ import ui.AbstractUIComponent;
 import util.AssetLoader;
 import util.UtilMethods;
 
-import java.util.Arrays;
-
 public class UIScoreLineup extends AbstractUIComponent {
 
     private final int[] numHits;
@@ -23,11 +21,9 @@ public class UIScoreLineup extends AbstractUIComponent {
     private float[] texRotations;
     private final float[] texRotationOffsets;
 
-    // Scores on right, percents on left (get textures later)
-
-    public UIScoreLineup(int[] numHits, float[] percentages) {
+    public UIScoreLineup(int[] numHits, int totalNotes, float[] percentages) {
         this.numHits = numHits;
-        this.totalNotes = Arrays.stream(numHits).sum();
+        this.totalNotes = totalNotes;
         this.percentages = percentages;
         this.textures = new Texture[]{
                 AssetLoader.getTexture("assets/textures/ui/textPopup_0.png"),
@@ -36,10 +32,10 @@ public class UIScoreLineup extends AbstractUIComponent {
                 AssetLoader.getTexture("assets/textures/ui/textPopup_3.png")
         };
         this.texRects = new Rectangle[]{
-                UtilMethods.getTextureRect(textures[0], new Vector2().x((float)Settings.SCREEN_WIDTH / 2).y(Settings.PADDING)),
-                UtilMethods.getTextureRect(textures[1], new Vector2().x((float)Settings.SCREEN_WIDTH / 2).y(Settings.PADDING + Settings.SPACING)),
-                UtilMethods.getTextureRect(textures[2], new Vector2().x((float)Settings.SCREEN_WIDTH / 2).y(Settings.PADDING + Settings.SPACING * 2)),
-                UtilMethods.getTextureRect(textures[3], new Vector2().x((float)Settings.SCREEN_WIDTH / 2).y(Settings.PADDING + Settings.SPACING * 3)),
+                UtilMethods.getTextureRect(textures[0], new Vector2().x((float)Settings.SCREEN_WIDTH / 2).y(Settings.COMPLETION_PADDING)),
+                UtilMethods.getTextureRect(textures[1], new Vector2().x((float)Settings.SCREEN_WIDTH / 2).y(Settings.COMPLETION_PADDING + Settings.SPACING)),
+                UtilMethods.getTextureRect(textures[2], new Vector2().x((float)Settings.SCREEN_WIDTH / 2).y(Settings.COMPLETION_PADDING + Settings.SPACING * 2)),
+                UtilMethods.getTextureRect(textures[3], new Vector2().x((float)Settings.SCREEN_WIDTH / 2).y(Settings.COMPLETION_PADDING + Settings.SPACING * 3)),
         };
         this.texRotations = new float[]{ 0, 0, 0, 0 };
         this.texRotationOffsets = new float[]{

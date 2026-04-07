@@ -70,7 +70,7 @@ public final class Game {
             currentScene.render();
             if (transition != null) transition.render();
 
-            DrawFPS(10, 10);
+            if (Settings.DEBUG) DrawFPS(10, 10);
             EndDrawing();
         }
     }
