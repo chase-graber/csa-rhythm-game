@@ -21,10 +21,18 @@ public class UIMenuButton<T> extends AbstractUIComponent {
     private final String text;
 
     public UIMenuButton(float height, String text, Consumer<T> method, T input) {
-        this.position = new Vector2().x(Settings.MENU_BUTTON_X).y(height);
+        this(new Vector2().x(Settings.MENU_BUTTON_X).y(height), text, method, input);
+    }
+
+    public UIMenuButton(Vector2 position, String text, Consumer<T> method, T input) {
+        this(position, new Vector2().x(Settings.MENU_BUTTON_DIMENSIONS.x()).y(Settings.MENU_BUTTON_DIMENSIONS.y()), text, method, input);
+    }
+
+    public UIMenuButton(Vector2 position, Vector2 dimensions, String text, Consumer<T> method, T input) {
+        this.position = new Vector2().x(position.x()).y(position.y());
         this.boundingBox = new Rectangle()
                 .x(this.position.x()).y(this.position.y())
-                .width(Settings.MENU_BUTTON_DIMENSIONS.x()).height(Settings.MENU_BUTTON_DIMENSIONS.y());
+                .width(dimensions.x()).height(dimensions.y());
 
         this.text = text;
         this.input = input;
