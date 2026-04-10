@@ -19,6 +19,15 @@ public class UtilMethods {
     public static Vector2 getTextureMiddle(Texture tex) {
         return new Vector2().x(tex.width() / 2.0f).y(tex.height() / 2.0f);
     }
+
+    public static Rectangle scaleRectangleAroundCenter(Rectangle rec, float scale) {
+        float newWidth = rec.width() * scale;
+        float newHeight = rec.height() * scale;
+        float newX = rec.x() - newWidth / 2;
+        float newY = rec.y() - newHeight / 2;
+
+        return new Rectangle().x(newX).y(newY).width(newWidth).height(newHeight);
+    }
     
     private UtilMethods() { } // No making objects of this class
 }

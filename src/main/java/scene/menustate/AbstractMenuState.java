@@ -1,16 +1,11 @@
-package scene;
+package scene.menustate;
 
 import core.TickableGameEntity;
 import ui.AbstractUIComponent;
 
 import java.util.ArrayList;
 
-import static com.raylib.Raylib.*;
-
-public abstract class AbstractScene implements TickableGameEntity {
-
-    protected Music music;
-    protected Texture background;
+public abstract class AbstractMenuState implements TickableGameEntity {
 
     protected ArrayList<AbstractUIComponent> uiComponents = new ArrayList<>();
 

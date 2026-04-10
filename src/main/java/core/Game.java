@@ -4,6 +4,7 @@ import static com.raylib.Colors.BLACK;
 import static com.raylib.Raylib.*;
 
 import scene.AbstractScene;
+import scene.MenuScene;
 import ui.UITransition;
 import util.AssetLoader;
 
@@ -12,9 +13,13 @@ public final class Game {
     // Singleton
     private static Game game;
 
+    public static MenuScene mainMenu;
+
     private AbstractScene currentScene;
     private AbstractScene nextScene;
     private UITransition transition;
+
+    private static boolean shouldClose = false;
 
     private Game() {
         init();
@@ -28,13 +33,15 @@ public final class Game {
     }
 
     private void init() {
-        SetTraceLogLevel(LOG_WARNING | LOG_ERROR | LOG_FATAL);
+        SetTraceLogLevel(LOG_WARNING);
 
         InitWindow(Settings.SCREEN_WIDTH, Settings.SCREEN_HEIGHT, "Beats Baby");
         InitAudioDevice();
         SetTargetFPS(60);
 
-        this.currentScene = AssetLoader.loadLevelScene("spooktune.txt");
+        mainMenu = new MenuScene();
+
+        this.currentScene = mainMenu; //AssetLoader.loadLevelScene("spooktune.txt");
         this.nextScene = null;
         this.transition = null;
     }
@@ -45,7 +52,7 @@ public final class Game {
     }
 
     private void loop() {
-        while (!WindowShouldClose()) {
+        while (!WindowShouldClose() && !shouldClose) {
             // Debug toggle
             if (IsKeyPressed(KEY_F2)) Settings.DEBUG = !Settings.DEBUG;
 
@@ -85,4 +92,6 @@ public final class Game {
         nextScene = scene;
         transition = new UITransition(true);
     }
+
+    public static void setShouldClose(boolean shouldClose) { Game.shouldClose = shouldClose; }
 }

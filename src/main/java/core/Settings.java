@@ -30,21 +30,26 @@ public final class Settings {
 
     // Key spacing
     public static final int PADDING = 150;
-    public static final float SPACING = (float)(Settings.SCREEN_HEIGHT - 2 * PADDING) / 3;
+    public static final float SPACING = (float)(SCREEN_HEIGHT - 2 * PADDING) / 3;
 
     // Level UI
     public static final Vector2 PROGRESS_BAR_DIMENSIONS = new Vector2().x(410).y(45);
-    public static final Vector2 PROGRESS_BAR_POSITION = new Vector2().x((Settings.SCREEN_WIDTH - PROGRESS_BAR_DIMENSIONS.x()) / 2).y(25);
+    public static final Vector2 PROGRESS_BAR_POSITION = new Vector2().x((SCREEN_WIDTH - PROGRESS_BAR_DIMENSIONS.x()) / 2).y(25);
 
     // Completion UI
     public static final int COMPLETION_PADDING = 100;
+
+    // Menu UI
+    // MenuState
+    public static final Vector2 MENU_BUTTON_DIMENSIONS = new Vector2().x(250).y(100);
+    public static final float MENU_BUTTON_X = (SCREEN_WIDTH - MENU_BUTTON_DIMENSIONS.x()) / 2;
 
     // Transition UI
     // Old version, might work on later
 //    public static final Vector2 UI_TRANSITION_BOX_DIMENSIONS = new Vector2().x(128).y(128);
 //    public static final Vector2 UI_TRANSITION_DIMENSIONS_IN_BOXES = new Vector2()
-//            .x((Settings.SCREEN_WIDTH / UI_TRANSITION_BOX_DIMENSIONS.x()) + 1)
-//            .y((Settings.SCREEN_HEIGHT / UI_TRANSITION_BOX_DIMENSIONS.y()) + 1);
+//            .x((SCREEN_WIDTH / UI_TRANSITION_BOX_DIMENSIONS.x()) + 1)
+//            .y((SCREEN_HEIGHT / UI_TRANSITION_BOX_DIMENSIONS.y()) + 1);
     
     private Settings() { } // No making objects of this class
 }
