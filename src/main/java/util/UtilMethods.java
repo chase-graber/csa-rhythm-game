@@ -20,13 +20,17 @@ public class UtilMethods {
         return new Vector2().x(tex.width() / 2.0f).y(tex.height() / 2.0f);
     }
 
-    public static Rectangle scaleRectangleAroundCenter(Rectangle rec, float scale) {
-        float newWidth = rec.width() * scale;
-        float newHeight = rec.height() * scale;
-        float newX = rec.x() - newWidth / 2;
-        float newY = rec.y() - newHeight / 2;
+    public static Vector2 getRectangleMiddle(Rectangle rec) {
+        return new Vector2().x(rec.x() + rec.width() / 2).y(rec.y() + rec.height() / 2);
+    }
 
-        return new Rectangle().x(newX).y(newY).width(newWidth).height(newHeight);
+    public static Rectangle scaleRectangleAroundCenter(Rectangle rec, float scale) {
+        float w = rec.width() * scale;
+        float h = rec.height() * scale;
+        float x = rec.x() + (rec.width() - w) / 2;
+        float y = rec.y() + (rec.height() - h) / 2;
+
+        return new Rectangle().x(x).y(y).width(w).height(h);
     }
     
     private UtilMethods() { } // No making objects of this class

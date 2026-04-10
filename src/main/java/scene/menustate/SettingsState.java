@@ -1,5 +1,8 @@
 package scene.menustate;
 
+import static com.raylib.Colors.WHITE;
+import static com.raylib.Raylib.*;
+
 public class SettingsState extends AbstractMenuState {
 
     private static SettingsState settingsState;
@@ -21,6 +24,6 @@ public class SettingsState extends AbstractMenuState {
 
     @Override
     public void render() {
-
+        DrawText("Settings state", 10, 10, 20, WHITE);
     }
 }

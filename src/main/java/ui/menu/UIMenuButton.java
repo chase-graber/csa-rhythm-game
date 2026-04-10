@@ -9,9 +9,7 @@ import util.UtilMethods;
 
 import java.util.function.Consumer;
 
-/*
-* I am so freaking smart
-*/
+// I am so freaking smart
 public class UIMenuButton<T> extends AbstractUIComponent {
 
     private final T input;
@@ -48,14 +46,14 @@ public class UIMenuButton<T> extends AbstractUIComponent {
 
     @Override
     public void render() {
-        // TODO: fix rect positioning
         Rectangle drawRect = UtilMethods.scaleRectangleAroundCenter(boundingBox, scale);
         DrawRectangleRounded(drawRect, 1, 1, BLACK);
         DrawRectangleRoundedLinesEx(drawRect, 1, 1, 3, WHITE);
 
         // TODO: draw text
-//        Vector2 textWidth = MeasureTextEx(GetFontDefault(), text, (int)(30 * scale), 0);
-//        DrawText();
+        Vector2 rectMiddle = UtilMethods.getRectangleMiddle(drawRect);
+        Vector2 textDim = MeasureTextEx(GetFontDefault(), text, (int)(30 * scale), 3);
+        DrawText(text, (int)(rectMiddle.x() - textDim.x() / 2), (int)(rectMiddle.y() - textDim.y() / 2), (int)(30 * scale), WHITE);
 
         if (Settings.DEBUG) {
             DrawRectangleLinesEx(boundingBox, 2, RED);

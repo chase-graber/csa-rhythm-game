@@ -1,5 +1,8 @@
 package scene.menustate;
 
+import static com.raylib.Colors.WHITE;
+import static com.raylib.Raylib.DrawText;
+
 public class LevelSelectState extends AbstractMenuState {
 
     private static LevelSelectState levelSelectState;
@@ -21,6 +24,6 @@ public class LevelSelectState extends AbstractMenuState {
 
     @Override
     public void render() {
-
+        DrawText("Level select state", 10, 10, 20, WHITE);
     }
 }
