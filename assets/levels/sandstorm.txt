@@ -1,7 +1,7 @@
 crazy.mp3
 demo_bg.png
-600
 
+SPEED 600
 L 1.925
 L 2.094
 U 2.259

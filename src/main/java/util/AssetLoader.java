@@ -21,6 +21,8 @@ public class AssetLoader {
     public static Map<String, Texture> textures = new HashMap<>();
     public static Map<String, Sound> sounds = new HashMap<>();
     public static Map<String, Music> music = new HashMap<>();
+
+    public record LevelMetadata(Music song, Texture background) { }
     
     public static Texture getTexture(String filepath) {
         if (!textures.containsKey(filepath)) {
@@ -62,47 +64,54 @@ public class AssetLoader {
             File level = new File("assets/levels/" + filepath);
             Scanner input = new Scanner(level);
 
-            Music song = getMusic("assets/sounds/" + input.nextLine()); // First line always song path
-            Texture background = getTexture("assets/textures/backgrounds/" + input.nextLine()); // Second line always bg path
-            float songSpeed = Float.parseFloat(input.nextLine()); // Third line always song speed (default/1x is 500)
+            // First line always song path
+            // Second line always bg path
+            LevelMetadata md = new LevelMetadata(
+                    getMusic("assets/sounds/" + input.nextLine()),
+                    getTexture("assets/textures/backgrounds/" + input.nextLine()));
             input.nextLine(); // Cross gap between config and data
 
-            LevelScene scene = new LevelScene(song, background);
+            float songSpeed = 500; // Third line always song speed (default/1x is 500)
+
+            LevelScene scene = new LevelScene(md);
 
             while (input.hasNext()) {
                 String[] data = input.nextLine().split(" ");
                 if (data[0].isEmpty()) continue;
                 String trackID;
-                float noteTime;
+                float noteData;
 
                 // For testing song timings without mapping
                 if (data.length == 1) {
                     trackID = "U";
-                    noteTime = Float.parseFloat(data[0]);
+                    noteData = Float.parseFloat(data[0]);
                 } else {
                     trackID = data[0];
-                    noteTime = Float.parseFloat(data[1]);
+                    noteData = Float.parseFloat(data[1]);
                 }
 
                 switch(trackID) {
                     case "U":
-                        tracks[0].add(new Note(0, noteTime, scene, songSpeed));
+                        tracks[0].add(new Note(0, noteData, scene, songSpeed));
                         if (tracks[0].size() == 1) tracks[0].get(0).furthest = true;
                         break;
                     case "L":
-                        tracks[1].add(new Note(1, noteTime, scene, songSpeed));
+                        tracks[1].add(new Note(1, noteData, scene, songSpeed));
                         if (tracks[1].size() == 1) tracks[1].get(0).furthest = true;
                         break;
                     case "D":
-                        tracks[2].add(new Note(2, noteTime, scene, songSpeed));
+                        tracks[2].add(new Note(2, noteData, scene, songSpeed));
                         if (tracks[2].size() == 1) tracks[2].get(0).furthest = true;
                         break;
                     case "R":
-                        tracks[3].add(new Note(3, noteTime, scene, songSpeed));
+                        tracks[3].add(new Note(3, noteData, scene, songSpeed));
                         if (tracks[3].size() == 1) tracks[3].get(0).furthest = true;
                         break;
+                    case "SPEED":
+                        songSpeed = noteData;
+                        break;
                     default:
-                        tracks[0].add(new Note(0, noteTime, scene, songSpeed));
+                        tracks[0].add(new Note(0, noteData, scene, songSpeed));
                         if (tracks[0].size() == 1) tracks[0].get(0).furthest = true;
                         break;
                 }
@@ -113,7 +122,7 @@ public class AssetLoader {
             scene.setLevelTracks(tracks);
             return scene;
         } catch (IOException e) {
-            e.printStackTrace();
+            TraceLog(LOG_ERROR, "Unable to load level " + filepath);
             System.exit(1);
         }
 

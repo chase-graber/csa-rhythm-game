@@ -11,6 +11,7 @@ import object.NoteKey;
 import ui.AbstractUIComponent;
 import ui.level.UIProgressBar;
 import core.Settings;
+import util.AssetLoader;
 
 public class LevelScene extends AbstractScene {
 
@@ -25,12 +26,12 @@ public class LevelScene extends AbstractScene {
     public int[] numScoreTypes = { 0, 0, 0, 0 };
     private int totalNotes;
 
-    public LevelScene(Music song, Texture background) {
-        this.music = song;
+    public LevelScene(AssetLoader.LevelMetadata md) {
+        this.music = md.song();
         this.music.looping(false);
-        this.background = background;
+        this.background = md.background();
 
-        addUIComponent(new UIProgressBar(song)); // UIProgressBar always at index 0
+        addUIComponent(new UIProgressBar(md.song())); // UIProgressBar always at index 0
 
         updateKeyLayout();
     }

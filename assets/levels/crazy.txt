@@ -1,7 +1,7 @@
 crazy.mp3
 cat_bg.png
-650
 
+SPEED 650
 U 0.043
 U 0.525
 U 1.032

@@ -1,7 +1,7 @@
-crazy.mp3
+mystic_bounds.mp3
 demo_bg.png
-500
 
+SPEED 500
 L 1.004
 R 1.199
 L 1.417
