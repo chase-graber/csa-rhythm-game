@@ -4,6 +4,7 @@ import core.Game;
 import scene.MenuScene;
 import ui.AbstractUIComponent;
 import ui.menu.UIMenuButton;
+import util.AssetLoader;
 
 public class MenuState extends AbstractMenuState {
 
@@ -21,7 +22,7 @@ public class MenuState extends AbstractMenuState {
 
     @Override
     public void init() {
-        addUIComponent(new UIMenuButton<>(250, "LEVEL SELECT", MenuScene::setCurrentState, MenuStateMachine.LEVEL_SELECT.get()));
+        addUIComponent(new UIMenuButton<>(250, "LEVEL SELECT", Game::transitionToNextScene, AssetLoader.loadLevelScene("spooktune.txt")));
         addUIComponent(new UIMenuButton<>(400, "SETTINGS", MenuScene::setCurrentState, MenuStateMachine.SETTINGS.get()));
         addUIComponent(new UIMenuButton<>(550, "EXIT GAME", Game::setShouldClose, true));
     }

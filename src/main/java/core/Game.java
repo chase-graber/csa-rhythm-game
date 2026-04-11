@@ -12,13 +12,14 @@ import util.AssetLoader;
 public final class Game {
 
     // Singleton
-    private static Game game;
+    private static Game instance = new Game();
 
+    // IMPORTANT: EVERYTHING IN THIS CLASS (except for the private methods) HAS TO BE STATIC
     public static MenuScene mainMenu;
 
-    private AbstractScene currentScene;
-    private AbstractScene nextScene;
-    private UITransition transition;
+    private static AbstractScene currentScene;
+    private static AbstractScene nextScene;
+    private static UITransition transition;
 
     private static boolean shouldClose = false;
 
@@ -26,27 +27,28 @@ public final class Game {
         init();
     }
 
-    public static Game getInstance() {
-        if (game == null) {
-            game = new Game();
+    public static Game get() {
+        if (instance == null) {
+            instance = new Game();
         }
-        return game;
+        return instance;
     }
 
     private void init() {
-        MenuStateMachine.initValues();
-
         SetTraceLogLevel(LOG_WARNING);
 
+        // IMPORTANT: NEVER DO ANYTHING BEFORE InitWindow AND InitAudioDevice, REMEMBER WHAT HAPPENED THE LAST TIMES YOU TRIED
         InitWindow(Settings.SCREEN_WIDTH, Settings.SCREEN_HEIGHT, "Beats Baby");
         InitAudioDevice();
         SetTargetFPS(60);
 
+        MenuStateMachine.initValues();
+
         mainMenu = new MenuScene();
 
-        this.currentScene = mainMenu; //AssetLoader.loadLevelScene("spooktune.txt");
-        this.nextScene = null;
-        this.transition = null;
+        currentScene = mainMenu;
+        nextScene = null;
+        transition = null;
     }
 
     public void run() {
@@ -64,6 +66,7 @@ public final class Game {
             if (transition != null) {
                 transition.update(dt);
                 if (transition.done && nextScene != null) {
+                    if (currentScene == mainMenu) mainMenu.onTransition();
                     currentScene = nextScene;
                     nextScene = null;
                     transition = new UITransition(false);
@@ -91,7 +94,7 @@ public final class Game {
         CloseWindow();
     }
 
-    public void transitionToNextScene(AbstractScene scene) {
+    public static void transitionToNextScene(AbstractScene scene) {
         nextScene = scene;
         // Ensure that the main menu always comes back to the "main" main menu
         if (scene.equals(mainMenu)) MenuScene.setCurrentState(MenuStateMachine.MENU.get());

@@ -46,7 +46,8 @@ public final class Settings {
     public static final float MENU_BUTTON_X = (SCREEN_WIDTH - MENU_BUTTON_DIMENSIONS.x()) / 2;
 
     // SettingsState
-    public static final float SLIDER_HEIGHT = 10;
+    public static final float SLIDER_TRACK_HEIGHT = 10;
+    public static final float SLIDER_RADIUS = 20;
 
     // Transition UI
     // Old version, might work on later

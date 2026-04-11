@@ -6,6 +6,7 @@ import static com.raylib.Raylib.*;
 import ui.AbstractUIComponent;
 import util.AssetLoader;
 import core.Settings;
+import util.UtilMethods;
 
 public class UITextPopup extends AbstractUIComponent {
 
@@ -17,7 +18,7 @@ public class UITextPopup extends AbstractUIComponent {
 
     public UITextPopup(int track, int score) {
         this.texture = AssetLoader.getTexture("assets/textures/ui/textPopup_" + score + ".png");
-        this.position = new Vector2().x(Settings.PADDING - 110).y(Settings.PADDING + (Settings.SPACING * track) - 20.0f);
+        this.position = new Vector2().x(Settings.PADDING - 90).y(Settings.PADDING + (Settings.SPACING * track) - 20.0f);
 
         this.rotSpeed = (float)Math.random() - 0.5f;
     }
@@ -31,6 +32,12 @@ public class UITextPopup extends AbstractUIComponent {
     }
 
     public void render() {
-        DrawTextureEx(texture, position, rotation, scale, WHITE);
+        DrawTexturePro(
+                texture,
+                UtilMethods.getTextureRect(texture),
+                UtilMethods.scaleRectangleAroundCenter(UtilMethods.getTextureRect(texture, position), scale),
+                UtilMethods.getTextureMiddle(texture),
+                rotation,
+                WHITE);
     }
 }

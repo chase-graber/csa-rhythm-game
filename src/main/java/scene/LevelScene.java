@@ -14,7 +14,6 @@ import core.Settings;
 
 public class LevelScene extends AbstractScene {
 
-    private float startTime; // Might need this might not
     private float elapsedTime = 0.0f;
     private boolean hasPlayedSong = false;
     private boolean transitioning = false;
@@ -30,7 +29,6 @@ public class LevelScene extends AbstractScene {
         this.music = song;
         this.music.looping(false);
         this.background = background;
-        this.startTime = (float)GetTime();
 
         addUIComponent(new UIProgressBar(song)); // UIProgressBar always at index 0
 
@@ -62,7 +60,7 @@ public class LevelScene extends AbstractScene {
             hasPlayedSong = true;
         } else if (((UIProgressBar)uiComponents.get(0)).getCurrentSongTime() == 0 && hasPlayedSong && !transitioning) {
             transitioning = true;
-            Game.getInstance().transitionToNextScene(new CompletionScene(numScoreTypes, totalNotes));
+            Game.transitionToNextScene(new CompletionScene(numScoreTypes, totalNotes));
         } else UpdateMusicStream(music);
 
         // Update keys (detect presses)

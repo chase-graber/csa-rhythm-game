@@ -33,7 +33,7 @@ public class CompletionScene extends AbstractScene {
             auic.update(dt);
         }
 
-        if (IsKeyPressed(KEY_SPACE)) Game.getInstance().transitionToNextScene(Game.mainMenu);
+        if (IsKeyPressed(KEY_SPACE)) Game.transitionToNextScene(Game.mainMenu);
     }
 
     @Override

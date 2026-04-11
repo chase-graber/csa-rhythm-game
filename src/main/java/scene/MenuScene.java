@@ -44,6 +44,11 @@ public class MenuScene extends AbstractScene {
         }
     }
 
+    public void onTransition() {
+        StopMusicStream(music);
+        PlayMusicStream(music);
+    }
+
     public static void setCurrentState(AbstractMenuState next) {
         currentState = next;
     }
