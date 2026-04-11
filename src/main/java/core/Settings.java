@@ -1,4 +1,5 @@
 package core;
+
 import static com.raylib.Raylib.*;
 
 public final class Settings {
@@ -43,6 +44,9 @@ public final class Settings {
     // MenuState
     public static final Vector2 MENU_BUTTON_DIMENSIONS = new Vector2().x(250).y(100);
     public static final float MENU_BUTTON_X = (SCREEN_WIDTH - MENU_BUTTON_DIMENSIONS.x()) / 2;
+
+    // SettingsState
+    public static final float SLIDER_HEIGHT = 10;
 
     // Transition UI
     // Old version, might work on later

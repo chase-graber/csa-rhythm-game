@@ -33,7 +33,7 @@ public class CompletionScene extends AbstractScene {
             auic.update(dt);
         }
 
-        if (IsKeyPressed(KEY_SPACE)) Game.getInstance().transitionToNextScene(AssetLoader.loadLevelScene("spooktune.txt"));
+        if (IsKeyPressed(KEY_SPACE)) Game.getInstance().transitionToNextScene(Game.mainMenu);
     }
 
     @Override

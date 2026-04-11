@@ -5,6 +5,7 @@ import static com.raylib.Raylib.*;
 
 import scene.AbstractScene;
 import scene.MenuScene;
+import scene.menustate.MenuStateMachine;
 import ui.UITransition;
 import util.AssetLoader;
 
@@ -33,6 +34,8 @@ public final class Game {
     }
 
     private void init() {
+        MenuStateMachine.initValues();
+
         SetTraceLogLevel(LOG_WARNING);
 
         InitWindow(Settings.SCREEN_WIDTH, Settings.SCREEN_HEIGHT, "Beats Baby");
@@ -90,6 +93,9 @@ public final class Game {
 
     public void transitionToNextScene(AbstractScene scene) {
         nextScene = scene;
+        // Ensure that the main menu always comes back to the "main" main menu
+        if (scene.equals(mainMenu)) MenuScene.setCurrentState(MenuStateMachine.MENU.get());
+
         transition = new UITransition(true);
     }
 

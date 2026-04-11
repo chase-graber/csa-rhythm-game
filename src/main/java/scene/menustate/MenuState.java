@@ -7,18 +7,23 @@ import ui.menu.UIMenuButton;
 
 public class MenuState extends AbstractMenuState {
 
-    private static MenuState menuState;
+    private static MenuState instance;
 
     private MenuState() {
-        addUIComponent(new UIMenuButton<>(250, "LEVEL SELECT", MenuScene::setCurrentState, LevelSelectState.getInstance()));
-        addUIComponent(new UIMenuButton<>(400, "SETTINGS", MenuScene::setCurrentState, SettingsState.getInstance()));
-        addUIComponent(new UIMenuButton<>(550, "EXIT GAME", Game::setShouldClose, true));
+        // stuff
     }
 
-    public static MenuState getInstance() {
-        if (menuState == null)
-            menuState = new MenuState();
-        return menuState;
+    public static MenuState get() {
+        if (instance == null)
+            instance = new MenuState();
+        return instance;
+    }
+
+    @Override
+    public void init() {
+        addUIComponent(new UIMenuButton<>(250, "LEVEL SELECT", MenuScene::setCurrentState, MenuStateMachine.LEVEL_SELECT.get()));
+        addUIComponent(new UIMenuButton<>(400, "SETTINGS", MenuScene::setCurrentState, MenuStateMachine.SETTINGS.get()));
+        addUIComponent(new UIMenuButton<>(550, "EXIT GAME", Game::setShouldClose, true));
     }
 
     @Override

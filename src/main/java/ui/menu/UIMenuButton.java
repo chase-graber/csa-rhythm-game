@@ -47,7 +47,6 @@ public class UIMenuButton<T> extends AbstractUIComponent {
         scale = Lerp(scale, targetScale, 0.25f);
 
         if (IsMouseButtonPressed(MOUSE_BUTTON_LEFT) && withinBounds) {
-            System.out.println(input);
             method.accept(input);
         }
     }
@@ -58,7 +57,6 @@ public class UIMenuButton<T> extends AbstractUIComponent {
         DrawRectangleRounded(drawRect, 1, 1, BLACK);
         DrawRectangleRoundedLinesEx(drawRect, 1, 1, 3, WHITE);
 
-        // TODO: draw text
         Vector2 rectMiddle = UtilMethods.getRectangleMiddle(drawRect);
         Vector2 textDim = MeasureTextEx(GetFontDefault(), text, (int)(30 * scale), 3);
         DrawText(text, (int)(rectMiddle.x() - textDim.x() / 2), (int)(rectMiddle.y() - textDim.y() / 2), (int)(30 * scale), WHITE);

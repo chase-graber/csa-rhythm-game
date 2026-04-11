@@ -10,12 +10,13 @@ import util.AssetLoader;
 
 public class MenuScene extends AbstractScene {
 
-    private static AbstractMenuState currentState = MenuState.getInstance();
+    private static AbstractMenuState currentState;
 
     public MenuScene() {
         this.music = AssetLoader.getMusic("assets/sounds/temp_menu_music.mp3");
         this.background = AssetLoader.getTexture("assets/textures/backgrounds/demo_bg.png");
         PlayMusicStream(this.music);
+        currentState = MenuStateMachine.MENU.get();
     }
 
     @Override
