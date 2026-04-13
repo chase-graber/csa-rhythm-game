@@ -78,10 +78,16 @@ public class LevelScene extends AbstractScene {
 
                     if (!track.isEmpty()) {
                         int index = 0;
-                        while (track.get(index).getPosition().x() + track.get(index).getRadius() < Settings.PADDING - track.get(index).getRadius()) {
-                            index++;
+                        try {
+                            while (track.get(index).getPosition().x() + track.get(index).getRadius() < Settings.PADDING - track.get(index).getRadius()) {
+                                index++;
+                            }
+                        } catch (IndexOutOfBoundsException e) {
+                            index--;
+                            TraceLog(LOG_DEBUG, "Attempted to move index out of bounds, length " + track.size() + ", index " + index);
+                        } finally {
+                            track.get(index).furthest = true;
                         }
-                        track.get(index).furthest = true;
                     }
                     continue;
                 } else if (n.getPosition().x() + n.getRadius() < Settings.PADDING - n.getRadius()) {

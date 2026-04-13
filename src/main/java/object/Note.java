@@ -13,11 +13,12 @@ import com.raylib.Raylib.Vector2;
 import scene.LevelScene;
 import ui.level.UITextPopup;
 
-public class Note extends AbstractGameObject {
+public class Note extends AbstractGameObject implements Comparable<Note> {
 
     private int track;
     private final int radius = 40;
     private float speed;
+    private final float hitTime;
 
     LevelScene parentScene;
     private NoteKey trackKey;
@@ -40,6 +41,7 @@ public class Note extends AbstractGameObject {
 
         this.track = track;
         this.speed = speed;
+        this.hitTime = hitTime;
         this.parentScene = parentScene;
         this.trackKey = parentScene.getTrackKey(track);
         this.position = new Vector2().x(Settings.PADDING + (3 + hitTime) * speed).y(Settings.PADDING + this.track * Settings.SPACING);
@@ -102,6 +104,13 @@ public class Note extends AbstractGameObject {
             DrawRectangleLinesEx(thirdHitbox, 2, RED);
         }
     }
+
+    @Override
+    public int compareTo(Note o) {
+        return Float.compare(this.hitTime, o.getHitTime());
+    }
+
+    public float getHitTime() { return hitTime; }
 
     public int getRadius() {
         return radius;

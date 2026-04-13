@@ -22,7 +22,7 @@ public class MenuState extends AbstractMenuState {
 
     @Override
     public void init() {
-        addUIComponent(new UIMenuButton<>(250, "LEVEL SELECT", Game::transitionToNextScene, AssetLoader.loadLevelScene("mammamia.txt")));
+        addUIComponent(new UIMenuButton<>(250, "LEVEL SELECT", Game::transitionToNextScene, AssetLoader.loadLevelScene("aleph_0.lvl")));
         addUIComponent(new UIMenuButton<>(400, "SETTINGS", MenuScene::setCurrentState, MenuStateMachine.SETTINGS.get()));
         addUIComponent(new UIMenuButton<>(550, "EXIT GAME", Game::setShouldClose, true));
     }

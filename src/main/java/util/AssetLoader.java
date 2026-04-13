@@ -3,10 +3,7 @@ import static com.raylib.Raylib.*;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Scanner;
+import java.util.*;
 
 import com.raylib.Raylib.Image;
 import com.raylib.Raylib.Music;
@@ -118,6 +115,10 @@ public class AssetLoader {
             }
 
             input.close();
+
+            for (ArrayList<Note> track : tracks) {
+                Collections.sort(track);
+            }
 
             scene.setLevelTracks(tracks);
             return scene;
