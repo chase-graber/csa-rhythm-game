@@ -46,7 +46,7 @@ public final class Game {
 
         mainMenu = new MenuScene();
 
-        currentScene = mainMenu;
+        currentScene = AssetLoader.loadLevelScene("aleph_0.lvl");
         nextScene = null;
         transition = null;
     }
