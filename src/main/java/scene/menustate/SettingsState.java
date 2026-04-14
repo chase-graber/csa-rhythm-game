@@ -5,6 +5,8 @@ import scene.MenuScene;
 import ui.AbstractUIComponent;
 import ui.menu.UIMenuButton;
 
+import java.util.ArrayList;
+
 import static com.raylib.Colors.WHITE;
 import static com.raylib.Raylib.*;
 
@@ -24,6 +26,10 @@ public class SettingsState extends AbstractMenuState {
 
     @Override
     public void init() {
+        // Clear components
+        uiComponents = new ArrayList<>();
+
+        // Add new components
         addUIComponent(new UIMenuButton<>(
                 new Vector2().x(25).y(Settings.SCREEN_HEIGHT - 100),
                 new Vector2().x(200).y(75),

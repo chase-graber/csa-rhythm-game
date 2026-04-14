@@ -46,7 +46,7 @@ public final class Game {
 
         mainMenu = new MenuScene();
 
-        currentScene = AssetLoader.loadLevelScene("aleph_0.lvl");
+        currentScene = mainMenu; //AssetLoader.loadLevelScene("spooktune.lvl");
         nextScene = null;
         transition = null;
     }
@@ -66,7 +66,7 @@ public final class Game {
             if (transition != null) {
                 transition.update(dt);
                 if (transition.done && nextScene != null) {
-                    if (currentScene == mainMenu) mainMenu.onTransition();
+                    currentScene.onTransition();
                     currentScene = nextScene;
                     nextScene = null;
                     transition = new UITransition(false);

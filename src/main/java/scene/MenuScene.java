@@ -44,6 +44,7 @@ public class MenuScene extends AbstractScene {
         }
     }
 
+    @Override
     public void onTransition() {
         StopMusicStream(music);
         PlayMusicStream(music);
@@ -51,5 +52,8 @@ public class MenuScene extends AbstractScene {
 
     public static void setCurrentState(AbstractMenuState next) {
         currentState = next;
+
+        // Clear any previous interaction
+        currentState.init();
     }
 }

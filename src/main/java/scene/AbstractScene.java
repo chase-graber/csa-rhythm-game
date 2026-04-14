@@ -17,4 +17,8 @@ public abstract class AbstractScene implements TickableGameEntity {
     public void addUIComponent(AbstractUIComponent auic) {
         uiComponents.add(auic);
     }
+
+    public void onTransition() {
+        StopMusicStream(music);
+    }
 }

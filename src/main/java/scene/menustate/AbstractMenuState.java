@@ -7,7 +7,7 @@ import java.util.ArrayList;
 
 public abstract class AbstractMenuState implements TickableGameEntity {
 
-    protected ArrayList<AbstractUIComponent> uiComponents = new ArrayList<>();
+    protected ArrayList<AbstractUIComponent> uiComponents;
 
     public void addUIComponent(AbstractUIComponent auic) {
         uiComponents.add(auic);
