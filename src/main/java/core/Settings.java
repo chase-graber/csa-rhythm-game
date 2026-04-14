@@ -27,11 +27,6 @@ public final class Settings {
             return keys[track];
         }
     }
-    public static KeyLayouts currentKeyLayout = KeyLayouts.DFJK;
-
-    public static void updateCurrentKeyLayout(KeyLayouts layout) {
-        currentKeyLayout = layout;
-    }
 
     // Key spacing
     public static final int PADDING = 150;
@@ -54,12 +49,22 @@ public final class Settings {
     public static final float SLIDER_RADIUS = 10;
     public static final float SLIDER_PADDING = 15;
 
+    public static final float OPTION_MENU_HEIGHT = 50;
+    public static final float OPTION_MENU_SIDE_PADDING = 35;
+    public static final float OPTION_MENU_ARROW_SIZE = 20;
+
     // Values to be messed with in SettingsState
     public static float volume = 1;
+    public static KeyLayouts currentKeyLayout = KeyLayouts.DFJK;
+    public static int keyLayoutIndex = 1;
 
     public static void updateVolume(float newVal) {
         volume = newVal / 100;
         SetMasterVolume(volume);
+    }
+
+    public static void updateCurrentKeyLayout(KeyLayouts layout) {
+        currentKeyLayout = layout;
     }
 
     // Transition UI

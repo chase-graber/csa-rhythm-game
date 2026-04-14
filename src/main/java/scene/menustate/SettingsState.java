@@ -5,6 +5,7 @@ import scene.MenuScene;
 import ui.AbstractUIComponent;
 import ui.menu.UIMenuButton;
 import ui.menu.UISlider;
+import ui.menu.UISwappableOptionsMenu;
 
 import java.util.ArrayList;
 
@@ -40,6 +41,15 @@ public class SettingsState extends AbstractMenuState {
         ));
         uiComponents.add(
                 new UISlider("Volume", 150, 0, 100, 100, 200, Settings::updateVolume)
+        );
+        uiComponents.add(
+                new UISwappableOptionsMenu<>(
+                        300, 250,
+                        new Settings.KeyLayouts[]{ Settings.KeyLayouts.ARROW, Settings.KeyLayouts.DFJK, Settings.KeyLayouts.WASD },
+                        new String[]{ "ARROWS", "DFJK", "WASD" },
+                        Settings::updateCurrentKeyLayout,
+                        Settings.keyLayoutIndex
+                )
         );
     }
 
