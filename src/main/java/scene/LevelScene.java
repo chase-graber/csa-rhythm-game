@@ -31,7 +31,7 @@ public class LevelScene extends AbstractScene {
         this.music.looping(false);
         this.background = md.background();
 
-        addUIComponent(new UIProgressBar(md.song())); // UIProgressBar always at index 0
+        uiComponents.add(new UIProgressBar(md.song())); // UIProgressBar always at index 0
 
         updateKeyLayout();
     }

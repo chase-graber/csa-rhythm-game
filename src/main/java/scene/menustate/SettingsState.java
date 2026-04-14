@@ -4,10 +4,11 @@ import core.Settings;
 import scene.MenuScene;
 import ui.AbstractUIComponent;
 import ui.menu.UIMenuButton;
+import ui.menu.UISlider;
 
 import java.util.ArrayList;
 
-import static com.raylib.Colors.WHITE;
+import static com.raylib.Colors.BLACK;
 import static com.raylib.Raylib.*;
 
 public class SettingsState extends AbstractMenuState {
@@ -30,13 +31,16 @@ public class SettingsState extends AbstractMenuState {
         uiComponents = new ArrayList<>();
 
         // Add new components
-        addUIComponent(new UIMenuButton<>(
+        uiComponents.add(new UIMenuButton<>(
                 new Vector2().x(25).y(Settings.SCREEN_HEIGHT - 100),
                 new Vector2().x(200).y(75),
                 "BACK",
                 MenuScene::setCurrentState,
                 MenuStateMachine.MENU.get()
         ));
+        uiComponents.add(
+                new UISlider("Volume", 150, 0, 100, 100, 200, Settings::updateVolume)
+        );
     }
 
     @Override
@@ -48,7 +52,8 @@ public class SettingsState extends AbstractMenuState {
 
     @Override
     public void render() {
-        DrawText("Settings state", 10, 10, 20, WHITE);
+        int textWidth = MeasureText("Settings", 50);
+        DrawText("Settings", (Settings.SCREEN_WIDTH - textWidth) / 2, 50, 50, BLACK);
 
         for (AbstractUIComponent auic : uiComponents) {
             auic.render();

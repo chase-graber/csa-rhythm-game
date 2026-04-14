@@ -17,7 +17,7 @@ public class LevelSelectState extends AbstractMenuState {
     private static LevelSelectState instance;
 
     private LevelSelectState() {
-        // Init code
+        // stuff
     }
 
     public static LevelSelectState get() {
@@ -32,7 +32,7 @@ public class LevelSelectState extends AbstractMenuState {
         uiComponents = new ArrayList<>();
 
         // Add new components
-        addUIComponent(new UIMenuButton<>(
+        uiComponents.add(new UIMenuButton<>(
                 new Vector2().x(25).y(Settings.SCREEN_HEIGHT - 100),
                 new Vector2().x(200).y(75),
                 "BACK",

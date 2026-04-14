@@ -29,6 +29,10 @@ public final class Settings {
     }
     public static KeyLayouts currentKeyLayout = KeyLayouts.DFJK;
 
+    public static void updateCurrentKeyLayout(KeyLayouts layout) {
+        currentKeyLayout = layout;
+    }
+
     // Key spacing
     public static final int PADDING = 150;
     public static final float SPACING = (float)(SCREEN_HEIGHT - 2 * PADDING) / 3;
@@ -47,7 +51,16 @@ public final class Settings {
 
     // SettingsState
     public static final float SLIDER_TRACK_HEIGHT = 10;
-    public static final float SLIDER_RADIUS = 20;
+    public static final float SLIDER_RADIUS = 10;
+    public static final float SLIDER_PADDING = 15;
+
+    // Values to be messed with in SettingsState
+    public static float volume = 1;
+
+    public static void updateVolume(float newVal) {
+        volume = newVal / 100;
+        SetMasterVolume(volume);
+    }
 
     // Transition UI
     // Old version, might work on later

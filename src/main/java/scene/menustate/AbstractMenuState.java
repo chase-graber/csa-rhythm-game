@@ -9,9 +9,5 @@ public abstract class AbstractMenuState implements TickableGameEntity {
 
     protected ArrayList<AbstractUIComponent> uiComponents;
 
-    public void addUIComponent(AbstractUIComponent auic) {
-        uiComponents.add(auic);
-    }
-
     public abstract void init();
 }

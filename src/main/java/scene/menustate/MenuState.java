@@ -28,9 +28,9 @@ public class MenuState extends AbstractMenuState {
         uiComponents = new ArrayList<>();
 
         // Add new components
-        addUIComponent(new UIMenuButton<>(250, "LEVEL SELECT", Game::transitionToNextScene, AssetLoader.loadLevelScene("spooktune.lvl")));
-        addUIComponent(new UIMenuButton<>(400, "SETTINGS", MenuScene::setCurrentState, MenuStateMachine.SETTINGS.get()));
-        addUIComponent(new UIMenuButton<>(550, "EXIT GAME", Game::setShouldClose, true));
+        uiComponents.add(new UIMenuButton<>(250, "LEVEL SELECT", Game::transitionToNextScene, AssetLoader.loadLevelScene("spooktune.lvl")));
+        uiComponents.add(new UIMenuButton<>(400, "SETTINGS", MenuScene::setCurrentState, MenuStateMachine.SETTINGS.get()));
+        uiComponents.add(new UIMenuButton<>(550, "EXIT GAME", Game::setShouldClose, true));
     }
 
     @Override

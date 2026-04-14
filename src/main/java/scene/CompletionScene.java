@@ -21,8 +21,8 @@ public class CompletionScene extends AbstractScene {
                   (float)numHits[2] / totalNotes,
                   (float)numHits[3] / totalNotes };
 
-        addUIComponent(new UIScoreLineup(numHits, totalNotes, percents));
-        addUIComponent(new UICommenceForthText(0.5f, 30));
+        uiComponents.add(new UIScoreLineup(numHits, totalNotes, percents));
+        uiComponents.add(new UICommenceForthText(0.5f, 30));
     }
 
     @Override
