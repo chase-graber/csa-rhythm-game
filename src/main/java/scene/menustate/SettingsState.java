@@ -40,13 +40,13 @@ public class SettingsState extends AbstractMenuState {
                 MenuStateMachine.MENU.get()
         ));
         uiComponents.add(
-                new UISlider("Volume", 150, 0, 100, 100, 200, Settings::updateVolume)
+                new UISlider("Volume", 150, 0, 100, Settings.volume, 200, Settings::updateVolume)
         );
         uiComponents.add(
                 new UISwappableOptionsMenu<>(
                         300, 250,
-                        new Settings.KeyLayouts[]{ Settings.KeyLayouts.ARROW, Settings.KeyLayouts.DFJK, Settings.KeyLayouts.WASD },
-                        new String[]{ "ARROWS", "DFJK", "WASD" },
+                        Settings.KeyLayouts.values(),
+                        Settings.KeyLayouts.getLabelsAsArray(),
                         Settings::updateCurrentKeyLayout,
                         Settings.keyLayoutIndex
                 )
