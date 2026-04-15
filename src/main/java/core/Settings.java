@@ -37,9 +37,9 @@ public final class Settings {
     public static final float OPTION_MENU_ARROW_SIZE = 20;
 
     // Values to be messed with in SettingsState
-    public static float volume = 1;
-    public static KeyLayouts currentKeyLayout = KeyLayouts.DFJK;
-    public static int keyLayoutIndex = 1;
+    public static float volume;
+    public static KeyLayouts currentKeyLayout;
+    public static int keyLayoutIndex;
 
     public static void updateVolume(float newVal) {
         volume = newVal / 100;

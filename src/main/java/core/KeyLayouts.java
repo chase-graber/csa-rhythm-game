@@ -25,6 +25,13 @@ public enum KeyLayouts {
         return label;
     }
 
+    public static KeyLayouts getLayoutFromLabel(String label) {
+        for (KeyLayouts kl : KeyLayouts.values()) {
+            if (kl.getLabel().equals(label)) return kl;
+        }
+        return ARROW;
+    }
+
     public static String[] getLabelsAsArray() {
         String[] labels = new String[KeyLayouts.values().length];
         for (int i = 0; i < KeyLayouts.values().length; i++) {

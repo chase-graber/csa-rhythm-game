@@ -7,6 +7,7 @@ import ui.AbstractUIComponent;
 import ui.menu.UIMenuButton;
 import ui.menu.UISlider;
 import ui.menu.UISwappableOptionsMenu;
+import core.Initializer;
 
 import java.util.ArrayList;
 
@@ -39,6 +40,13 @@ public class SettingsState extends AbstractMenuState {
                 "BACK",
                 MenuScene::setCurrentState,
                 MenuStateMachine.MENU.get()
+        ));
+        uiComponents.add(new UIMenuButton<>(
+                new Vector2().x(Settings.SCREEN_WIDTH - 225).y(Settings.SCREEN_HEIGHT - 100),
+                new Vector2().x(200).y(75),
+                "SAVE",
+                Initializer::saveSettings,
+                true
         ));
         uiComponents.add(
                 new UISlider("Volume", 150, 0, 100, Settings.volume * 100, 200, Settings::updateVolume)

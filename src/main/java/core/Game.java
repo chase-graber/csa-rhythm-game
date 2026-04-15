@@ -42,10 +42,12 @@ public final class Game {
         InitAudioDevice();
         SetTargetFPS(60);
 
+        // General init code
+        Initializer.loadSettings();
         MenuStateMachine.initValues();
-
         mainMenu = new MenuScene();
 
+        // Game setup
         currentScene = mainMenu; //AssetLoader.loadLevelScene("aleph_0.lvl");
         nextScene = null;
         transition = null;
