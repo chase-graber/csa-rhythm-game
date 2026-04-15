@@ -40,10 +40,11 @@ public class SettingsState extends AbstractMenuState {
                 MenuStateMachine.MENU.get()
         ));
         uiComponents.add(
-                new UISlider("Volume", 150, 0, 100, Settings.volume, 200, Settings::updateVolume)
+                new UISlider("Volume", 150, 0, 100, Settings.volume * 100, 200, Settings::updateVolume)
         );
         uiComponents.add(
                 new UISwappableOptionsMenu<>(
+                        "Key Layout",
                         300, 250,
                         Settings.KeyLayouts.values(),
                         Settings.KeyLayouts.getLabelsAsArray(),
