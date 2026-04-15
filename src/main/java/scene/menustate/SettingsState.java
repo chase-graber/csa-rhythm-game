@@ -1,5 +1,6 @@
 package scene.menustate;
 
+import core.KeyLayouts;
 import core.Settings;
 import scene.MenuScene;
 import ui.AbstractUIComponent;
@@ -46,8 +47,8 @@ public class SettingsState extends AbstractMenuState {
                 new UISwappableOptionsMenu<>(
                         "Key Layout",
                         300, 250,
-                        Settings.KeyLayouts.values(),
-                        Settings.KeyLayouts.getLabelsAsArray(),
+                        KeyLayouts.values(),
+                        KeyLayouts.getLabelsAsArray(),
                         Settings::updateCurrentKeyLayout,
                         Settings.keyLayoutIndex
                 )

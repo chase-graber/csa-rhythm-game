@@ -11,38 +11,6 @@ public final class Settings {
     // Utility
     public static boolean DEBUG = false;
 
-    // Key layouts
-    public enum KeyLayouts {
-        ARROW("ARROWS", new int[]{KEY_UP, KEY_LEFT, KEY_DOWN, KEY_RIGHT}),
-        DFJK("DFJK", new int[]{KEY_D, KEY_F, KEY_J, KEY_K}),
-        KJFD("KJFD", new int[]{KEY_K, KEY_J, KEY_F, KEY_D}),
-        WASD("WASD", new int[]{KEY_W, KEY_A, KEY_S, KEY_D});
-
-        private final String label;
-        private final int[] keys;
-
-        KeyLayouts(String label, int[] keys) {
-            this.label = label;
-            this.keys = keys;
-        }
-
-        public int getTrackKey(int track) {
-            return keys[track];
-        }
-
-        public String getLabel() {
-            return label;
-        }
-
-        public static String[] getLabelsAsArray() {
-            String[] labels = new String[KeyLayouts.values().length];
-            for (int i = 0; i < KeyLayouts.values().length; i++) {
-                labels[i] = KeyLayouts.values()[i].getLabel();
-            }
-            return labels;
-        }
-    }
-
     // Key spacing
     public static final int PADDING = 150;
     public static final float SPACING = (float)(SCREEN_HEIGHT - 2 * PADDING) / 3;
