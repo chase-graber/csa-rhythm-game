@@ -38,7 +38,7 @@ public class UITransition extends AbstractUIComponent {
                     break;
                 }
 
-                for (int col = 0; col < boxes[row].length; col++) {
+                for (int col = 1; col < boxes[row].length; col++) {
                     // Break row if col is empty, fill [row][col]
                     if (boxes[row][col] == null) {
                         boxes[row][col] = new UITransitionBox(new Vector2().x(col).y(row), this, waitTimeAccumulator);

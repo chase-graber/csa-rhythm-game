@@ -1,6 +1,6 @@
 package ui.completion;
 
-import static com.raylib.Colors.BLACK;
+import static com.raylib.Colors.WHITE;
 import static com.raylib.Raylib.*;
 
 import core.Settings;
@@ -32,6 +32,6 @@ public class UICommenceForthText extends AbstractUIComponent {
     public void render() {
         String text = "Press [SPACE] to return to main menu";
         float width = MeasureText(text, fontSize);
-        if (showing) DrawText(text, (int)(Settings.SCREEN_WIDTH - width) / 2, Settings.SCREEN_HEIGHT - Settings.COMPLETION_PADDING, fontSize, BLACK);
+        if (showing) DrawText(text, (int)(Settings.SCREEN_WIDTH - width) / 2, Settings.SCREEN_HEIGHT - Settings.COMPLETION_PADDING, fontSize, WHITE);
     }
 }

@@ -12,23 +12,32 @@ public class MenuScene extends AbstractScene {
 
     private static AbstractMenuState currentState;
 
+    private float bgOffset;
+
     public MenuScene() {
         this.music = AssetLoader.getMusic("assets/sounds/temp_menu_music.mp3");
-        this.background = AssetLoader.getTexture("assets/textures/backgrounds/demo_bg.png");
+        this.background = AssetLoader.getTexture("assets/textures/backgrounds/menu_bg.png");
         PlayMusicStream(this.music);
         currentState = MenuStateMachine.MENU.get();
+
+        this.bgOffset = 0.0f;
     }
 
     @Override
     public void update(float dt) {
         UpdateMusicStream(music);
-        DrawTextureV(background, Vector2Zero(), WHITE);
 
         currentState.update(dt);
+
+        bgOffset += Settings.BACKGROUND_SCROLL_SPEED * dt;
+        if (bgOffset <= -2 * Settings.SCREEN_WIDTH) bgOffset += 2 * Settings.SCREEN_WIDTH;
     }
 
     @Override
     public void render() {
+        DrawTexture(background, (int)bgOffset, 0, WHITE);
+        DrawTexture(background, (int)bgOffset + 2 * Settings.SCREEN_WIDTH, 0, WHITE);
+
         currentState.render();
 
         if (Settings.DEBUG) {

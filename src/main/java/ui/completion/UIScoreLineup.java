@@ -1,8 +1,11 @@
 package ui.completion;
 
 import static com.raylib.Colors.WHITE;
-import static com.raylib.Colors.BLACK;
 import static com.raylib.Raylib.*;
+
+import com.raylib.Raylib.Rectangle;
+import com.raylib.Raylib.Texture;
+import com.raylib.Raylib.Vector2;
 
 import core.Settings;
 import ui.AbstractUIComponent;
@@ -74,11 +77,11 @@ public class UIScoreLineup extends AbstractUIComponent {
             DrawText(totalsText,
                     (int)((texRects[i].x() - 2.5 * Settings.SPACING) - (totalsSize.x() / 2)),
                     (int)(texRects[i].y() - (totalsSize.y() / 2)),
-                    50, BLACK);
+                    50, WHITE);
             DrawText(percentageText,
                     (int)((texRects[i].x() + 2 * Settings.SPACING) - (percentageSize.x() / 2)),
                     (int)(texRects[i].y() - (percentageSize.y() / 2)),
-                    50, BLACK);
+                    50, WHITE);
         }
     }
 }

@@ -23,6 +23,8 @@ public final class Settings {
     public static final int COMPLETION_PADDING = 100;
 
     // Menu UI
+    public static final float BACKGROUND_SCROLL_SPEED = -50.0f;
+
     // MenuState
     public static final Vector2 MENU_BUTTON_DIMENSIONS = new Vector2().x(250).y(100);
     public static final float MENU_BUTTON_X = (SCREEN_WIDTH - MENU_BUTTON_DIMENSIONS.x()) / 2;
