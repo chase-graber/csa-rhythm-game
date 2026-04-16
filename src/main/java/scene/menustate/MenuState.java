@@ -36,7 +36,7 @@ public class MenuState extends AbstractMenuState {
         uiComponents = new ArrayList<>();
 
         // Add new components
-        uiComponents.add(new UIMenuButton<>(250, "LEVEL SELECT", Game::transitionToNextScene, AssetLoader.loadLevelScene("aleph_0.lvl")));
+        uiComponents.add(new UIMenuButton<>(250, "LEVEL SELECT", MenuScene::setCurrentState, MenuStateMachine.LEVEL_SELECT.get()));
         uiComponents.add(new UIMenuButton<>(400, "SETTINGS", MenuScene::setCurrentState, MenuStateMachine.SETTINGS.get()));
         uiComponents.add(new UIMenuButton<>(550, "EXIT GAME", Game::setShouldClose, true));
     }

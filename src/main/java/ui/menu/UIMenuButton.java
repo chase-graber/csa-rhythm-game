@@ -28,6 +28,10 @@ public class UIMenuButton<T> extends AbstractUIComponent {
         this(position, new Vector2().x(Settings.MENU_BUTTON_DIMENSIONS.x()).y(Settings.MENU_BUTTON_DIMENSIONS.y()), text, method, input);
     }
 
+    public UIMenuButton(float height, Vector2 dimensions, String text, Consumer<T> method, T input) {
+        this(new Vector2().x((Settings.SCREEN_WIDTH - dimensions.x()) / 2).y(height), dimensions, text, method, input);
+    }
+
     public UIMenuButton(Vector2 position, Vector2 dimensions, String text, Consumer<T> method, T input) {
         this.position = new Vector2().x(position.x()).y(position.y());
         this.boundingBox = new Rectangle()

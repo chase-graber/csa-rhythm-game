@@ -68,7 +68,7 @@ public class UIScoreLineup extends AbstractUIComponent {
         for (int i = 0; i < numHits.length; i++) {
             String totalsText = numHits[i] + "/" + totalNotes;
             Vector2 totalsSize = MeasureTextEx(GetFontDefault(), totalsText, 20, 0);
-            String percentageText = Math.round(percentages[i] * 100) + "%";
+            String percentageText = Math.round(percentages[i] * 1000) / 10.0f + "%";
             Vector2 percentageSize = MeasureTextEx(GetFontDefault(), percentageText, 20, 0);
 
             DrawText(totalsText,
