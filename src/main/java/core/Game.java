@@ -67,11 +67,10 @@ public final class Game {
             float dt = GetFrameTime();
             if (transition != null) {
                 transition.update(dt);
-                if (transition.done && nextScene != null) {
+                if (transition.hasOpened && nextScene != null) {
                     currentScene.onTransition();
                     currentScene = nextScene;
                     nextScene = null;
-                    transition = new UITransition(false);
                 } else if (transition.done) transition = null;
             }
             currentScene.update(dt);
@@ -101,7 +100,7 @@ public final class Game {
         // Ensure that the main menu always comes back to the "main" main menu
         if (scene.equals(mainMenu)) MenuScene.setCurrentState(MenuStateMachine.MENU.get());
 
-        transition = new UITransition(true);
+        transition = new UITransition();
     }
 
     public static void setShouldClose(boolean shouldClose) { Game.shouldClose = shouldClose; }

@@ -7,113 +7,124 @@ import static com.raylib.Raylib.*;
 
 public class UITransition extends AbstractUIComponent {
 
-    private final boolean fadingIn;
-    private float alpha;
-    private float volume;
+    private UITransitionBox[][] boxes;
+    private float timeToNextBoxSpawn = 0.05f;
+    private float waitTimeAccumulator = 0.0f;
+    private float volume = 1.0f;
 
-    public UITransition(boolean fadingIn) {
-        this.fadingIn = fadingIn;
-        this.alpha = this.fadingIn ? 0.0f : 1.0f;
-        this.volume = this.fadingIn ? 1.0f : 0.0f;
+    public boolean hasOpened = false;
+
+    public UITransition() {
+        this.boxes = new UITransitionBox[(int)Settings.UI_TRANSITION_DIMENSIONS_IN_BOXES.y()][(int)Settings.UI_TRANSITION_DIMENSIONS_IN_BOXES.x()];
+        this.boxes[0][0] = new UITransitionBox(Vector2Zero(), this, waitTimeAccumulator);
     }
 
     @Override
     public void update(float dt) {
-        alpha += fadingIn ? dt : -dt;
-        volume -= fadingIn ? dt : -dt;
+        // Volume control
+        volume = Lerp(volume, hasOpened ? 1.0f : 0.0f, 0.1f);
         SetMasterVolume(volume);
-        if (alpha < 0.0f || alpha > 1.0f) done = true;
+
+        timeToNextBoxSpawn += dt;
+        if (timeToNextBoxSpawn >= 0.05f) {
+            // Update timer
+            timeToNextBoxSpawn -= 0.05f;
+            waitTimeAccumulator += 0.05f;
+
+            for (int row = 0; row < boxes.length; row++) {
+                // Break loop if row is empty, fill [row][0]
+                if (boxes[row][0] == null) {
+                    boxes[row][0] = new UITransitionBox(new Vector2().x(0).y(row), this, waitTimeAccumulator);
+                    break;
+                }
+
+                for (int col = 0; col < boxes[row].length; col++) {
+                    // Break row if col is empty, fill [row][col]
+                    if (boxes[row][col] == null) {
+                        boxes[row][col] = new UITransitionBox(new Vector2().x(col).y(row), this, waitTimeAccumulator);
+                        break;
+                    }
+                }
+            }
+        }
+
+        // Update boxes if not null
+        for (int row = 0; row < boxes.length; row++) {
+            for (int col = 0; col < boxes[row].length; col++) {
+                UITransitionBox box = boxes[row][col];
+                if (box != null) {
+                    box.update(dt);
+                    if (box.done) boxes[row][col] = null;
+                }
+            }
+        }
+
+        // Check to determine if we're transitioning in or out
+        if (hasOpened) checkIfDone();
+        else checkIfOpened();
     }
 
     @Override
     public void render() {
-        DrawRectangleV(Vector2Zero(), new Vector2().x(Settings.SCREEN_WIDTH).y(Settings.SCREEN_HEIGHT), Fade(BLACK, alpha));
+        for (UITransitionBox[] row : boxes)
+            for (UITransitionBox box : row)
+                if (box != null) box.render();
     }
 
-    // Old version, might work on later
-//    private UITransitionBox[][] boxes;
-//    private Color color;
-//    private float timeToNextBoxSpawn = 0.1f;
-//
-//    public boolean hasOpened = false;
-//
-//    public UITransition(Color color) {
-//        this.color = color;
-//        this.boxes = new UITransitionBox[(int)Settings.UI_TRANSITION_DIMENSIONS_IN_BOXES.x()][(int)Settings.UI_TRANSITION_DIMENSIONS_IN_BOXES.y()];
-//        this.boxes[0][0] = new UITransitionBox(Vector2Zero(), color);
-//    }
-//
-//    @Override
-//    public void update(float dt) {
-//        // Create new boxes when the time is right
-//        timeToNextBoxSpawn -= dt;
-//        if (!hasOpened && timeToNextBoxSpawn <= 0.0f) {
-//            timeToNextBoxSpawn += 0.1f;
-//            for (int row = 0; row < boxes.length; row++) {
-//                if (boxes[row][0] == null) {
-//                    boxes[row][0] = new UITransitionBox(new Vector2().x(row).y(0), color);
-//                    break;
-//                }
-//                for (int col = 0; col < boxes[row].length; col++) {
-//                    if (boxes[row][col] == null) {
-//                        boxes[row][col] = new UITransitionBox(new Vector2().x(row).y(col), color);
-//                        break;
-//                    } else if (boxes[row][col] != null) { // Update box if not null
-//                        boxes[row][col].update(dt);
-//                    } else if (row == Settings.UI_TRANSITION_DIMENSIONS_IN_BOXES.x() && col == Settings.UI_TRANSITION_DIMENSIONS_IN_BOXES.y()) {
-//                        hasOpened = true;
-//                    }
-//                }
-//            }
-//        } else {
-//            if (boxes[0][0].done) return; // Don't even bother updating if it's done
-//            for (UITransitionBox[] row : boxes)
-//                for (UITransitionBox box : row)
-//                    if (box != null) box.fade(dt);
-//        }
-//    }
-//
-//    @Override
-//    public void render() {
-//        for (UITransitionBox[] row : boxes)
-//            for (UITransitionBox box : row)
-//                if (box != null) box.render();
-//    }
-//
-//    private boolean areAllBoxesDone() {
-//        for (UITransitionBox[] row : boxes) {
-//            for (UITransitionBox box : row) {
-//                if (!box.done) return false;
-//            }
-//        }
-//        return true;
-//    }
-//
-//    private static class UITransitionBox extends AbstractUIComponent {
-//
-//        private final Color color;
-//
-//        private float scale = 0.0f;
-//        private float alpha = 1.0f;
-//
-//        public UITransitionBox(Vector2 position, Color color) {
-//            this.position = Vector2Multiply(position, Settings.UI_TRANSITION_BOX_DIMENSIONS);
-//            this.color = color;
-//        }
-//
-//        @Override
-//        public void update(float dt) {
-//            scale = Lerp(scale, 1.0f, 0.5f);
-//        }
-//
-//        @Override
-//        public void render() {
-//            DrawRectangleV(position, Vector2Scale(Settings.UI_TRANSITION_BOX_DIMENSIONS, scale), Fade(color, alpha));
-//        }
-//
-//        public void fade(float dt) {
-//            alpha -= dt * 2;
-//            if (alpha <= 0.0f) done = true;
-//        }
-//    }
+    private void checkIfOpened() {
+        for (UITransitionBox[] row : boxes) {
+            for (UITransitionBox box : row) {
+                if (box == null || !box.doneOpening) { // Box exists or isn't done, so we aren't open
+                    return;
+                }
+            }
+        }
+        hasOpened = true;
+    }
+
+    private void checkIfDone() {
+        for (UITransitionBox[] row : boxes) {
+            for (UITransitionBox box : row) {
+                if (box != null) { // Box exists, so we aren't done
+                    return;
+                }
+            }
+        }
+        done = true;
+    }
+
+    private static class UITransitionBox extends AbstractUIComponent {
+
+        private final UITransition parent;
+        private final float waitingAfterFinish;
+
+        private float scale = 0.0f;
+        private float waitAccumulator = 0.0f;
+        public boolean doneOpening = false;
+
+        public UITransitionBox(Vector2 position, UITransition parent, float waitingAfterFinish) {
+            this.parent = parent;
+            this.position = Vector2Multiply(position, Settings.UI_TRANSITION_BOX_DIMENSIONS);
+            this.waitingAfterFinish = waitingAfterFinish;
+        }
+
+        @Override
+        public void update(float dt) {
+            if (parent.hasOpened) { // Determine fading in or out
+                waitAccumulator += dt;
+                if (waitAccumulator >= waitingAfterFinish) // Only start lerping after enough time has passed
+                    scale = Lerp(scale, 0.0f, 0.25f);
+                if (scale <= 0.001f) done = true;
+            } else {
+                scale = Lerp(scale, 1.0f, 0.25f);
+
+                if (scale >= 0.999f) doneOpening = true;
+            }
+        }
+
+        @Override
+        public void render() {
+            DrawRectangleV(position, Vector2Scale(Settings.UI_TRANSITION_BOX_DIMENSIONS, scale), BLACK);
+        }
+    }
 }

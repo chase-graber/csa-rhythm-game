@@ -52,10 +52,10 @@ public final class Settings {
 
     // Transition UI
     // Old version, might work on later
-//    public static final Vector2 UI_TRANSITION_BOX_DIMENSIONS = new Vector2().x(128).y(128);
-//    public static final Vector2 UI_TRANSITION_DIMENSIONS_IN_BOXES = new Vector2()
-//            .x((SCREEN_WIDTH / UI_TRANSITION_BOX_DIMENSIONS.x()) + 1)
-//            .y((SCREEN_HEIGHT / UI_TRANSITION_BOX_DIMENSIONS.y()) + 1);
+    public static final Vector2 UI_TRANSITION_BOX_DIMENSIONS = new Vector2().x(128).y(128);
+    public static final Vector2 UI_TRANSITION_DIMENSIONS_IN_BOXES = new Vector2()
+            .x((int)(SCREEN_WIDTH / UI_TRANSITION_BOX_DIMENSIONS.x()) + 1)
+            .y((int)(SCREEN_HEIGHT / UI_TRANSITION_BOX_DIMENSIONS.y()) + 1);
     
     private Settings() { } // No making objects of this class
 }
