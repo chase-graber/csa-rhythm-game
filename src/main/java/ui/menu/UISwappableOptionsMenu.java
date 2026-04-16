@@ -4,6 +4,7 @@ import static com.raylib.Colors.*;
 import static com.raylib.Raylib.*;
 
 import core.Settings;
+import core.TickableGameEntity;
 import ui.AbstractUIComponent;
 
 import java.util.function.Consumer;
@@ -37,12 +38,14 @@ public class UISwappableOptionsMenu<T> extends AbstractUIComponent {
                 .x(position.x() - Settings.OPTION_MENU_ARROW_SIZE * 2 - Settings.OPTION_MENU_SIDE_PADDING)
                 .y(position.y() - Settings.OPTION_MENU_ARROW_SIZE + Settings.OPTION_MENU_HEIGHT / 2)
                 .width(Settings.OPTION_MENU_ARROW_SIZE * 2)
-                .height(Settings.OPTION_MENU_ARROW_SIZE * 2));
+                .height(Settings.OPTION_MENU_ARROW_SIZE * 2),
+                180);
         this.rightArrow = new UISwappableOptionsMenuArrow(new Rectangle()
                 .x(position.x() + width + Settings.OPTION_MENU_SIDE_PADDING)
                 .y(position.y() - Settings.OPTION_MENU_ARROW_SIZE + Settings.OPTION_MENU_HEIGHT / 2)
                 .width(Settings.OPTION_MENU_ARROW_SIZE * 2)
-                .height(Settings.OPTION_MENU_ARROW_SIZE * 2));
+                .height(Settings.OPTION_MENU_ARROW_SIZE * 2),
+                0);
     }
 
     @Override
@@ -50,7 +53,14 @@ public class UISwappableOptionsMenu<T> extends AbstractUIComponent {
         leftArrow.update(dt);
         rightArrow.update(dt);
 
-        if (leftArrow.pressed) 
+        if (leftArrow.pressed || rightArrow.pressed) {
+            currentIndex += Boolean.compare(rightArrow.pressed, leftArrow.pressed);
+
+            if (currentIndex < 0) currentIndex += values.length;
+            else if (currentIndex >= values.length) currentIndex -= values.length;
+
+            method.accept(values[currentIndex]);
+        }
     }
 
     @Override
@@ -87,18 +97,22 @@ public class UISwappableOptionsMenu<T> extends AbstractUIComponent {
         }
     }
 
-    public class UISwappableOptionsMenuArrow extends AbstractUIComponent {
+    private static class UISwappableOptionsMenuArrow implements TickableGameEntity {
 
         private Rectangle hitbox;
         private float size;
         private float targetSize;
 
+        private float rotation;
+
         public boolean pressed = false;
 
-        public UISwappableOptionsMenuArrow(Rectangle hitbox) {
+        public UISwappableOptionsMenuArrow(Rectangle hitbox, float rotation) {
             this.hitbox = hitbox;
             this.size = Settings.OPTION_MENU_ARROW_SIZE;
             this.targetSize = Settings.OPTION_MENU_ARROW_SIZE;
+
+            this.rotation = rotation;
         }
 
         @Override
@@ -120,7 +134,7 @@ public class UISwappableOptionsMenu<T> extends AbstractUIComponent {
                 new Vector2().x(hitbox.x() + hitbox.width() / 2).y(hitbox.y() + hitbox.height() / 2),
                 3,
                 size,
-                0,
+                rotation,
                 BLACK
             );
             
