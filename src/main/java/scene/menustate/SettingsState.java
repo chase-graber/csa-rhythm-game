@@ -11,7 +11,7 @@ import core.Initializer;
 
 import java.util.ArrayList;
 
-import static com.raylib.Colors.BLACK;
+import static com.raylib.Colors.WHITE;
 import static com.raylib.Raylib.*;
 
 public class SettingsState extends AbstractMenuState {
@@ -73,7 +73,7 @@ public class SettingsState extends AbstractMenuState {
     @Override
     public void render() {
         int textWidth = MeasureText("Settings", 50);
-        DrawText("Settings", (Settings.SCREEN_WIDTH - textWidth) / 2, 50, 50, BLACK);
+        DrawText("Settings", (Settings.SCREEN_WIDTH - textWidth) / 2, 50, 50, WHITE);
 
         for (AbstractUIComponent auic : uiComponents) {
             auic.render();

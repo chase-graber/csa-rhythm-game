@@ -1,7 +1,6 @@
 package scene;
 
-import static com.raylib.Colors.RED;
-import static com.raylib.Colors.WHITE;
+import static com.raylib.Colors.*;
 import static com.raylib.Raylib.*;
 
 import core.Settings;
@@ -35,8 +34,8 @@ public class MenuScene extends AbstractScene {
 
     @Override
     public void render() {
-        DrawTexture(background, (int)bgOffset, 0, WHITE);
-        DrawTexture(background, (int)bgOffset + 2 * Settings.SCREEN_WIDTH, 0, WHITE);
+        DrawTexture(background, (int)bgOffset, 0, DARKBLUE);
+        DrawTexture(background, (int)bgOffset + 2 * Settings.SCREEN_WIDTH, 0, DARKBLUE);
 
         currentState.render();
 

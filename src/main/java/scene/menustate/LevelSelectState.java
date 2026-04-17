@@ -1,6 +1,6 @@
 package scene.menustate;
 
-import static com.raylib.Colors.BLACK;
+import static com.raylib.Colors.WHITE;
 import static com.raylib.Raylib.*;
 
 import core.Game;
@@ -83,7 +83,7 @@ public class LevelSelectState extends AbstractMenuState {
     @Override
     public void render() {
         int textWidth = MeasureText("Level Select", 50);
-        DrawText("Level Select", (Settings.SCREEN_WIDTH - textWidth) / 2, 50, 50, BLACK);
+        DrawText("Level Select", (Settings.SCREEN_WIDTH - textWidth) / 2, 50, 50, WHITE);
 
         for (AbstractUIComponent auic : uiComponents) {
             auic.render();

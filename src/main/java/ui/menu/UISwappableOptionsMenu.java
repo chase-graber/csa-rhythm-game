@@ -77,7 +77,7 @@ public class UISwappableOptionsMenu<T> extends AbstractUIComponent {
                         .y(position.y() + (Settings.OPTION_MENU_HEIGHT - textDimensions.y()) / 2),
                 30,
                 1,
-                BLACK
+                WHITE
                 );
 
         float labelDimensions = MeasureText(label, 30);
@@ -89,7 +89,7 @@ public class UISwappableOptionsMenu<T> extends AbstractUIComponent {
                         .y(position.y() - Settings.OPTION_MENU_SIDE_PADDING - 15),
                 30,
                 1,
-                BLACK
+                WHITE
         );
 
         if (Settings.DEBUG) {
@@ -135,7 +135,7 @@ public class UISwappableOptionsMenu<T> extends AbstractUIComponent {
                 3,
                 size,
                 rotation,
-                BLACK
+                WHITE
             );
             
             if (Settings.DEBUG) {

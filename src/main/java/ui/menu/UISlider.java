@@ -67,7 +67,7 @@ public class UISlider extends AbstractUIComponent {
     @Override
     public void render() {
         int textWidth = MeasureText(label, 20);
-        DrawText(label, (int)(position.x() - textWidth - Settings.SLIDER_PADDING), (int)(position.y() - Settings.SLIDER_RADIUS / 2), 20, BLACK);
+        DrawText(label, (int)(position.x() - textWidth - Settings.SLIDER_PADDING), (int)(position.y() - Settings.SLIDER_RADIUS / 2), 20, WHITE);
 
         DrawRectangleV(position, new Vector2().x(width).y(Settings.SLIDER_TRACK_HEIGHT), GRAY);
         DrawCircle((int)xPos, (int)(position.y() + Settings.SLIDER_TRACK_HEIGHT / 2), Settings.SLIDER_RADIUS, WHITE);
@@ -78,7 +78,7 @@ public class UISlider extends AbstractUIComponent {
                 Vector2Add(position, new Vector2().x(width + Settings.SLIDER_PADDING).y(-Settings.SLIDER_RADIUS / 2)),
                 20,
                 1,
-                BLACK);
+                WHITE);
 
         if (Settings.DEBUG) {
             DrawRectangleLinesEx(bounds, 2, RED);
