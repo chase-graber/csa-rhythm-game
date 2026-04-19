@@ -14,7 +14,13 @@ After playing the song in full, you will get your final results before being all
  + Teresa Scheider - Lead level designer, secondary programmer
 
 # External Credits
- + Toby Fox - "Spooktune", "It's TV Time!"
- + ABBA - "Mamma Mia"
- + Daudre - "Sandstorm"
- + LeaF - "Aleph-0"
+ - Music
+   - Toby Fox - "Spooktune", "It's TV Time!"
+   - ABBA - "Mamma Mia"
+   - Daudre - "Sandstorm"
+   - LeaF - "Aleph-0"
+ - Emotional Support
+   - Chase's Spotify playlist
+   - Bart
+ - Misc.
+   - The concept of time

@@ -55,7 +55,7 @@ public class CompletionScene extends AbstractScene {
     public void render() {
         // Draw two backgrounds for seamless looping
         DrawTexture(background, (int)bgOffset, 0, DARKBLUE);
-        if (bgOffset >= Settings.SCREEN_WIDTH) DrawTexture(background, (int)bgOffset + 2 * Settings.SCREEN_WIDTH, 0, DARKBLUE);
+        if (bgOffset <= -Settings.SCREEN_WIDTH) DrawTexture(background, (int)bgOffset + 2 * Settings.SCREEN_WIDTH, 0, DARKBLUE);
 
         for (AbstractUIComponent auic : uiComponents) {
             auic.render();
