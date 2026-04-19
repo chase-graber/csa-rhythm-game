@@ -34,9 +34,6 @@ public class NoteKey extends AbstractGameObject {
         } else if (key == Settings.currentKeyLayout.getTrackKey(3)) {
             this.position = new Vector2().x(Settings.PADDING).y(Settings.PADDING + 3 * Settings.SPACING);
             this.texture = AssetLoader.getTexture("assets/textures/keys/right_arrow_main.png");
-        } else {
-            this.position = new Vector2().x(0).y(0);
-            this.texture = AssetLoader.getTexture("assets/textures/keys/up_arrow_main.png");
         }
 
         // General init code

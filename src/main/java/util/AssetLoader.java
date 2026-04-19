@@ -68,6 +68,7 @@ public class AssetLoader {
             File level = new File("assets/levels/" + filepath);
             Scanner input = new Scanner(level);
 
+            // Metadata to be sent to the level and notes
             Music music = getMusic("assets/sounds/temp_menu_music.mp3"); // Default song is menu music
             Texture background = getTexture("assets/textures/backgrounds/menu_bg.png"); // Default background is menu bg
             float songSpeed = 500; // Default song speed is 500 px/s
@@ -75,10 +76,13 @@ public class AssetLoader {
             // Create level scene for note parenting
             LevelScene scene = new LevelScene();
 
+            // Loop through file
+            int currentLine = 1; // For error logging
             while (input.hasNext()) {
                 // Split line data into chunks
-                String[] data = input.nextLine().split(" ");
+                String[] data = input.nextLine().split("( )+"); // Split by any amount of spaces
                 if (data[0].isEmpty()) continue; // Skip empty lines
+                currentLine++;
 
                 String trackID;
                 String lineData;
@@ -99,9 +103,12 @@ public class AssetLoader {
                     case "D" -> tracks[2].add(new Note(2, Float.parseFloat(lineData), scene, songSpeed));
                     case "R" -> tracks[3].add(new Note(3, Float.parseFloat(lineData), scene, songSpeed));
                     case "SPEED" -> songSpeed = Float.parseFloat(lineData); // Change speed for following notes
-                    case "BACKGROUND" -> background = getTexture("assets/textures/backgrounds/" + lineData);// Override any previously established backgrounds
-                    case "MUSIC" -> music = getMusic("assets/sounds/" + lineData); // Override any previously established music
-                    default -> tracks[0].add(new Note(0, Float.parseFloat(lineData), scene, songSpeed));
+                    case "BACKGROUND" -> background = getTexture("assets/textures/backgrounds/" + lineData);// Override any previously loaded background
+                    case "MUSIC" -> music = getMusic("assets/sounds/" + lineData); // Override any previously loaded music
+                    default -> { // Something is wrong, crash the program with an IOException
+                        TraceLog(LOG_ERROR, "Line track ID in assets/levels/" + filepath + " at line " + currentLine + " is invalid type of " + trackID);
+                        throw new IOException();
+                    }
                 }
             }
 
