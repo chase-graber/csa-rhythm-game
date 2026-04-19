@@ -11,6 +11,7 @@ import object.NoteKey;
 import ui.AbstractUIComponent;
 import ui.level.UIProgressBar;
 import core.Settings;
+import ui.menu.UIMenuButton;
 import util.AssetLoader;
 
 // Main gameplay
@@ -29,7 +30,14 @@ public class LevelScene extends AbstractScene {
     public int[] numScoreTypes = { 0, 0, 0, 0 };
     private int totalNotes;
 
-    // Load level metadata (song, background, etc.)
+    // Pausing
+    private boolean paused = false;
+    private static final UIMenuButton<AbstractScene> returnToMainMenuButton = new UIMenuButton<>(350,
+            new Vector2().x(400).y(100),
+            "RETURN TO MAIN MENU",
+            Game::transitionToNextScene,
+            Game.mainMenu);
+
     public LevelScene() {
         // Ensure that note keys are mapped to the current key layout
         updateKeyLayout();
@@ -53,61 +61,69 @@ public class LevelScene extends AbstractScene {
 
     @Override
     public void update(float dt) {
-        // Update UI
-        for (int i = uiComponents.size() - 1; i >= 0; i--) {
-            AbstractUIComponent auic = uiComponents.get(i);
-            if (auic.done) uiComponents.remove(i);
+        // Check pause toggle
+        if (IsKeyPressed(KEY_P)) paused = !paused;
 
-            auic.update(dt);
-        }
+        // Update level
+        if (!paused) {
+            // Update UI
+            for (int i = uiComponents.size() - 1; i >= 0; i--) {
+                AbstractUIComponent auic = uiComponents.get(i);
+                if (auic.done) uiComponents.remove(i);
 
-        elapsedTime += dt;
-        if (elapsedTime >= 2.9f && !IsMusicStreamPlaying(music) && !hasPlayedSong) { // Level is starting
-            // Update music stream
-            PlayMusicStream(music);
-            hasPlayedSong = true;
-        } else if (((UIProgressBar)uiComponents.get(0)).getCurrentSongTime() == 0 && hasPlayedSong && !transitioning) { // Level is over
-            // Begin scene transition
-            transitioning = true;
-            Game.transitionToNextScene(new CompletionScene(numScoreTypes, totalNotes));
-        } else UpdateMusicStream(music); // Level is still playing
-
-        // Update keys (detect presses)
-        for (NoteKey nk : keys) {
-            nk.update(dt);
-        }
-
-        // Move the notes
-        for (ArrayList<Note> track : tracks) {
-            for (int i = track.size() - 1; i >= 0; i--) {
-                Note n = track.get(i);
-
-                if (n.done) { // Note has either been hit or is offscreen
-                    track.remove(i);
-
-                    if (!track.isEmpty()) { // Don't bother doing anything if it was the last note
-                        int index = 0;
-
-                        // Decides which note is the furthest based on position and index, lowk forgot what any of this means its so convoluted but at least it works
-                        try {
-                            while (track.get(index).getPosition().x() + track.get(index).getRadius() < Settings.PADDING - track.get(index).getRadius()) {
-                                index++;
-                            }
-                        } catch (IndexOutOfBoundsException e) {
-                            index--;
-                            TraceLog(LOG_DEBUG, "Attempted to move index out of bounds, length " + track.size() + ", index " + index);
-                        } finally {
-                            track.get(index).furthest = true;
-                        }
-                    }
-                    continue;
-                } else if (n.getPosition().x() + n.getRadius() < Settings.PADDING - n.getRadius()) { // Don't let notes that passed the note key be the furthest
-                      n.furthest = false;
-                      if (i < track.size() - 1) track.get(i+1).furthest = true;
-                }
-
-                n.update(dt); // Update note position
+                auic.update(dt);
             }
+
+            elapsedTime += dt;
+            if (elapsedTime >= 2.9f && !IsMusicStreamPlaying(music) && !hasPlayedSong) { // Level is starting
+                // Update music stream
+                PlayMusicStream(music);
+                hasPlayedSong = true;
+            } else if (((UIProgressBar) uiComponents.get(0)).getCurrentSongTime() == 0 && hasPlayedSong && !transitioning) { // Level is over
+                // Begin scene transition
+                transitioning = true;
+                Game.transitionToNextScene(new CompletionScene(numScoreTypes, totalNotes));
+            } else UpdateMusicStream(music); // Level is still playing
+
+            // Update keys (detect presses)
+            for (NoteKey nk : keys) {
+                nk.update(dt);
+            }
+
+            // Move the notes
+            for (ArrayList<Note> track : tracks) {
+                for (int i = track.size() - 1; i >= 0; i--) {
+                    Note n = track.get(i);
+
+                    if (n.done) { // Note has either been hit or is offscreen
+                        track.remove(i);
+
+                        if (!track.isEmpty()) { // Don't bother doing anything if it was the last note
+                            int index = 0;
+
+                            // Decides which note is the furthest based on position and index, lowk forgot what any of this means its so convoluted but at least it works
+                            try {
+                                while (track.get(index).getPosition().x() + track.get(index).getRadius() < Settings.PADDING - track.get(index).getRadius()) {
+                                    index++;
+                                }
+                            } catch (IndexOutOfBoundsException e) {
+                                index--;
+                                TraceLog(LOG_DEBUG, "Attempted to move index out of bounds, length " + track.size() + ", index " + index);
+                            } finally {
+                                track.get(index).furthest = true;
+                            }
+                        }
+                        continue;
+                    } else if (n.getPosition().x() + n.getRadius() < Settings.PADDING - n.getRadius()) { // Don't let notes that passed the note key be the furthest
+                        n.furthest = false;
+                        if (i < track.size() - 1) track.get(i + 1).furthest = true;
+                    }
+
+                    n.update(dt); // Update note position
+                }
+            }
+        } else {
+            returnToMainMenuButton.update(dt);
         }
     }
 
@@ -131,6 +147,17 @@ public class LevelScene extends AbstractScene {
         DrawRectangleGradientV(0, 0, Settings.SCREEN_WIDTH, 60, Fade(BLACK, 0.5f), BLANK);
         for (AbstractUIComponent auic : uiComponents) {
             auic.render();
+        }
+
+        if (paused) {
+            DrawRectangleV(Vector2Zero(), new Vector2().x(Settings.SCREEN_WIDTH).y(Settings.SCREEN_HEIGHT), Fade(BLACK, 0.25f));
+
+            returnToMainMenuButton.render();
+
+            float textWidth = MeasureText("PAUSED", 50);
+            DrawText("PAUSED", (int)(Settings.SCREEN_WIDTH - textWidth) / 2, 50, 50, WHITE);
+            textWidth = MeasureText("PRESS P TO UNPAUSE", 30);
+            DrawText("PRESS P TO UNPAUSE", (int)(Settings.SCREEN_WIDTH - textWidth) / 2, 120, 30, WHITE);
         }
     }
 
