@@ -26,10 +26,9 @@ public class Note extends AbstractGameObject implements Comparable<Note> {
     LevelScene parentScene;
     private NoteKey trackKey;
 
-    // Hitboxes (3 for timing-based scoring, first doubles as destRect for drawing)
+    // Hitboxes (hitbox is dest rect for drawing, others used for scoring)
     private Rectangle hitbox;
-    private Rectangle secondHitbox;
-    private Rectangle thirdHitbox;
+    private Rectangle[] scoreHitboxes;
 
     // Can you hit it?
     public boolean furthest = false;
@@ -58,16 +57,24 @@ public class Note extends AbstractGameObject implements Comparable<Note> {
                 .y(this.position.y() - radius)
                 .width(radius * 2)
                 .height(radius * 2);
-        this.secondHitbox = new Rectangle()
-                .x(this.position.x() - radius * 0.5f)
-                .y(this.position.y() - radius * 0.5f)
-                .width(radius)
-                .height(radius);
-        this.thirdHitbox = new Rectangle()
-                .x(this.position.x() - radius * 0.25f)
-                .y(this.position.y() - radius * 0.25f)
-                .width(radius / 2.0f)
-                .height(radius / 2.0f);
+
+        this.scoreHitboxes = new Rectangle[]{
+                new Rectangle()
+                        .x(this.position.x() - radius)
+                        .y(this.position.y() - radius)
+                        .width((float)(radius * 2) / 3)
+                        .height(radius * 2),
+                new Rectangle()
+                        .x(this.position.x() - (float)radius / 3)
+                        .y(this.position.y() - radius)
+                        .width((float)(radius * 2) / 3)
+                        .height(radius * 2),
+                new Rectangle()
+                        .x(this.position.x() + (float)radius / 3)
+                        .y(this.position.y() - radius)
+                        .width((float)(radius * 2) / 3)
+                        .height(radius * 2)
+        };
     }
 
  
@@ -76,9 +83,10 @@ public class Note extends AbstractGameObject implements Comparable<Note> {
         // Update texture and hitbox positions
         position.x(position.x() - speed * dt);
 
-        hitbox.x(position.x() - radius).y(position.y() - radius);
-        secondHitbox.x(position.x() - radius * 0.5f).y(position.y() - radius * 0.5f);
-        thirdHitbox.x(position.x() - radius * 0.25f).y(position.y() - radius * 0.25f);
+        hitbox.x(hitbox.x() - speed * dt);
+        for (Rectangle scoreHitbox : scoreHitboxes) {
+            scoreHitbox.x(scoreHitbox.x() - speed * dt);
+        }
 
         // Check if note has gone offscreen
         if (position.x() < -radius) {
@@ -88,10 +96,9 @@ public class Note extends AbstractGameObject implements Comparable<Note> {
             parentScene.numScoreTypes[0]++;
         } else if (trackKey.isActive() && CheckCollisionRecs(trackKey.getHitbox(), hitbox) && furthest) { // Check if note has been hit by its NoteKey
             // Count how many hitboxes were hit for scoring
-            int numHitboxesHit = 1;
-            if (CheckCollisionRecs(trackKey.getHitbox(), secondHitbox)) {
-                numHitboxesHit++;
-                if (CheckCollisionRecs(trackKey.getHitbox(), thirdHitbox)) numHitboxesHit++;
+            int numHitboxesHit = 0;
+            for (Rectangle hitbox : scoreHitboxes) {
+                if (CheckCollisionRecs(trackKey.getHitbox(), hitbox)) numHitboxesHit++;
             }
 
             // Increment relevant score counter
@@ -114,8 +121,8 @@ public class Note extends AbstractGameObject implements Comparable<Note> {
 
         if (Settings.DEBUG) {
             DrawRectangleLinesEx(hitbox, 2, RED);
-            DrawRectangleLinesEx(secondHitbox, 2, RED);
-            DrawRectangleLinesEx(thirdHitbox, 2, RED);
+            for (Rectangle hitbox : scoreHitboxes)
+                DrawRectangleLinesEx(hitbox, 2, RED);
         }
     }
 
