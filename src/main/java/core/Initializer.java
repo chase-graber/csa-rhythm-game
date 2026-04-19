@@ -6,8 +6,10 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Scanner;
 
+// Settings saving and loading to keep beyond each game instance
 public class Initializer {
 
+    // Save current settings to text file settings.txt
     public static void saveSettings(boolean overwriteIgThisParameterIsOnlyHereBcAConsumerNeedsItToNotCrash) {
         try {
             FileWriter writer = new FileWriter("assets/settings.txt");
@@ -21,6 +23,7 @@ public class Initializer {
         }
     }
 
+    // Load settings from settings.txt on startup or set to defaults if file not found
     public static void loadSettings() {
         try {
             Scanner scanner = new Scanner(new File("assets/settings.txt"));
@@ -37,5 +40,5 @@ public class Initializer {
         }
     }
 
-    private Initializer() { }
+    private Initializer() { } // No making objects of this class
 }

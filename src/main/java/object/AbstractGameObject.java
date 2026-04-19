@@ -4,6 +4,7 @@ import core.TickableGameEntity;
 
 import static com.raylib.Raylib.*;
 
+// Game object parent class
 public abstract class AbstractGameObject implements TickableGameEntity {
 
     protected Vector2 position;

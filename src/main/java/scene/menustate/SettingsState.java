@@ -16,12 +16,14 @@ import static com.raylib.Raylib.*;
 
 public class SettingsState extends AbstractMenuState {
 
+    // Singleton
     private static SettingsState instance;
 
     private SettingsState() {
         // stuff
     }
 
+    // Singleton pattern
     public static SettingsState get() {
         if (instance == null)
             instance = new SettingsState();
@@ -65,6 +67,7 @@ public class SettingsState extends AbstractMenuState {
 
     @Override
     public void update(float dt) {
+        // Update ui
         for (AbstractUIComponent auic : uiComponents) {
             auic.update(dt);
         }
@@ -72,9 +75,11 @@ public class SettingsState extends AbstractMenuState {
 
     @Override
     public void render() {
+        // Draw state header
         int textWidth = MeasureText("Settings", 50);
         DrawText("Settings", (Settings.SCREEN_WIDTH - textWidth) / 2, 50, 50, WHITE);
 
+        // Render ui
         for (AbstractUIComponent auic : uiComponents) {
             auic.render();
         }

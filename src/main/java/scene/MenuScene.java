@@ -7,13 +7,17 @@ import core.Settings;
 import scene.menustate.*;
 import util.AssetLoader;
 
+// Main menu
 public class MenuScene extends AbstractScene {
 
+    // Keeps track of which state is displayed
     private static AbstractMenuState currentState;
 
+    // For scrolling background
     private float bgOffset;
 
     public MenuScene() {
+        // General init
         this.music = AssetLoader.getMusic("assets/sounds/temp_menu_music.mp3");
         this.background = AssetLoader.getTexture("assets/textures/backgrounds/menu_bg.png");
         PlayMusicStream(this.music);
@@ -28,30 +32,21 @@ public class MenuScene extends AbstractScene {
 
         currentState.update(dt);
 
+        // Move background
         bgOffset += Settings.BACKGROUND_SCROLL_SPEED * dt;
         if (bgOffset <= -2 * Settings.SCREEN_WIDTH) bgOffset += 2 * Settings.SCREEN_WIDTH;
     }
 
     @Override
     public void render() {
+        // Draw two backgrounds for seamless looping
         DrawTexture(background, (int)bgOffset, 0, DARKBLUE);
-        DrawTexture(background, (int)bgOffset + 2 * Settings.SCREEN_WIDTH, 0, DARKBLUE);
+        if (bgOffset >= Settings.SCREEN_WIDTH) DrawTexture(background, (int)bgOffset + 2 * Settings.SCREEN_WIDTH, 0, DARKBLUE);
 
         currentState.render();
-
-        if (Settings.DEBUG) {
-            // Center of screen for positioning
-            DrawLineEx(
-                    new Vector2().x((float)Settings.SCREEN_WIDTH / 2).y(0),
-                    new Vector2().x((float)Settings.SCREEN_WIDTH / 2).y(Settings.SCREEN_HEIGHT),
-                    2, RED);
-            DrawLineEx(
-                    new Vector2().x(0).y((float)Settings.SCREEN_HEIGHT / 2),
-                    new Vector2().x(Settings.SCREEN_WIDTH).y((float)Settings.SCREEN_HEIGHT / 2),
-                    2, RED);
-        }
     }
 
+    // Reset music
     @Override
     public void onTransition() {
         StopMusicStream(music);
@@ -61,7 +56,7 @@ public class MenuScene extends AbstractScene {
     public static void setCurrentState(AbstractMenuState next) {
         currentState = next;
 
-        // Clear any previous interaction
+        // Clear any previous interaction (e.g. level has already been played)
         currentState.init();
     }
 }

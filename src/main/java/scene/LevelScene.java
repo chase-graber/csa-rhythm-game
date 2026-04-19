@@ -13,12 +13,15 @@ import ui.level.UIProgressBar;
 import core.Settings;
 import util.AssetLoader;
 
+// Main gameplay
 public class LevelScene extends AbstractScene {
 
+    // General/misc
     private float elapsedTime = 0.0f;
     private boolean hasPlayedSong = false;
     private boolean transitioning = false;
 
+    // 4 tracks, each with one note key and an arbitrary number of notes
     private NoteKey[] keys;
     private ArrayList<Note>[] tracks;
 
@@ -26,6 +29,7 @@ public class LevelScene extends AbstractScene {
     public int[] numScoreTypes = { 0, 0, 0, 0 };
     private int totalNotes;
 
+    // Load level metadata (song, background, etc.)
     public LevelScene(AssetLoader.LevelMetadata md) {
         this.music = md.song();
         this.music.looping(false);
@@ -33,6 +37,7 @@ public class LevelScene extends AbstractScene {
 
         uiComponents.add(new UIProgressBar(md.song())); // UIProgressBar always at index 0
 
+        // Ensure that note keys are mapped to the current key layout
         updateKeyLayout();
     }
 
@@ -54,15 +59,16 @@ public class LevelScene extends AbstractScene {
             auic.update(dt);
         }
 
-        // Update music stream
         elapsedTime += dt;
-        if (elapsedTime >= 2.9f && !IsMusicStreamPlaying(music) && !hasPlayedSong) {
+        if (elapsedTime >= 2.9f && !IsMusicStreamPlaying(music) && !hasPlayedSong) { // Level is starting
+            // Update music stream
             PlayMusicStream(music);
             hasPlayedSong = true;
-        } else if (((UIProgressBar)uiComponents.get(0)).getCurrentSongTime() == 0 && hasPlayedSong && !transitioning) {
+        } else if (((UIProgressBar)uiComponents.get(0)).getCurrentSongTime() == 0 && hasPlayedSong && !transitioning) { // Level is over
+            // Begin scene transition
             transitioning = true;
             Game.transitionToNextScene(new CompletionScene(numScoreTypes, totalNotes));
-        } else UpdateMusicStream(music);
+        } else UpdateMusicStream(music); // Level is still playing
 
         // Update keys (detect presses)
         for (NoteKey nk : keys) {
@@ -73,11 +79,14 @@ public class LevelScene extends AbstractScene {
         for (ArrayList<Note> track : tracks) {
             for (int i = track.size() - 1; i >= 0; i--) {
                 Note n = track.get(i);
-                if (n.done) {
+
+                if (n.done) { // Note has either been hit or is offscreen
                     track.remove(i);
 
-                    if (!track.isEmpty()) {
+                    if (!track.isEmpty()) { // Don't bother doing anything if it was the last note
                         int index = 0;
+
+                        // Decides which note is the furthest based on position and index, lowk forgot what any of this means its so convoluted but at least it works
                         try {
                             while (track.get(index).getPosition().x() + track.get(index).getRadius() < Settings.PADDING - track.get(index).getRadius()) {
                                 index++;
@@ -90,11 +99,12 @@ public class LevelScene extends AbstractScene {
                         }
                     }
                     continue;
-                } else if (n.getPosition().x() + n.getRadius() < Settings.PADDING - n.getRadius()) {
+                } else if (n.getPosition().x() + n.getRadius() < Settings.PADDING - n.getRadius()) { // Don't let notes that passed the note key be the furthest
                       n.furthest = false;
                       if (i < track.size() - 1) track.get(i+1).furthest = true;
                 }
-                n.update(dt);
+
+                n.update(dt); // Update note position
             }
         }
     }

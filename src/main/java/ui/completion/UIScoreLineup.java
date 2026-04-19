@@ -12,8 +12,10 @@ import ui.AbstractUIComponent;
 import util.AssetLoader;
 import util.UtilMethods;
 
+// Level stats
 public class UIScoreLineup extends AbstractUIComponent {
 
+    // Data to be displayed
     private final int[] numHits;
     private final int totalNotes;
     private final float[] percentages;
@@ -25,9 +27,12 @@ public class UIScoreLineup extends AbstractUIComponent {
     private final float[] texRotationOffsets;
 
     public UIScoreLineup(int[] numHits, int totalNotes, float[] percentages) {
+        // Store level stats
         this.numHits = numHits;
         this.totalNotes = totalNotes;
         this.percentages = percentages;
+
+        // Texture stuff
         this.textures = new Texture[]{
                 AssetLoader.getTexture("assets/textures/ui/textPopup_0.png"),
                 AssetLoader.getTexture("assets/textures/ui/textPopup_1.png"),
@@ -41,7 +46,7 @@ public class UIScoreLineup extends AbstractUIComponent {
                 UtilMethods.getTextureRect(textures[3], new Vector2().x((float)Settings.SCREEN_WIDTH / 2).y(Settings.COMPLETION_PADDING + Settings.SPACING * 3)),
         };
         this.texRotations = new float[]{ 0, 0, 0, 0 };
-        this.texRotationOffsets = new float[]{
+        this.texRotationOffsets = new float[]{ // Textures start with a different rotation timing
                 (float) (Math.random() * PI),
                 (float) (Math.random() * PI),
                 (float) (Math.random() * PI),
@@ -51,6 +56,7 @@ public class UIScoreLineup extends AbstractUIComponent {
 
     @Override
     public void update(float dt) {
+        // Rotate text based on the sine of the current game time
         for (int i = 0; i < texRotations.length; i++) {
             texRotations[i] = (float)Math.sin(GetTime() + texRotationOffsets[i]) * 5;
         }
@@ -58,6 +64,7 @@ public class UIScoreLineup extends AbstractUIComponent {
 
     @Override
     public void render() {
+        // Draw middle textures
         for (int i = 0; i < textures.length; i++) {
             DrawTexturePro(textures[i],
                     UtilMethods.getTextureRect(textures[i]),
@@ -68,7 +75,9 @@ public class UIScoreLineup extends AbstractUIComponent {
             );
         }
 
+        // Draw level stats
         for (int i = 0; i < numHits.length; i++) {
+            // Ensure correct positioning
             String totalsText = numHits[i] + "/" + totalNotes;
             Vector2 totalsSize = MeasureTextEx(GetFontDefault(), totalsText, 20, 0);
             String percentageText = Math.round(percentages[i] * 1000) / 10.0f + "%";

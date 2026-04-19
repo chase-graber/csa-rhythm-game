@@ -1,5 +1,6 @@
 package scene.menustate;
 
+// Collection of all states for easy switching
 public enum MenuStateMachine {
     MENU(MenuState.get()),
     SETTINGS(SettingsState.get()),
@@ -13,6 +14,7 @@ public enum MenuStateMachine {
 
     public AbstractMenuState get() { return state; }
 
+    // Initialize all states so that nothing is null
     public static void initValues() {
         for (MenuStateMachine msm : MenuStateMachine.values()) {
             msm.get().init();

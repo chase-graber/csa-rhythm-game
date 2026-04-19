@@ -2,6 +2,7 @@ package core;
 
 import static com.raylib.Raylib.*;
 
+// General game settings
 public final class Settings {
 
     // Screen settings

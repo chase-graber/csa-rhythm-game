@@ -8,16 +8,20 @@ import util.AssetLoader;
 import core.Settings;
 import util.UtilMethods;
 
+// How far through the level the player is
 public class UIProgressBar extends AbstractUIComponent {
 
-    private Music songToProgress;
+    // Reference to the music to check how far along it is
+    private final Music songToProgress;
 
+    // Display stuff
     private final Rectangle bounds;
     private final float totalSongTime;
     private float currentSongTime;
     private boolean hasStarted = false;
 
     public UIProgressBar(Music songToProgress) {
+        // General init
         this.bounds = new Rectangle()
             .x(Settings.PROGRESS_BAR_POSITION.x())
             .y(Settings.PROGRESS_BAR_POSITION.y())
@@ -40,11 +44,11 @@ public class UIProgressBar extends AbstractUIComponent {
     public void render() {
         float percentDone = currentSongTime / totalSongTime;
         DrawRectangleV(Settings.PROGRESS_BAR_POSITION,
-                new Vector2().x((hasStarted && currentSongTime == 0 ? 1.0f : percentDone) * Settings.PROGRESS_BAR_DIMENSIONS.x())
+                new Vector2().x((hasStarted && currentSongTime == 0 ? 1.0f : percentDone) * Settings.PROGRESS_BAR_DIMENSIONS.x()) // Make sure bar stays filled after song ends
                         .y(Settings.PROGRESS_BAR_DIMENSIONS.y()),
                 GOLD);
 
-        DrawTexturePro(texture, UtilMethods.getTextureRect(texture), bounds, Vector2Zero(), 0, WHITE);
+        DrawTexturePro(texture, UtilMethods.getTextureRect(texture), bounds, Vector2Zero(), 0, WHITE); // Draw border texture over progression rectangle
     }
 
     public float getCurrentSongTime() {

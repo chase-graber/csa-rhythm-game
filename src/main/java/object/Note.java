@@ -13,32 +13,40 @@ import com.raylib.Raylib.Vector2;
 import scene.LevelScene;
 import ui.level.UITextPopup;
 
+// Notes to be hit by NoteKeys
 public class Note extends AbstractGameObject implements Comparable<Note> {
 
+    // Positioning and display
     private int track;
     private final int radius = 40;
     private float speed;
     private final float hitTime;
 
+    // References to parent scene and the note's track key
     LevelScene parentScene;
     private NoteKey trackKey;
 
+    // Hitboxes (3 for timing-based scoring, first doubles as destRect for drawing)
     private Rectangle hitbox;
     private Rectangle secondHitbox;
     private Rectangle thirdHitbox;
 
-    public boolean done = false;
+    // Can you hit it?
     public boolean furthest = false;
 
+    // Delete or no?
+    public boolean done = false;
+
     public Note(int track, float hitTime, LevelScene parentScene, float speed) {
+        // Get texture depending on which track the note is on
         switch(track) {
             case 0 -> this.texture = AssetLoader.getTexture("assets/textures/keys/up_arrow.png");
             case 1 -> this.texture = AssetLoader.getTexture("assets/textures/keys/left_arrow.png");
             case 2 -> this.texture = AssetLoader.getTexture("assets/textures/keys/down_arrow.png");
             case 3 -> this.texture = AssetLoader.getTexture("assets/textures/keys/right_arrow.png");
-            default -> this.texture = AssetLoader.getTexture("assets/textures/keys/up_arrow.png");
         }
 
+        // General init code
         this.track = track;
         this.speed = speed;
         this.hitTime = hitTime;
@@ -65,25 +73,31 @@ public class Note extends AbstractGameObject implements Comparable<Note> {
  
     @Override
     public void update(float dt) {
+        // Update texture and hitbox positions
         position.x(position.x() - speed * dt);
 
         hitbox.x(position.x() - radius).y(position.y() - radius);
         secondHitbox.x(position.x() - radius * 0.5f).y(position.y() - radius * 0.5f);
         thirdHitbox.x(position.x() - radius * 0.25f).y(position.y() - radius * 0.25f);
 
+        // Check if note has gone offscreen
         if (position.x() < -radius) {
+            // Delete, add miss
             done = true;
             parentScene.addUIComponent(new UITextPopup(track, 0));
             parentScene.numScoreTypes[0]++;
-        } else if (trackKey.isActive() && CheckCollisionRecs(trackKey.getHitbox(), hitbox) && furthest) {
+        } else if (trackKey.isActive() && CheckCollisionRecs(trackKey.getHitbox(), hitbox) && furthest) { // Check if note has been hit by its NoteKey
+            // Count how many hitboxes were hit for scoring
             int numHitboxesHit = 1;
             if (CheckCollisionRecs(trackKey.getHitbox(), secondHitbox)) {
                 numHitboxesHit++;
                 if (CheckCollisionRecs(trackKey.getHitbox(), thirdHitbox)) numHitboxesHit++;
             }
 
+            // Increment relevant score counter
             parentScene.numScoreTypes[numHitboxesHit]++;
 
+            // Delete, add relevant text popup
             done = true;
             parentScene.addUIComponent(new UITextPopup(track, numHitboxesHit));
         }
@@ -105,6 +119,7 @@ public class Note extends AbstractGameObject implements Comparable<Note> {
         }
     }
 
+    // For sorting keys by hit time on level load
     @Override
     public int compareTo(Note o) {
         return Float.compare(this.hitTime, o.getHitTime());
