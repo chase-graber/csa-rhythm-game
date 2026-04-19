@@ -30,18 +30,20 @@ public class LevelScene extends AbstractScene {
     private int totalNotes;
 
     // Load level metadata (song, background, etc.)
-    public LevelScene(AssetLoader.LevelMetadata md) {
+    public LevelScene() {
+        // Ensure that note keys are mapped to the current key layout
+        updateKeyLayout();
+    }
+
+    // Addons to constructor, called in AssetLoader since notes need a parent scene (which can't exist if this is part of the constructor)
+    public void applyMetadata(AssetLoader.SceneMetadata md) {
         this.music = md.song();
         this.music.looping(false);
         this.background = md.background();
 
         uiComponents.add(new UIProgressBar(md.song())); // UIProgressBar always at index 0
-
-        // Ensure that note keys are mapped to the current key layout
-        updateKeyLayout();
     }
 
-    // Addon to constructor, called in AssetLoader since notes need a parent scene (which can't exist if this is part of the constructor)
     public void setLevelTracks(ArrayList<Note>[] tracks) {
         this.tracks = tracks;
         for (ArrayList<Note> track : tracks) {

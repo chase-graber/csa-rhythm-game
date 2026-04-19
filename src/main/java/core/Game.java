@@ -40,7 +40,7 @@ public final class Game {
 
     // Initializes the game on startup
     private void init() {
-        SetTraceLogLevel(LOG_WARNING);
+        SetTraceLogLevel(Settings.DEBUG ? LOG_DEBUG : LOG_WARNING);
 
         // IMPORTANT: NEVER DO ANYTHING BEFORE InitWindow AND InitAudioDevice, REMEMBER WHAT HAPPENED THE LAST TIMES YOU TRIED
         InitWindow(Settings.SCREEN_WIDTH, Settings.SCREEN_HEIGHT, "Beats Baby");

@@ -12,6 +12,7 @@ import com.raylib.Raylib.Texture;
 import object.Note;
 import scene.LevelScene;
 
+// Loads assets from files, including levels from the .lvl format
 public class AssetLoader {
 
     // Stores all loaded assets mapped to their filepaths so that duplicates aren't created
@@ -20,7 +21,7 @@ public class AssetLoader {
     public static Map<String, Music> music = new HashMap<>();
 
     // Can add to this here to send more things to the level
-    public record LevelMetadata(Music song, Texture background) { }
+    public record SceneMetadata(Music song, Texture background) { }
 
     // Loads textures and applies antialiasing to them
     public static Texture getTexture(String filepath) {
@@ -67,17 +68,12 @@ public class AssetLoader {
             File level = new File("assets/levels/" + filepath);
             Scanner input = new Scanner(level);
 
-            // First line always song path
-            // Second line always bg path
-            LevelMetadata md = new LevelMetadata(
-                    getMusic("assets/sounds/" + input.nextLine()),
-                    getTexture("assets/textures/backgrounds/" + input.nextLine()));
-            input.nextLine(); // Cross gap between config and data
-
+            Music music = getMusic("assets/sounds/temp_menu_music.mp3"); // Default song is menu music
+            Texture background = getTexture("assets/textures/backgrounds/menu_bg.png"); // Default background is menu bg
             float songSpeed = 500; // Default song speed is 500 px/s
 
             // Create level scene for note parenting
-            LevelScene scene = new LevelScene(md);
+            LevelScene scene = new LevelScene();
 
             while (input.hasNext()) {
                 // Split line data into chunks
@@ -85,37 +81,27 @@ public class AssetLoader {
                 if (data[0].isEmpty()) continue; // Skip empty lines
 
                 String trackID;
-                float noteData;
+                String lineData;
 
                 // For testing song timings without mapping
                 if (data.length == 1) {
                     trackID = "U";
-                    noteData = Float.parseFloat(data[0]);
+                    lineData = data[0];
                 } else {
                     trackID = data[0];
-                    noteData = Float.parseFloat(data[1]);
+                    lineData = data[1];
                 }
 
                 // Add note to it's corresponding track
                 switch(trackID) {
-                    case "U":
-                        tracks[0].add(new Note(0, noteData, scene, songSpeed));
-                        break;
-                    case "L":
-                        tracks[1].add(new Note(1, noteData, scene, songSpeed));
-                        break;
-                    case "D":
-                        tracks[2].add(new Note(2, noteData, scene, songSpeed));
-                        break;
-                    case "R":
-                        tracks[3].add(new Note(3, noteData, scene, songSpeed));
-                        break;
-                    case "SPEED": // Change speed for following notes
-                        songSpeed = noteData;
-                        break;
-                    default:
-                        tracks[0].add(new Note(0, noteData, scene, songSpeed));
-                        break;
+                    case "U" -> tracks[0].add(new Note(0, Float.parseFloat(lineData), scene, songSpeed));
+                    case "L" -> tracks[1].add(new Note(1, Float.parseFloat(lineData), scene, songSpeed));
+                    case "D" -> tracks[2].add(new Note(2, Float.parseFloat(lineData), scene, songSpeed));
+                    case "R" -> tracks[3].add(new Note(3, Float.parseFloat(lineData), scene, songSpeed));
+                    case "SPEED" -> songSpeed = Float.parseFloat(lineData); // Change speed for following notes
+                    case "BACKGROUND" -> background = getTexture("assets/textures/backgrounds/" + lineData);// Override any previously established backgrounds
+                    case "MUSIC" -> music = getMusic("assets/sounds/" + lineData); // Override any previously established music
+                    default -> tracks[0].add(new Note(0, Float.parseFloat(lineData), scene, songSpeed));
                 }
             }
 
@@ -128,6 +114,7 @@ public class AssetLoader {
             }
 
             // Send tracks to level scene and return
+            scene.applyMetadata(new SceneMetadata(music, background));
             scene.setLevelTracks(tracks);
             return scene;
         } catch (IOException e) {
