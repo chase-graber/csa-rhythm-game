@@ -12,7 +12,6 @@ import ui.AbstractUIComponent;
 import ui.level.UIProgressBar;
 import core.Settings;
 import ui.menu.UIMenuButton;
-import util.AssetLoader;
 
 // Main gameplay
 public class LevelScene extends AbstractScene {
@@ -44,12 +43,11 @@ public class LevelScene extends AbstractScene {
     }
 
     // Addons to constructor, called in AssetLoader since notes need a parent scene (which can't exist if this is part of the constructor)
-    public void applyMetadata(AssetLoader.SceneMetadata md) {
-        this.music = md.song();
-        this.music.looping(false);
-        this.background = md.background();
+    public void applyMetadata(SceneMetadata md) {
+        this.metadata = md;
+        this.metadata.music().looping(false);
 
-        uiComponents.add(new UIProgressBar(md.song())); // UIProgressBar always at index 0
+        uiComponents.add(new UIProgressBar(md.music())); // UIProgressBar always at index 0
     }
 
     public void setLevelTracks(ArrayList<Note>[] tracks) {
@@ -75,15 +73,15 @@ public class LevelScene extends AbstractScene {
             }
 
             elapsedTime += dt;
-            if (elapsedTime >= 2.9f && !IsMusicStreamPlaying(music) && !hasPlayedSong) { // Level is starting
+            if (elapsedTime >= 2.9f && !IsMusicStreamPlaying(metadata.music()) && !hasPlayedSong) { // Level is starting
                 // Update music stream
-                PlayMusicStream(music);
+                PlayMusicStream(metadata.music());
                 hasPlayedSong = true;
             } else if (((UIProgressBar) uiComponents.get(0)).getCurrentSongTime() == 0 && hasPlayedSong && !transitioning) { // Level is over
                 // Begin scene transition
                 transitioning = true;
                 Game.transitionToNextScene(new CompletionScene(numScoreTypes, totalNotes));
-            } else UpdateMusicStream(music); // Level is still playing
+            } else UpdateMusicStream(metadata.music()); // Level is still playing
 
             // Update keys (detect presses)
             for (NoteKey nk : keys) {
@@ -130,7 +128,7 @@ public class LevelScene extends AbstractScene {
     @Override
     public void render() {
         // Draw background
-        DrawTextureV(background, Vector2Zero(), WHITE);
+        DrawTextureV(metadata.background(), Vector2Zero(), WHITE);
 
         // Draw game objects
         for (int track = 0; track < tracks.length; track++) {
@@ -149,6 +147,7 @@ public class LevelScene extends AbstractScene {
             auic.render();
         }
 
+        // Draw pause menu
         if (paused) {
             DrawRectangleV(Vector2Zero(), new Vector2().x(Settings.SCREEN_WIDTH).y(Settings.SCREEN_HEIGHT), Fade(BLACK, 0.25f));
 

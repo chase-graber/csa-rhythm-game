@@ -51,6 +51,7 @@ public final class Game {
         Initializer.loadSettings();
         MenuStateMachine.initValues();
         mainMenu = new MenuScene();
+        mainMenu.init();
 
         // Game setup
         currentScene = new GameStartScene(); //AssetLoader.loadLevelScene("aleph_0.lvl");

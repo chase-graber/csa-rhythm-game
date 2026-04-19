@@ -17,18 +17,22 @@ public class MenuScene extends AbstractScene {
     private float bgOffset;
 
     public MenuScene() {
-        // General init
-        this.music = AssetLoader.getMusic("assets/sounds/temp_menu_music.mp3");
-        this.background = AssetLoader.getTexture("assets/textures/backgrounds/menu_bg.png");
-        PlayMusicStream(this.music);
-        currentState = MenuStateMachine.MENU.get();
-
+        // General non-static init
         this.bgOffset = 0.0f;
+    }
+
+    // Static init
+    public void init() {
+        metadata = new SceneMetadata(AssetLoader.getMusic("assets/sounds/temp_menu_music.mp3"),
+                AssetLoader.getTexture("assets/textures/backgrounds/menu_bg.png"));
+        PlayMusicStream(this.metadata.music());
+        currentState = MenuStateMachine.MENU.get();
     }
 
     @Override
     public void update(float dt) {
-        UpdateMusicStream(music);
+        if (!IsMusicStreamPlaying(metadata.music())) PlayMusicStream(metadata.music());
+        UpdateMusicStream(metadata.music());
 
         currentState.update(dt);
 
@@ -40,8 +44,8 @@ public class MenuScene extends AbstractScene {
     @Override
     public void render() {
         // Draw two backgrounds for seamless looping
-        DrawTexture(background, (int)bgOffset, 0, DARKBLUE);
-        if (bgOffset <= -Settings.SCREEN_WIDTH) DrawTexture(background, (int)bgOffset + 2 * Settings.SCREEN_WIDTH, 0, DARKBLUE);
+        DrawTexture(metadata.background(), (int)bgOffset, 0, DARKBLUE);
+        if (bgOffset <= -Settings.SCREEN_WIDTH) DrawTexture(metadata.background(), (int)bgOffset + 2 * Settings.SCREEN_WIDTH, 0, DARKBLUE);
 
         currentState.render();
     }
@@ -49,8 +53,8 @@ public class MenuScene extends AbstractScene {
     // Reset music
     @Override
     public void onTransition() {
-        StopMusicStream(music);
-        PlayMusicStream(music);
+        StopMusicStream(metadata.music());
+        PlayMusicStream(metadata.music());
     }
 
     public static void setCurrentState(AbstractMenuState next) {

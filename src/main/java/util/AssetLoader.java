@@ -11,6 +11,7 @@ import com.raylib.Raylib.Texture;
 
 import object.Note;
 import scene.LevelScene;
+import scene.SceneMetadata;
 
 // Loads assets from files, including levels from the .lvl format
 public class AssetLoader {
@@ -19,9 +20,6 @@ public class AssetLoader {
     public static Map<String, Texture> textures = new HashMap<>();
     public static Map<String, Sound> sounds = new HashMap<>();
     public static Map<String, Music> music = new HashMap<>();
-
-    // Can add to this here to send more things to the level
-    public record SceneMetadata(Music song, Texture background) { }
 
     // Loads textures and applies antialiasing to them
     public static Texture getTexture(String filepath) {

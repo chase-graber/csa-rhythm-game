@@ -18,9 +18,9 @@ public class CompletionScene extends AbstractScene {
 
     public CompletionScene(int[] numHits, int totalNotes) {
         // General scene init
-        this.music = AssetLoader.getMusic("assets/sounds/completion.mp3");
-        this.background = AssetLoader.getTexture("assets/textures/backgrounds/menu_bg.png");
-        PlayMusicStream(this.music);
+        this.metadata = new SceneMetadata(AssetLoader.getMusic("assets/sounds/completion.mp3"),
+                        AssetLoader.getTexture("assets/textures/backgrounds/menu_bg.png"));
+        PlayMusicStream(this.metadata.music());
 
         // Percentage of each type of note that was hit
         float[] percents = { (float)numHits[0] / totalNotes,
@@ -37,7 +37,7 @@ public class CompletionScene extends AbstractScene {
 
     @Override
     public void update(float dt) {
-        UpdateMusicStream(music);
+        UpdateMusicStream(metadata.music());
 
         for (AbstractUIComponent auic : uiComponents) {
             auic.update(dt);
@@ -54,8 +54,8 @@ public class CompletionScene extends AbstractScene {
     @Override
     public void render() {
         // Draw two backgrounds for seamless looping
-        DrawTexture(background, (int)bgOffset, 0, DARKBLUE);
-        if (bgOffset <= -Settings.SCREEN_WIDTH) DrawTexture(background, (int)bgOffset + 2 * Settings.SCREEN_WIDTH, 0, DARKBLUE);
+        DrawTexture(metadata.background(), (int)bgOffset, 0, DARKBLUE);
+        if (bgOffset <= -Settings.SCREEN_WIDTH) DrawTexture(metadata.background(), (int)bgOffset + 2 * Settings.SCREEN_WIDTH, 0, DARKBLUE);
 
         for (AbstractUIComponent auic : uiComponents) {
             auic.render();
