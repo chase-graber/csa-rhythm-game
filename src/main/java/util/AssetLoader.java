@@ -10,8 +10,8 @@ import com.raylib.Raylib.Sound;
 import com.raylib.Raylib.Texture;
 
 import object.Note;
+import scene.AbstractScene;
 import scene.LevelScene;
-import scene.SceneMetadata;
 
 // Loads assets from files, including levels from the .lvl format
 public class AssetLoader {
@@ -119,7 +119,7 @@ public class AssetLoader {
             }
 
             // Send tracks to level scene and return
-            scene.applyMetadata(new SceneMetadata(music, background));
+            scene.applyMetadata(new AbstractScene.SceneMetadata(music, background));
             scene.setLevelTracks(tracks);
             return scene;
         } catch (IOException e) {

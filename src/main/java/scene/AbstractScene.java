@@ -15,6 +15,8 @@ public abstract class AbstractScene implements TickableGameEntity {
             AssetLoader.getTexture("assets/textures/backgrounds/menu_bg.png"));
 
     protected ArrayList<AbstractUIComponent> uiComponents = new ArrayList<>();
+    
+    public record SceneMetadata(Music music, Texture background) { }
 
     // So that other non-scene classes can add components
     public void addUIComponent(AbstractUIComponent auic) {

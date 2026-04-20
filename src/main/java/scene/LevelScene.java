@@ -5,6 +5,8 @@ import static com.raylib.Colors.*;
 
 import java.util.ArrayList;
 
+import com.raylib.Raylib.Vector2;
+
 import core.Game;
 import object.Note;
 import object.NoteKey;
@@ -12,6 +14,7 @@ import ui.AbstractUIComponent;
 import ui.level.UIProgressBar;
 import core.Settings;
 import ui.menu.UIMenuButton;
+import ui.menu.UISlider;
 
 // Main gameplay
 public class LevelScene extends AbstractScene {
@@ -31,11 +34,12 @@ public class LevelScene extends AbstractScene {
 
     // Pausing
     private boolean paused = false;
-    private static final UIMenuButton<AbstractScene> returnToMainMenuButton = new UIMenuButton<>(350,
+    private final UIMenuButton<AbstractScene> returnToMainMenuButton = new UIMenuButton<>(350,
             new Vector2().x(400).y(100),
             "RETURN TO MAIN MENU",
             Game::transitionToNextScene,
             Game.mainMenu);
+    private final UISlider settingsVolSlider = new UISlider("Volume", 550, 0, 100, Settings.volume * 100, 200, Settings::updateVolume);
 
     public LevelScene() {
         // Ensure that note keys are mapped to the current key layout
@@ -106,7 +110,7 @@ public class LevelScene extends AbstractScene {
                                 }
                             } catch (IndexOutOfBoundsException e) {
                                 index--;
-                                TraceLog(LOG_DEBUG, "Attempted to move index out of bounds, length " + track.size() + ", index " + index);
+                                TraceLog(LOG_ERROR, "Attempted to move index out of bounds, length " + track.size() + ", index " + index);
                             } finally {
                                 track.get(index).furthest = true;
                             }
@@ -120,8 +124,9 @@ public class LevelScene extends AbstractScene {
                     n.update(dt); // Update note position
                 }
             }
-        } else {
+        } else { // Update pause menu UI
             returnToMainMenuButton.update(dt);
+            settingsVolSlider.update(dt);
         }
     }
 
@@ -152,6 +157,7 @@ public class LevelScene extends AbstractScene {
             DrawRectangleV(Vector2Zero(), new Vector2().x(Settings.SCREEN_WIDTH).y(Settings.SCREEN_HEIGHT), Fade(BLACK, 0.25f));
 
             returnToMainMenuButton.render();
+            settingsVolSlider.render();
 
             float textWidth = MeasureText("PAUSED", 50);
             DrawText("PAUSED", (int)(Settings.SCREEN_WIDTH - textWidth) / 2, 50, 50, WHITE);
