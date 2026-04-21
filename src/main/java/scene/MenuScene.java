@@ -44,8 +44,8 @@ public class MenuScene extends AbstractScene {
     @Override
     public void render() {
         // Draw two backgrounds for seamless looping
-        DrawTexture(metadata.background(), (int)bgOffset, 0, DARKBLUE);
-        if (bgOffset <= -Settings.SCREEN_WIDTH) DrawTexture(metadata.background(), (int)bgOffset + 2 * Settings.SCREEN_WIDTH, 0, DARKBLUE);
+        DrawTexture(metadata.background(), (int)bgOffset, 0, WHITE);
+        if (bgOffset <= -Settings.SCREEN_WIDTH) DrawTexture(metadata.background(), (int)bgOffset + 2 * Settings.SCREEN_WIDTH, 0, WHITE);
 
         currentState.render();
     }

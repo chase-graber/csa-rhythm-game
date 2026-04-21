@@ -1,6 +1,6 @@
 package scene;
 
-import static com.raylib.Colors.DARKBLUE;
+import static com.raylib.Colors.WHITE;
 import static com.raylib.Raylib.*;
 
 import core.Game;
@@ -54,8 +54,8 @@ public class CompletionScene extends AbstractScene {
     @Override
     public void render() {
         // Draw two backgrounds for seamless looping
-        DrawTexture(metadata.background(), (int)bgOffset, 0, DARKBLUE);
-        if (bgOffset <= -Settings.SCREEN_WIDTH) DrawTexture(metadata.background(), (int)bgOffset + 2 * Settings.SCREEN_WIDTH, 0, DARKBLUE);
+        DrawTexture(metadata.background(), (int)bgOffset, 0, WHITE);
+        if (bgOffset <= -Settings.SCREEN_WIDTH) DrawTexture(metadata.background(), (int)bgOffset + 2 * Settings.SCREEN_WIDTH, 0, WHITE);
 
         for (AbstractUIComponent auic : uiComponents) {
             auic.render();

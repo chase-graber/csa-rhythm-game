@@ -75,7 +75,7 @@ public class AssetLoader {
             LevelScene scene = new LevelScene();
 
             // Loop through file
-            int currentLine = 1; // For error logging
+            int currentLine = 0; // For error logging
             while (input.hasNext()) {
                 // Split line data into chunks
                 String[] data = input.nextLine().split("( )+"); // Split by any amount of spaces
