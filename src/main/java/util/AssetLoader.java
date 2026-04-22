@@ -95,7 +95,7 @@ public class AssetLoader {
                 }
 
                 // Add note to it's corresponding track
-                switch(trackID) {
+                switch(trackID.toUpperCase()) {
                     case "U" -> tracks[0].add(new Note(0, Float.parseFloat(lineData), scene, songSpeed));
                     case "L" -> tracks[1].add(new Note(1, Float.parseFloat(lineData), scene, songSpeed));
                     case "D" -> tracks[2].add(new Note(2, Float.parseFloat(lineData), scene, songSpeed));

@@ -109,8 +109,8 @@ public class LevelScene extends AbstractScene {
                                     index++;
                                 }
                             } catch (IndexOutOfBoundsException e) {
-                                index--;
                                 TraceLog(LOG_ERROR, "Attempted to move index out of bounds, length " + track.size() + ", index " + index);
+                                index--;
                             } finally {
                                 track.get(index).furthest = true;
                             }

@@ -46,9 +46,9 @@ public class LevelSelectState extends AbstractMenuState {
         uiComponents.add(new UIMenuButton<>(
                 250,
                 new Vector2().x(400).y(75),
-                "ABBA - Mamma Mia",
+                "C418 - Moog City",
                 Game::transitionToNextScene,
-                AssetLoader.loadLevelScene("mammamia.lvl")));
+                AssetLoader.loadLevelScene("spooktune.lvl")));
         uiComponents.add(new UIMenuButton<>(
                 350,
                 new Vector2().x(400).y(75),
