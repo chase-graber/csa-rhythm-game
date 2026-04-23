@@ -60,7 +60,7 @@ public class LevelSelectState extends AbstractMenuState {
                 new Vector2().x(400).y(75),
                 "Toby Fox - It's TV Time!",
                 Game::transitionToNextScene,
-                AssetLoader.loadLevelScene("spooktune.lvl")));
+                AssetLoader.loadLevelScene("itstvtime.lvl")));
         uiComponents.add(new UIMenuButton<>(
                 550,
                 new Vector2().x(400).y(75),
