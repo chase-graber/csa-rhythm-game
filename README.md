@@ -19,7 +19,7 @@ After playing the song in full, you will get your final results before being all
 # External Credits
  - Music
    - Toby Fox - "Spooktune", "It's TV Time!"
-   - ABBA - "Mamma Mia"
+   - C418 - "Moog City"
    - Daudre - "Sandstorm"
    - LeaF - "Aleph-0"
  - Emotional Support
